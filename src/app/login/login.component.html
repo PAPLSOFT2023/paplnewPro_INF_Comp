@@ -1,0 +1,82 @@
+<!-- login.component.html -->
+<div class="forgot-password-link">
+  <a routerLink="/forgotpassword">forgot password</a>
+<div class="login-container">
+  <div class="login-form">
+    <h2>LOGIN</h2>
+    <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+      <div class="input-container">
+        <label for="username">
+          <i class="fa fa-envelope"></i> Email:
+        </label>
+        <div class="input-with-icon">
+          <input type="text" id="username" [(ngModel)]="username" name="username" required #usernameInput="ngModel" />
+        </div>
+      </div>
+      <div class="input-container">
+        <label for="password">
+          <i class="fa fa-lock"></i> Password:
+        </label>
+        <div class="input-with-icon">
+          <input
+            type="{{ showPassword ? 'text' : 'password' }}"
+            id="password"
+            [(ngModel)]="password"
+            name="password"
+            required
+            #passwordInput="ngModel"
+            class="password-input"
+          />
+          <i
+            class="fa"
+            [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"
+            id="togglePassword"
+            (click)="togglePasswordVisibility()"
+          ></i>
+        </div>
+        <div *ngIf="passwordInput.invalid && (passwordInput.dirty || passwordInput.touched)" class="error-message">
+          Password is required.
+        </div>
+      </div>
+
+      <div class="remember-forgot-container">
+        <div class="remember-me-container">
+          <label for="rememberMe" class="remember-me-label">
+            <input type="checkbox" id="rememberMe" [(ngModel)]="rememberMe" name="rememberMe" />
+            Remember Me
+          </label>
+        </div>
+        <div class="forgot-password-link">
+          <a routerLink="/forgotpassword">Forgot Password?</a>
+        </div>
+      </div>
+
+      <!-- Additional Features -->
+      <div class="additional-features">
+        <!-- Password Strength Indicator -->
+        <!-- Social Media Login Buttons -->
+        <!-- Two-Factor Authentication -->
+        <!-- CAPTCHA -->
+        <!-- Security Alerts -->
+        <!-- Terms and Conditions Link -->
+        <!-- Multi-language Support Dropdown -->
+        <!-- User Profile Picture Upload -->
+        <!-- Password Recovery Questions -->
+        <!-- Session Timeout Settings -->
+      </div>
+
+      <div class="input-container">
+        <button type="submit" class="submit-button">
+          LOGIN
+        </button>
+      </div>
+    </form>
+
+    <div class="links">
+      <p>
+        New Organization <a routerLink="/neworganization" class="signup-link">Here</a>
+      </p>
+    </div>
+  </div>
+</div>
+</div>

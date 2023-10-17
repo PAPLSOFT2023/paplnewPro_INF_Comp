@@ -1,0 +1,264 @@
+<div>
+  <!-- Popup Form -->
+  <div class="popup-form" *ngIf="isPopupVisible1">
+    <h2>Profile</h2>
+    <form (submit)="onSubmit()">
+      <div class="form-group" [ngClass]="{'has-error': field1.invalid && (field1.dirty || field1.touched)}">
+        <label for="field1">Organization Name:</label>
+        <input type="text" id="field" name="field" [(ngModel)]="organization_name" required #field1="ngModel">
+        <div class="error-icon" *ngIf="field1.invalid && (field1.dirty || field1.touched)">
+          <i class="fas fa-exclamation-circle1"></i>
+        </div>
+        <div class="error-message" *ngIf="field1.invalid && (field1.dirty || field1.touched)">
+          *Organization Name is required.
+        </div>
+      </div>
+
+      <div class="form-group" [ngClass]="{'has-error': field2.invalid && (field2.dirty || field2.touched)}">
+        <label for="field2">Address:</label>
+        <input type="text" id="field2" name="field2" [(ngModel)]="address" required #field2="ngModel">
+        <div class="error-icon" *ngIf="field2.invalid && (field2.dirty || field2.touched)">
+          <i class="fas fa-exclamation-circle2"></i>
+        </div>
+        <div class="error-message" *ngIf="field2.invalid && (field2.dirty || field2.touched)">
+          *Address is required.
+        </div>
+      </div>
+
+      <div class="form-group" [ngClass]="{'has-error': field3.invalid && (field3.dirty || field3.touched)}">
+        <label for="field3">Pincode:</label>
+        <input type="text" id="field3" name="field3" [(ngModel)]="pincode" required #field3="ngModel">
+        <div class="error-icon" *ngIf="field3.invalid && (field3.dirty || field3.touched)">
+          <i class="fas fa-exclamation-circle3"></i>
+        </div>
+        <div class="error-message" *ngIf="field3.invalid && (field3.dirty || field3.touched)">
+        *Pincode is required.
+        </div>
+      </div>
+
+      <div class="form-group" [ngClass]="{'has-error': field4.invalid && (field4.dirty || field4.touched)}">
+        <label for="field4">State:</label>
+        <input type="text" id="field4" name="field4" [(ngModel)]="state" required #field4="ngModel">
+        <div class="error-icon" *ngIf="field4.invalid && (field4.dirty || field4.touched)">
+          <i class="fas fa-exclamation-circle4"></i>
+        </div>
+        <div class="error-message" *ngIf="field4.invalid && (field4.dirty || field4.touched)">
+         *State is required.
+        </div>
+      </div>
+
+      <div class="form-group" [ngClass]="{'has-error': field5.invalid && (field5.dirty || field5.touched)}">
+        <label for="field5">Country:</label>
+        <input type="text" id="field5" name="field5" [(ngModel)]="country" required #field5="ngModel">
+        <div class="error-icon" *ngIf="field5.invalid && (field5.dirty || field5.touched)">
+          <i class="fas fa-exclamation-circle5"></i>
+        </div>
+        <div class="error-message" *ngIf="field5.invalid && (field5.dirty || field5.touched)">
+          *Country is required.
+        </div>
+      </div>
+
+      <div class="form-group" [ngClass]="{'has-error': field6.invalid && (field6.dirty || field6.touched)}">
+        <label for="field6">Contact:</label>
+        <input type="text" id="field6" name="field6" [(ngModel)]="contact" required #field6="ngModel">
+        <div class="error-icon" *ngIf="field6.invalid && (field6.dirty || field6.touched)">
+          <i class="fas fa-exclamation-circle6"></i>
+        </div>
+        <div class="error-message" *ngIf="field6.invalid && (field6.dirty || field6.touched)">
+          *Contact is required.
+        </div>
+      </div>
+
+      <!-- Add similar code for the rest of the fields -->
+
+      <!-- Add more form fields as needed -->
+      <button type="submit">Save</button>
+      <button (click)="cancelData()" class="btn btn-danger">Cancel</button>
+  
+     </form>
+  </div>
+</div>
+
+    
+
+
+
+<div>
+  <!-- Popup Form -->
+  
+   
+
+<!-- Data Entry Container -->
+<div class="data-entry-container" *ngIf="isPopupVisible2">
+  <h2>Department</h2>
+  <div class="form-group">
+
+    <label for="dataInput">Enter Data:</label>
+    <input type="text" id="dataInput"  class="form-control"[(ngModel)]="departmenttext" placeholder="Enter Department">
+    <button (click)="addToDropdownDepartment()" class="btn btn-primary">Add</button>
+    <button (click)="cancelData()" class="btn btn-danger">Cancel</button>
+  </div>
+
+  <div class="form-group">
+    <label for="dataDropdown">Existing Department:</label>
+   
+    <select [(ngModel)]="selectedData">
+      <option *ngFor="let Dept of departments" [value]="Dept">{{ Dept }}</option>
+    </select>
+  </div>
+  
+    <!-- Add a delete button -->
+    <div class="form-group">
+    <button (click)="deleteData1()" class="btn btn-danger">Delete</button>
+    
+    
+    </div>
+
+  
+    
+    
+    
+  </div>
+
+</div>
+
+
+  
+<!-- Add more form fields as needed -->
+
+
+<div>
+  <!-- Popup Form -->
+  
+   
+
+<!-- Data Entry Container -->
+<div class="data-entry-container" *ngIf="isPopupVisible3">
+  <h2>User_role</h2>
+
+  <!-- <div class="form-group">
+   
+  </div> -->
+
+  <div class="form-group" >
+    <label for="dataInput">Enter Role:</label>
+    <input type="text" id="dataInput" placeholder="Enter the role to add" [(ngModel)]="NewRole_Data">
+    <button (click)="addToDropdownRole(NewRole_Data)" class="btn btn-primary">Add</button>
+  </div>
+
+  <div class="form-group">
+    <label for="dataDropdown">Existing Role:</label>
+    <select [(ngModel)]="selectedData">
+      <option *ngFor="let Dept of roles" [value]="Dept">{{ Dept }}</option>
+    </select>
+  </div>
+    
+    <button (click)="deleteData2()" class="btn btn-danger">Delete</button>
+    <button (click)="cancelData()" class="btn btn-danger">Cancel</button>
+  </div>
+
+
+
+  
+  </div>
+
+
+
+
+<div>
+  <!-- Popup Form Email automation -->
+  <div class="data-entry-container" *ngIf="isPopupVisible4">
+    <h2>Email_Automation</h2>
+    <div class="form-group">
+      <label for="field1">Email:</label>
+      <input type="text" id="field1" [(ngModel)]="field1" required (ngModelChange)="onEmailChange()">
+    </div>
+    <!-- Password input field with info icon inside -->
+    <div class="form-group">
+      <label for="field1">App Password</label>
+      <div class="input-group">
+        <input type="password" id="field1" [(ngModel)]="field1" required
+          data-toggle="tooltip" data-trigger="manual" data-original-title="Your password message">
+          <p>* Not_a_login_password !</p>
+        <span class="input-group-append">
+          
+          <span class="input-group-text" data-toggle="tooltip" data-placement="top" [title]="'Go to your Google Account.\nSelect Security. Under Signing in to Google, select 2-Step Verification. At the bottom of the page, \n select App passwords.Enter a name that helps you remember where you’ll use the app password. Select Generate. To enter the app password, follow the instructions on your screen. The app password is the 16-character code that generates on your device. Select Done.'">
+            <i class="fas fa-info-circle"></i>
+          </span>
+        </span>
+      </div>
+    </div>
+    <!-- Add more form fields as needed -->
+    <button type="submit">Save</button>
+    <button (click)="cancelData()" class="btn btn-danger">Cancel</button>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+<div class="card-container">
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title">Profile</h3>
+      <img src="assets/profile1-removebg-preview.png" alt="Profile Logo" class="card-logo">
+    </div>
+    <div class="card-content">
+      This is the content of Organization Profile.
+    </div>
+    <div class="card-actions">
+      <a href="#" class="card-link" (click)="openPopupForm1()">View</a>
+      <button class="card-button" (click)="openPopupForm1()">Update</button>
+    </div>
+  </div>
+  
+
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title">Department</h3>
+      <img src="assets/department.png" alt="Department Logo" class="card-logo">
+    </div>
+    <div class="card-content">
+      This is the content of Department.
+    </div>
+    <div class="card-actions">
+      <button class="card-button" (click)="openPopupForm2()">Update</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title">User_role</h3>
+      <img src="assets/userrole1@2x.png" alt="User Role Logo" class="card-logo">
+    </div>
+    <div class="card-content">
+      This is the content of User_role.
+    </div>
+    <div class="card-actions">
+      <button class="card-button" (click)="openPopupForm3()">Update</button>
+    </div>
+  </div>
+
+  <!-- Additional Card -->
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title">Email_Automation</h3>
+      <img src="assets/mailautomation@2x.png" alt="Email Automation Logo" class="card-logo">
+    </div>
+    <div class="card-content">
+      This is the content of Email_Automation only for you.
+    </div>
+    <div class="card-actions">
+      <a href="#" class="card-link" (click)="openPopupForm1()">View</a>
+      <button class="card-button" (click)="openPopupForm4()">Update</button>
+      
+    </div>
+  </div>
+</div>
+<div class="overlay" id="popup1-overlay"></div>

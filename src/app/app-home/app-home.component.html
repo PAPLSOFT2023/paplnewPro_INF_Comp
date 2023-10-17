@@ -1,0 +1,40 @@
+<div>
+  <header class="header">
+    <div class="logo">
+      <span class="logo-text">PAPL DESK</span>
+    </div>
+    <nav class="nav">
+      <ul>
+        <li><a routerLink="/">Careers</a></li>
+        <li><a routerLink="/about">About</a></li>
+        <li><a routerLink="/contact">Contact</a></li>
+        <!-- Add more navigation links as needed -->
+      </ul>
+    </nav>
+    <div class="language-selector">
+      <div class="language-content" (mouseenter)="showLanguageMenu()" (mouseleave)="hideLanguageMenu()">
+        <i class="fas fa-globe"></i>
+        <span>{{ selectedLanguage }}</span>
+      </div>
+      <div class="language-menu" id="languageMenu" [ngClass]="{'show-menu': isLanguageMenuOpen}">
+        <ul>
+          <li><a href="#" (click)="changeLanguage('en')">English</a></li>
+          <!-- Add more language options as needed -->
+        </ul>
+      </div>
+    </div>
+    <!-- Move the search bar after the language selector -->
+    <div class="search-bar">
+      <input
+        type="text"
+        placeholder="Search..."
+        [(ngModel)]="searchQuery"
+        (keydown.enter)="performSearch()"
+      />
+      <button (click)="performSearch()">
+        <i class="fas fa-search"></i>
+      </button>
+    </div>
+    <div class="header-buttons">
+      <button class="signin-button" routerLink="/login">Sign In</button>
+      <button class="get-started-button" routerLink="/neworganization">Get Started</button>
