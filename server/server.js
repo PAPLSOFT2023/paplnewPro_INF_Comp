@@ -944,6 +944,7 @@ app.get('/api/region', (req, res) => {
         const names = results.map((row) => row.job_type);
         res.json(names);
       }
+      
     });
   });
 

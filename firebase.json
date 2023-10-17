@@ -1,0 +1,9 @@
+{
+  "hosting": [
+    {
+      "target": "sidenav-with-multilevel-menu",
+      "source": ".",
+      "frameworksBackend": {}
+    }
+  ]
+}

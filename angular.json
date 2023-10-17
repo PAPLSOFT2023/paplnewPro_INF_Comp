@@ -99,6 +99,13 @@
             ],
             "scripts": []
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "version": 2,
+            "browserTarget": "sidenav-with-multilevel-menu:build:production"
+          }
         }
       }
     }
