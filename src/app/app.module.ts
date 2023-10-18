@@ -29,6 +29,9 @@ import { ProfiledetailManageComponent } from './softwareadmin/software-admin-das
 
 
 
+
+import { environment } from 'src/environments/environment.prod';
+
 // INF 
 
 // import { DialogComponent } from './dialog/dialog.component';
@@ -160,6 +163,11 @@ import { SideNavCommonUserComponent } from './Sidenav_for_commonUser/side-nav-co
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
+    
+    
+
+
+
     MatButtonModule,
     MatCardModule,
     MatExpansionModule,
@@ -175,11 +183,13 @@ import { SideNavCommonUserComponent } from './Sidenav_for_commonUser/side-nav-co
     
     MatIconModule,
     MatDividerModule,
-    MatDatepickerModule
+    MatDatepickerModule,
+    
 
   ],
   providers: [  { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }, // Set locale to 'en-GB' for 'DD/MM/YYYY' format
-  { provide: MAT_DATE_FORMATS, useValue: { parse: { dateInput: 'DD/MM/YYYY' }, display: { dateInput: 'DD/MM/YYYY', monthYearLabel: 'MMM YYYY', dateA11yLabel: 'LL', monthYearA11yLabel: 'MMMM YYYY' } } },
+  { provide: MAT_DATE_FORMATS,
+     useValue: { parse: { dateInput: 'DD/MM/YYYY' }, display: { dateInput: 'DD/MM/YYYY', monthYearLabel: 'MMM YYYY', dateA11yLabel: 'LL', monthYearA11yLabel: 'MMMM YYYY' } } },
 ],
   bootstrap: [AppComponent]
 })

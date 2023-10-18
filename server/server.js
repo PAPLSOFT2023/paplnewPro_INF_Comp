@@ -8,6 +8,54 @@ const nodemailer = require('nodemailer');
 const { v4: uuidv4 } = require('uuid');
 
 
+// Firebase Next Link
+const admin = require('firebase-admin');
+const serviceAccount = require('./paplapplication-firebase-adminsdk-dlrxg-4adbf847ee.json');
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: 'https://paplapplication-default-rtdb.firebaseio.com',
+});
+
+const Firebase_db = admin.database();
+const ref = Firebase_db.ref('/Leave/Leaveforleadknown/krishnannarayananpaplcorpcom');
+
+// ref.once('value', (snapshot) => {
+//   const data = snapshot.val();
+//   const resultArray = [];
+
+//   Object.keys(data).forEach(personName => {
+//     const personObject = { name: personName, years: [] };
+//     const from_personData = data[personName];
+
+//     Object.keys(from_personData).forEach(year => {
+//       const yearObject = { year: year, months: [] };
+//       const from_yearData = from_personData[year];
+
+//       Object.keys(from_yearData).forEach(month => {
+//         const monthObject = { month: month, dates: [] };
+//         const from_monthData = from_yearData[month];
+
+//         Object.keys(from_monthData).forEach(date => {
+//           monthObject.dates.push(date);
+//         });
+
+//         yearObject.months.push(monthObject);
+//       });
+
+//       personObject.years.push(yearObject);
+//     });
+
+//     resultArray.push(personObject);
+//   });
+
+//   console.log(resultArray);
+//   process.exit(); // Close the script after fetching data
+// }, (errorObject) => {
+//   console.error('The read failed: ' + errorObject.code);
+// });
+
+
+
 const port = process.env.PORT || 3000;
 const secretKey = 'mySecretKeyForJWTAuthentication';// for token generation
 
@@ -23,6 +71,7 @@ const db = mysql.createConnection({
   password: '',
   database: 'paplworkspace',
 });
+
 
 db.connect((err) => {
   if (err) {
@@ -42,7 +91,44 @@ const transporter = nodemailer.createTransport({
 });
 
 
+app.get('/api/leaveData', (req, res) => {
+  const ref = Firebase_db.ref('/Leave/Leaveforleadknown/krishnannarayananpaplcorpcom');
 
+  ref.once('value', (snapshot) => {
+    const data = snapshot.val();
+    const resultArray = [];
+
+    Object.keys(data).forEach(personName => {
+      const personObject = { name: personName, years: [] };
+      const from_personData = data[personName];
+
+      Object.keys(from_personData).forEach(year => {
+        const yearObject = { year: year, months: [] };
+        const from_yearData = from_personData[year];
+
+        Object.keys(from_yearData).forEach(month => {
+          const monthObject = { month: month, dates: [] };
+          const from_monthData = from_yearData[month];
+
+          Object.keys(from_monthData).forEach(date => {
+            monthObject.dates.push(date);
+          });
+
+          yearObject.months.push(monthObject);
+        });
+
+        personObject.years.push(yearObject);
+      });
+
+      resultArray.push(personObject);
+    });
+
+    res.json(resultArray);
+  }, (errorObject) => {
+    console.error('The read failed: ' + errorObject.code);
+    res.status(500).send('Internal Server Error');
+  });
+});
 
 app.post('/api/profileInsert',(req,res)=>{
   const {organization_name,address,pincode,state,country,contact,organization}=req.body;

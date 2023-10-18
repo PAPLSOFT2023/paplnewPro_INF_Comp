@@ -1,11 +1,16 @@
 import { Injectable } from '@angular/core';
-// import { AngularFireDatabase } from '@angular/fire/database';
-// import { Observable } from 'rxjs';
+// import { AngularFirestore } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class FirebaseServiceService {
 
-  constructor() { }
+  // constructor(private firestore: AngularFirestore) { }
+
+  // getData(collectionName: string): Observable<any[]> {
+  //   return this.firestore.collection(collectionName).valueChanges();
+  // }
 }
