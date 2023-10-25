@@ -8,6 +8,15 @@ const nodemailer = require('nodemailer');
 const { v4: uuidv4 } = require('uuid');
 
 
+const port = process.env.PORT || 3000;
+const secretKey = 'mySecretKeyForJWTAuthentication';// for token generation
+
+const app = express();
+
+app.use(cors());
+app.use(bodyParser.json());
+app.use(express.json()); 
+
 // Firebase Next Link
 const admin = require('firebase-admin');
 const serviceAccount = require('./paplapplication-firebase-adminsdk-dlrxg-4adbf847ee.json');
@@ -56,14 +65,9 @@ const ref = Firebase_db.ref('/Leave/Leaveforleadknown/krishnannarayananpaplcorpc
 
 
 
-const port = process.env.PORT || 3000;
-const secretKey = 'mySecretKeyForJWTAuthentication';// for token generation
 
-const app = express();
 
-app.use(cors());
-app.use(bodyParser.json());
-app.use(express.json()); 
+
 // app.use(express.static(__dirname + '/dist/your-angular-app-name'));
 const db = mysql.createConnection({
   host: 'localhost',
@@ -94,40 +98,58 @@ const transporter = nodemailer.createTransport({
 app.get('/api/leaveData', (req, res) => {
   const ref = Firebase_db.ref('/Leave/Leaveforleadknown/krishnannarayananpaplcorpcom');
 
+  const today = new Date();  // Get the current date
+  const nextTwoMonths = new Date();
+  nextTwoMonths.setMonth(today.getMonth() + 2);  // Set the date to two months from now
+  
   ref.once('value', (snapshot) => {
     const data = snapshot.val();
     const resultArray = [];
-
+  
     Object.keys(data).forEach(personName => {
       const personObject = { name: personName, years: [] };
       const from_personData = data[personName];
-
+  
       Object.keys(from_personData).forEach(year => {
         const yearObject = { year: year, months: [] };
         const from_yearData = from_personData[year];
-
+  
         Object.keys(from_yearData).forEach(month => {
-          const monthObject = { month: month, dates: [] };
-          const from_monthData = from_yearData[month];
-
-          Object.keys(from_monthData).forEach(date => {
-            monthObject.dates.push(date);
-          });
-
-          yearObject.months.push(monthObject);
+          // Convert year and month to a Date object for comparison
+          const currentMonth = new Date(`${year}-${month}-01`);
+          
+          // Check if the date is within the range of today to the next two months
+          if (currentMonth >= today && currentMonth <= nextTwoMonths) {
+            const monthObject = { month: month, dates: [] };
+            const from_monthData = from_yearData[month];
+  
+            Object.keys(from_monthData).forEach(date => {
+              monthObject.dates.push(date);
+            });
+  
+            yearObject.months.push(monthObject);
+          }
         });
-
-        personObject.years.push(yearObject);
+  
+        // Add the year object only if it contains months
+        if (yearObject.months.length > 0) {
+          personObject.years.push(yearObject);
+        }
       });
-
-      resultArray.push(personObject);
+  
+      // Add the person object only if it contains years
+      if (personObject.years.length > 0) {
+        resultArray.push(personObject);
+      }
     });
-
+   
     res.json(resultArray);
+    // console.log(resultArray)
   }, (errorObject) => {
     console.error('The read failed: ' + errorObject.code);
     res.status(500).send('Internal Server Error');
   });
+  
 });
 
 app.post('/api/profileInsert',(req,res)=>{

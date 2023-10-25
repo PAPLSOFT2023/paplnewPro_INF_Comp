@@ -3,9 +3,9 @@
     <!-- <form (ngSubmit)="onSubmit()"> -->
   
    
-    <h2 class="h2">Inspection Schedule Authorization</h2>
+    <h4 class="h2">Inspection Schedule Authorization</h4>
         <mat-card class="mat-card1" style="margin-top: 50px;height: 1050px;">
-            <mat-card class="mat-card2">
+        <mat-card class="mat-card2">
             <div>
             <mat-form-field appearance="outline" class="form-field1">
                 <mat-label>Papl Contract No</mat-label>
@@ -42,10 +42,7 @@
                         <input matInput [(ngModel)]="work_order_no" name="work_order_no" required>
                 </mat-form-field>
   
-                <!-- <mat-form-field appearance="outline" class="form-field2">
-                  <mat-label>Customer Work order Date</mat-label>
-                      <input matInput>
-              </mat-form-field> -->
+               
               <mat-form-field appearance="outline" class="form-field3">
                 <mat-label>Customer Work order Date</mat-label>
                 <input matInput [matDatepicker]="picker1" [(ngModel)]="work_order_date" name="work_order_date">
@@ -53,12 +50,7 @@
                 <mat-datepicker #picker1></mat-datepicker>
               </mat-form-field>
   
-              <!-- <mat-form-field appearance="outline" class="form-field3">
-                <mat-label>Schedule From</mat-label>
-                <input matInput [matDatepicker]="pickerFrom">
-                <mat-datepicker-toggle matSuffix [for]="pickerFrom"></mat-datepicker-toggle>
-                <mat-datepicker #pickerFrom></mat-datepicker>
-              </mat-form-field> -->
+              
   
   
                 
@@ -70,14 +62,6 @@
                         <input matInput [(ngModel)]="customer_name_workorder" name="customer_name_workorder" required>
                 </mat-form-field>
   
-                <!-- <mat-form-field appearance="outline" class="form-field3">
-                    <mat-label>Type of Inspection</mat-label>
-                    <mat-select>
-                      <mat-option *ngFor="let inspection of inspection_type" [value]="inspection">{{inspection}}</mat-option>                   
-  
-                      
-                    </mat-select>
-                  </mat-form-field> -->
             </div>
         </mat-card>
         <mat-card class="mat-card2">

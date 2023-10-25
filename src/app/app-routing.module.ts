@@ -25,7 +25,7 @@ const routes: Routes = [
 
   {path:"userdashboard",component:CommonEmployeeDashboardComponent,
 children:[
-  {path:'inspection_home', component:InspectionInfComponent},
+{path:'inspection_home', component:InspectionInfComponent},
 {path:'inspection_inf/:c_no',component:InspectionFormComponent},
 {path:'sales_home',component:SalesHomeComponent},
 {path:'sales_v/:selectedOption',component:SalesVComponent},

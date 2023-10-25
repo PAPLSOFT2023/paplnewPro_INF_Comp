@@ -30,7 +30,6 @@ import { ProfiledetailManageComponent } from './softwareadmin/software-admin-das
 
 
 
-import { environment } from 'src/environments/environment.prod';
 
 // INF 
 

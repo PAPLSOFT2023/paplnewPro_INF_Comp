@@ -114,26 +114,31 @@ export function getNavbarData(User: String): INavbarData[] {
 
 
     if(User=="Softwareadmin"){
+        // console.log("________")
         return  navbarDataAdmin;
     }
     else if(User=="Organization Admin")
      {
+        // console.log("++++++++++")
      return oragizationadmin;
      }
      else if(User.toLowerCase()=="sales")
      {
+        // console.log("---------")
         return SalesNav;
      }
      else if(User.toLowerCase()=="inspection")
      {
+        // console.log("========")
         return Inspection_Head_Nav;
      }
      else if(User.toLowerCase()=="planning and engineering")
      {
+        // console.log(">>>>>>>>>>>>>")
         return Planning_Engineering_Nav;
      }
      else{
-    
+        // console.log("..........+.",User)
             return SalesNav;
 
         
