@@ -35,11 +35,17 @@
   /* } */
    /* */
   .new-inspection-button {
-    width: 90%;
-    text-align: center
+    width: 100%;
+    text-align: center;
+    /* margin-left: 30px; */
   }
   
   .icon {
     margin-right: 5px;
   }
-  
+  .error-message{
+    background-color: #F0F0F0;
+    padding-left: 30px;
+    color: #ff0000;
+ 
+  }

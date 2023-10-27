@@ -18,7 +18,9 @@ export class PlanningEngHomeComponent {
   handleClick(c_no: string) {
     // Handle the click event here
     const encodedValue = encodeURIComponent(c_no);
-    this.router.navigate(['/plan_eng_inf', encodedValue]);
+    console.log("clicked++",encodedValue)
+    // this.router.navigate(['/plan_eng_inf', encodedValue]);
+    this.router.navigate(['/afterlogin/plan_eng_inf',encodedValue])
   }
 
   ngOnInit(){

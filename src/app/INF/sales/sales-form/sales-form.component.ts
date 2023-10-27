@@ -1,7 +1,7 @@
 import { Component,OnInit,ViewChild,ElementRef,AfterViewInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { DialogComponent } from '../dialog/dialog.component';
-import { Dialog2Component } from '../dialog2/dialog2.component';
+import { DialogComponent } from '../../dialog/dialog.component';
+import { Dialog2Component } from '../../dialog2/dialog2.component';
 import { HttpClient } from '@angular/common/http';
 import { ApicallService } from 'src/app/apicall.service';
 // import { NgxMatIntlTelInputComponent } from 'ngx-mat-intl-tel-input';

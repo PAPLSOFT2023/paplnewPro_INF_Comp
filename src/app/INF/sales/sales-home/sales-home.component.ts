@@ -21,12 +21,12 @@ export class SalesHomeComponent {
   }
   navigateToNewInspection() {
     if(this.selectedOption==='V'){
-      this.router.navigate(['/sales_v', this.selectedOption]);
+      this.router.navigate(['afterlogin/sales_v', this.selectedOption]);
 
 
     }
     else{
-      this.router.navigate(['/sales_inf', this.selectedOption]);
+      this.router.navigate(['afterlogin/sales_inf', this.selectedOption]);
 
 
     }

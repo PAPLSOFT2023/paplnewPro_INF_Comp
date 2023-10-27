@@ -20,6 +20,7 @@ private route: ActivatedRoute){
   const rolekey = 'Role'; // Replace 'yourKey' with the actual key you used for storing the value
     const organizationkey='Organization';
     const storedValue = sessionStorage.getItem(rolekey);
+    const stored_organization=sessionStorage.getItem(organizationkey)
     
 
     // This is for role based dashboard default loding home content
@@ -30,10 +31,35 @@ private route: ActivatedRoute){
     else if (storedValue === 'Organization Admin') {
       this.router.navigate(['dashboard'], { relativeTo: this.route });
     }
-     else {
-      // Default redirection for other roles
-      this.router.navigate(['/userdashboard'], { relativeTo: this.route });
+     
+    else if (
+      storedValue !== null &&
+      stored_organization !== null &&
+      storedValue.toLowerCase() === 'planning and engineering' &&
+      stored_organization.toLowerCase() === 'papl'
+    ) {
+      // Redirect for roles with 'planning and engineering' and organizationKey 'papl'
+      this.router.navigate(['plan_eg_home'], { relativeTo: this.route });
     }
+    else if (
+      storedValue !== null &&
+      stored_organization !== null &&
+      storedValue.toLowerCase() === 'sales' &&
+      stored_organization.toLowerCase() === 'papl'
+    ) {
+      // Redirect for roles with 'planning and engineering' and organizationKey 'papl'
+      this.router.navigate(['sales_home'], { relativeTo: this.route });
+    }
+    else if (
+      storedValue !== null &&
+      stored_organization !== null &&
+      storedValue.toLowerCase() === 'inspection' &&
+      stored_organization.toLowerCase() === 'papl'
+    ) {
+      // Redirect for roles with 'planning and engineering' and organizationKey 'papl'
+      this.router.navigate(['inspection_home'], { relativeTo: this.route });
+    }
+    
 
 
 }

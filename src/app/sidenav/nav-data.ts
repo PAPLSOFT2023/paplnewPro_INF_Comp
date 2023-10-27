@@ -2,52 +2,33 @@ import { INavbarData } from "./helper";
 
 export const SalesNav: INavbarData[] = [
     {
-        routeLink: '/userdashboard/sales_home',
+        routeLink: '/afterlogin/sales_home',
         icon: 'fal fa-home',
         label: 'Home'
     },
    
-    {
-        routeLink: '/userdashboard/sales_v/:selectedOption',
-        icon: 'far fa-file-alt',
-        label: 'INF-26'
-
-        
-    },
-   
+    
     
 ];
 export const Inspection_Head_Nav: INavbarData[] = [
     {
-        routeLink: '/userdashboard/inspection_home',
+        routeLink: '/afterlogin/inspection_home',
         icon: 'fal fa-home',
         label: 'Home'
     },
    
-    {
-        routeLink: '/userdashboard/inspection_inf/:c_no',
-        icon: 'far fa-file-alt',
-        label: 'INF-26'
-
-        
-    },
+    
    
     
 ];
 export const Planning_Engineering_Nav: INavbarData[] = [
     {
-        routeLink: '/userdashboard/plan_eg_home',
+        routeLink: '/afterlogin/plan_eg_home',
         icon: 'fal fa-home',
         label: 'Home'
     },
    
-    {
-        routeLink: '/userdashboard/plan_eng_inf/:c_no',
-        icon: 'far fa-file-alt',
-        label: 'INF-26'
 
-        
-    },
    
     
 ];

@@ -1,144 +1,170 @@
 /* login.component.css */
 
-/* Reset default margin and padding */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-/* Body background */
-body {
-  background-color: #f5f5f5;
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-}
-
-/* Container styles */
+/* Outer container with background color and padding */
 .login-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); 
+  width: 395px; /* Set your desired width */
+  height: 480px; /* Set your desired height */
+  margin:  auto; /* Center horizontally */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid #d7cfcf;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  
+}
+/* Center the parent container */
+.centered-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  background-color: #f5f5f5;
+  height: 1000vh; /* Center vertically and take the full viewport height */
 }
 
-.login-form {
-  background-color: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-  text-align: center;
-  max-width: 400px;
-  width: 100%;
-  padding: 30px;
-}
 
-/* Heading styles */
+/* Login form title */
 h2 {
-  color: #333;
-  margin: 0 0 20px;
+  font-size: 10px;
   text-align: center;
-  font-size: 24px;
+  margin-bottom: 40px;
+  color: #333;
+  font-family: 'Arial', sans-serif;
 }
 
-/* Input styles */
-.input-container {
-  margin-bottom: 24px;
-  text-align: left;
-}
-
-.label {
-  display: block;
+/* Form labels */
+.input-container label {
   font-weight: bold;
-  color: #555;
   margin-bottom: 5px;
-  font-size: 16px;
-  text-transform: uppercase;
+  color: #333;
 }
 
-/* Style the "Remember Me" and "Forgot Password" links */
-.remember-forgot-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 15px;
-  
-}
-
-.remember-me-container, .forgot-password-link {
-  flex: 1;
-}
-
-.remember-me-label {
-  color: #171414;
-  font-size: 16px;
-}
-
-.forgot-password-link a {
-  text-decoration: none;
-  color: #002b57;
-  font-weight: medium;
-}
-
-.forgot-password-link a:hover {
-  text-decoration: underline;
-}
-
-.input-with-icon {
-  position: relative;
-}
-
-.input-with-icon input {
+/* Input fields with icons */
+.input-container input {
   width: 100%;
-  padding: 10px;
+  padding: 12px;
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 16px;
 }
 
-.input-with-icon i {
-  position: absolute;
-  top: 50%;
-  right: 15px;
-  transform: translateY(-50%);
-  cursor: pointer;
-  color: #888;
-  font-size: 20px;
+.input-container label i {
+  margin-right: 3px;
 }
 
-/* Submit button styles */
+/* Password toggle icon */
+.fa-eye, .fa-eye-slash {
+  cursor: pointer;
+  color: #007BFF;
+  margin-left: -25px;
+  font-size: 18px;
+}
+
+/* Error message for the password field */
+.error-message {
+  color: red;
+  margin-top: 5px;
+}
+
+/* Remember Me and Forgot Password links */
+.remember-forgot-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+/* Add this CSS code to your login.component.css or your global CSS file */
+
+/* Copyright Notice */
+.copyright-notice {
+  text-align: center;
+  color: #5c57578e; /* Text color */
+  font-size: 10px; /* Adjust the font size as needed */
+  position: absolute;
+  bottom: 1px; /* Adjust the bottom spacing as needed */
+  width: 73%; /* Make it full width */
+}
+
+
+.remember-me-label {
+  margin-left: 10px;
+  cursor: pointer;
+  color: #007BFF;
+}
+.logo {
+  max-width: 75px; /* Set your desired width */
+  height: auto;
+  margin-inline-start: 0px; /* Add spacing between the logo and the title */
+}
+
+/* CSS for the login header */
+.login-header {
+  display: flex;
+  align-items: center;
+  
+}
+
+.forgot-password-link a {
+  text-decoration: none;
+  color: #007BFF;
+  font-weight: bold;
+}
+
+/* Additional features container */
+.additional-features {
+  margin-top: 20px;
+  text-align: center;
+  margin-top: auto; /* Push the link to the bottom of the form */
+
+}
+
+/* ngx-recaptcha2 element */
+#captchaElem {
+  margin-top: 20px;
+}
+
+/* Submit button with hover effect */
 .submit-button {
-  background-color: #007bff;
+  background-color: #007BFF;
+  position: relative;
+  top:50%;
+  left:38%;
+  position: 0;
   color: #fff;
-  padding: 15px;
   border: none;
   border-radius: 5px;
-  font-size: 18px;
+  padding: 5px 10px;
   cursor: pointer;
-  transition: background-color 0.3s;
-  width: 100%;
+  font-size: 20px;
+  margin-top: 15px; /* Add margin to move the button down */
+  text-align: center; /* Center the text horizontally */
+
+  transition: background-color 0.3s, transform 0.2s;
 }
 
 .submit-button:hover {
   background-color: #0056b3;
+  transform: scale(1.05);
 }
 
-/* Error message style */
-.error-message {
-  color: #e74c3c;
-  margin-top: 10px;
-  text-align: left;
-}
-
-/* Sign-up link style */
+/* Center the Signup link at the bottom of the login form */
 .signup-link {
-  color: hsla(204, 100%, 55%, 0.996);
   text-decoration: none;
-  font-size: 14px;
-  margin-bottom: 10px;
+  color: #007BFF;
+  font-weight: bold;
+  text-align: center;
+  margin-top: auto;
 }
-
-.signup-link:hover {
-  text-decoration: underline;
+.links {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Center vertically */
+  align-items: center; /* Center horizontally */
+  height: 10vh; /* Take the full viewport height */
 }

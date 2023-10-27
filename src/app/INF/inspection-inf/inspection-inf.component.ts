@@ -17,7 +17,7 @@ export class InspectionInfComponent {
   handleClick(c_no: string) {
     // Handle the click event here
     const encodedValue = encodeURIComponent(c_no);
-    this.router.navigate(['/inspection_inf', encodedValue]);
+    this.router.navigate(['afterlogin/inspection_inf', encodedValue]);
   }
 
   ngOnInit(){

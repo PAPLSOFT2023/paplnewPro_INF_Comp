@@ -10,31 +10,26 @@ import { UiElementsComponent } from './organizationadmin/ui-elements/ui-elements
 import { AppHomeComponent } from './app-home/app-home.component';
 import { LogindetailManageComponent } from './softwareadmin/software-admin-dashboard/software-admin-user-manage/logindetail-manage/logindetail-manage.component';
 import { ProfiledetailManageComponent } from './softwareadmin/software-admin-dashboard/software-admin-user-manage/profiledetail-manage/profiledetail-manage.component';
-import { CommonEmployeeDashboardComponent } from './common-employee-dashboard/common-employee-dashboard.component';
+import { SalesFormComponent } from './INF/sales/sales-form/sales-form.component';
 import { SoftwareAdminUserManageComponent } from './softwareadmin/software-admin-dashboard/software-admin-user-manage/software-admin-user-manage.component';
 import { InspectionInfComponent } from './INF/inspection-inf/inspection-inf.component';
 import { InspectionFormComponent } from './INF/inspection-inf/inspection-form/inspection-form.component';
-import { SalesHomeComponent } from './INF/sales-form/sales-home/sales-home.component';
-import { SalesVComponent } from './INF/sales-form/sales-v/sales-v.component';
+import { SalesHomeComponent } from './INF/sales/sales-home/sales-home.component';
+import { SalesVComponent } from './INF/sales/sales-v/sales-v.component';
 import { PlanningEngHomeComponent } from './INF/planning-eng-home/planning-eng-home.component';
 import { PlanningEngInfComponent } from './INF/planning-eng-home/planning-eng-inf/planning-eng-inf.component';
+import { ForgotpasswordComponent } from './forgotpassword/forgotpassword.component';
+import { ServicesComponent } from './services/services.component';
+
 const routes: Routes = [
   {path:'app-home',component:AppHomeComponent,},
-  {path:"login", component:LoginComponent},
+  
   {path:"",redirectTo:"app-home",pathMatch:'full'},
-
-  {path:"userdashboard",component:CommonEmployeeDashboardComponent,
-children:[
-{path:'inspection_home', component:InspectionInfComponent},
-{path:'inspection_inf/:c_no',component:InspectionFormComponent},
-{path:'sales_home',component:SalesHomeComponent},
-{path:'sales_v/:selectedOption',component:SalesVComponent},
-{path:'plan_eg_home',component:PlanningEngHomeComponent},
-{path:'plan_eng_inf/:c_no',component:PlanningEngInfComponent}]
-
-},
+  {path: "services",component:ServicesComponent}, 
+  {path:"login",component:LoginComponent},
   {path:"neworganization", component:NeworganizationComponent},
-
+  {path:"forgotpassword",component:ForgotpasswordComponent},
+  
   {path: 'afterlogin',component: AfterloginComponent,
     children: [
         {path:'software_admin_dashboard', component:SoftwareAdminDashboardComponent},
@@ -48,6 +43,15 @@ children:[
         {path: 'dashboard', component: DashboardComponent},
         {path:'organization_adminUI', component:UiElementsComponent},
         {path:'app-organization-user-management',component:OrganizationUserManagementComponent},
+
+         {path:'inspection_home', component:InspectionInfComponent},
+         {path:'inspection_inf/:c_no',component:InspectionFormComponent},
+         {path:'sales_home',component:SalesHomeComponent},
+         {path:'sales_inf/:selectedOption', component:SalesFormComponent},
+         {path:'sales_v/:selectedOption',component:SalesVComponent},
+         {path:'plan_eg_home',component:PlanningEngHomeComponent },
+         {path:'plan_eng_inf/:c_no',component:PlanningEngInfComponent},
+         
     ],
   },
  

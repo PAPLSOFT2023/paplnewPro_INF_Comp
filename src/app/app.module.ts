@@ -15,18 +15,15 @@ import { HttpClientModule } from '@angular/common/http';
 import { AfterloginComponent } from './afterlogin/afterlogin.component';
 import { OrganizationUserManagementComponent } from './organizationadmin/organization-user-management/organization-user-management.component';
 import { SoftwareAdminDashboardComponent } from './softwareadmin/software-admin-dashboard/software-admin-dashboard.component';
-import { CreateUserForOrganizationAdminComponent } from './organizationadmin/organization-user-management/create-user-for-organization-admin/create-user-for-organization-admin.component';
-import { UpdateUserForOrganizationAdminComponent } from './organizationadmin/organization-user-management/update-user-for-organization-admin/update-user-for-organization-admin.component';
-import { DeleteUserForOrganizationAdminComponent } from './organizationadmin/organization-user-management/delete-user-for-organization-admin/delete-user-for-organization-admin.component';
-import { ViewUserForOrganizationComponent } from './organizationadmin/organization-user-management/view-user-for-organization/view-user-for-organization.component';
+
+
 import { AppHomeComponent } from './app-home/app-home.component';
 import { HomeHeaderComponent } from './home-header/home-header.component';
 import { HomeBodyComponent } from './home-body/home-body.component';
-import { CommonEmployeeDashboardComponent } from './common-employee-dashboard/common-employee-dashboard.component';
 import { SoftwareAdminUserManageComponent } from './softwareadmin/software-admin-dashboard/software-admin-user-manage/software-admin-user-manage.component';
 import { LogindetailManageComponent } from './softwareadmin/software-admin-dashboard/software-admin-user-manage/logindetail-manage/logindetail-manage.component';
 import { ProfiledetailManageComponent } from './softwareadmin/software-admin-dashboard/software-admin-user-manage/profiledetail-manage/profiledetail-manage.component';
-
+import { NgxCaptchaModule } from 'ngx-captcha';
 
 
 
@@ -83,16 +80,18 @@ import { Dialog7Component } from './INF/dialog7/dialog7.component';
 import { Dialog8Component } from './INF/dialog8/dialog8.component';
 import { Dialog9Component } from './INF/dialog9/dialog9.component'; 
 import { Form1Component } from './INF/form1/form1.component';
-import { SalesFormComponent } from './INF/sales-form/sales-form.component'; 
+import { SalesFormComponent } from './INF/sales/sales-form/sales-form.component'; 
 import { InspectionInfComponent } from './INF/inspection-inf/inspection-inf.component';
 import { InspectionFormComponent } from './INF/inspection-inf/inspection-form/inspection-form.component';
 import { DialogCComponent } from './INF/inspection-inf/dialog-c/dialog-c.component';
-import { SalesHomeComponent } from './INF/sales-form/sales-home/sales-home.component';
-import { SalesVComponent } from './INF/sales-form/sales-v/sales-v.component';
+import { SalesHomeComponent } from './INF/sales/sales-home/sales-home.component';
+import { SalesVComponent } from './INF/sales/sales-v/sales-v.component';
 import { PlanningEngHomeComponent } from './INF/planning-eng-home/planning-eng-home.component';
 import { PlanningEngInfComponent } from './INF/planning-eng-home/planning-eng-inf/planning-eng-inf.component';
 import { DialogPComponent } from './INF/planning-eng-home/dialog-p/dialog-p.component';
 import { SideNavCommonUserComponent } from './Sidenav_for_commonUser/side-nav-common-user/side-nav-common-user.component';
+import { ForgotpasswordComponent } from './forgotpassword/forgotpassword.component';
+import { ServicesComponent } from './services/services.component';
 
 
 
@@ -106,20 +105,17 @@ import { SideNavCommonUserComponent } from './Sidenav_for_commonUser/side-nav-co
     SublevelMenuComponent,
     LoginComponent,
     UiElementsComponent,
+  
    
     NeworganizationComponent,
          AfterloginComponent,
          OrganizationUserManagementComponent,
          SoftwareAdminDashboardComponent,
-         CreateUserForOrganizationAdminComponent,
-         UpdateUserForOrganizationAdminComponent,
-         DeleteUserForOrganizationAdminComponent,
-         
-         ViewUserForOrganizationComponent,
+        
          AppHomeComponent,
          HomeHeaderComponent,
          HomeBodyComponent,
-         CommonEmployeeDashboardComponent,
+       
          SoftwareAdminUserManageComponent,
          LogindetailManageComponent,
          ProfiledetailManageComponent,
@@ -151,7 +147,10 @@ import { SideNavCommonUserComponent } from './Sidenav_for_commonUser/side-nav-co
        
         PlanningEngHomeComponent,
         PlanningEngInfComponent,
-        SideNavCommonUserComponent
+        SideNavCommonUserComponent,
+        ForgotpasswordComponent,
+        ServicesComponent,
+  
   
         
       
@@ -162,6 +161,8 @@ import { SideNavCommonUserComponent } from './Sidenav_for_commonUser/side-nav-co
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
+    NgxCaptchaModule,
+    
     
     
 
