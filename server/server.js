@@ -124,63 +124,61 @@ const transporter = nodemailer.createTransport({
 // });
 
 
-
 app.get('/api/leaveData', (req, res) => {
   const ref = Firebase_db.ref('/Leave/Leaveforleadknown/krishnannarayananpaplcorpcom');
 
   const today = new Date();  // Get the current date
   const nextTwoMonths = new Date();
   nextTwoMonths.setMonth(today.getMonth() + 2);  // Set the date to two months from now
-  
+
   ref.once('value', (snapshot) => {
     const data = snapshot.val();
-    const resultArray = [];
-  
+
+    // Use an object to group data by date and month
+    const groupedData = {};
+
     Object.keys(data).forEach(personName => {
-      const personObject = { name: personName, years: [] };
       const from_personData = data[personName];
-  
+
       Object.keys(from_personData).forEach(year => {
-        const yearObject = { year: year, months: [] };
         const from_yearData = from_personData[year];
-  
+
         Object.keys(from_yearData).forEach(month => {
-          // Convert year and month to a Date object for comparison
-          const currentMonth = new Date(`${year}-${month}-01`);
-          
-          // Check if the date is within the range of today to the next two months
-          if (currentMonth >= today && currentMonth <= nextTwoMonths) {
-            const monthObject = { month: month, dates: [] };
-            const from_monthData = from_yearData[month];
-  
-            Object.keys(from_monthData).forEach(date => {
-              monthObject.dates.push(date);
-            });
-  
-            yearObject.months.push(monthObject);
-          }
+          const from_monthData = from_yearData[month];
+
+          Object.keys(from_monthData).forEach(date => {
+            // Convert year, month, and date to a Date object for comparison
+            const currentDate = new Date(`${year}-${month}-${date}`);
+
+            // Check if the date is within the range of today to the next two months
+            if (currentDate >= today && currentDate <= nextTwoMonths) {
+              const dateString = currentDate.toISOString().split('T')[0];
+
+              if (!groupedData[dateString]) {
+                groupedData[dateString] = {
+                  date: dateString,
+                  names: [],
+                };
+              }
+
+              groupedData[dateString].names.push(personName);
+            }
+          });
         });
-  
-        // Add the year object only if it contains months
-        if (yearObject.months.length > 0) {
-          personObject.years.push(yearObject);
-        }
       });
-  
-      // Add the person object only if it contains years
-      if (personObject.years.length > 0) {
-        resultArray.push(personObject);
-      }
     });
-   
+
+    // Convert the grouped data object to an array
+    const resultArray = Object.values(groupedData);
+
     res.json(resultArray);
-    // console.log(resultArray)
   }, (errorObject) => {
     console.error('The read failed: ' + errorObject.code);
     res.status(500).send('Internal Server Error');
   });
-  
 });
+
+
 
 app.post('/api/profileInsert',(req,res)=>{
   const {organization_name,address,pincode,state,country,contact,organization}=req.body;

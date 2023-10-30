@@ -18,6 +18,10 @@ generatePDF():Observable<any>{
 }
 
 
+leaveData():Observable<any>{
+  return this.httpClient.get(this.apiURL+"leaveData");
+}
+
 
 profileInsert(organization_name:string,address:string,pincode:string,state:string,country:string,contact:string,organization:string):Observable<any>{
     const body={organization_name,address,pincode,state,country,contact,organization}

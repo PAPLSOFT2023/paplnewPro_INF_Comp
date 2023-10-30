@@ -30,8 +30,21 @@
           </div>
         </div>
         <div class="card-footer">
-          <button (click)="viewDetails(service)">View Details</button>
+          <button (click)="viewDetails()">View Details</button>
         </div>
       </div>
     </div>
   </div>
+
+
+  <div *ngFor="let item of dataArray">
+    
+    <ul>
+      <li *ngFor="let name of item.names">
+        <p>Date: {{ item.date }}
+        {{ name }}
+      </p>
+      </li>
+    </ul>
+  </div>
+  

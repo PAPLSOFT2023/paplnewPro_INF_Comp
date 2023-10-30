@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-
+import { ApicallService } from '../apicall.service';
+import { response } from 'express';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -7,7 +8,12 @@ import { Component } from '@angular/core';
 })
 export class DashboardComponent  {
   
+constructor(private apicall:ApicallService){}
 
+// dataArray: any[] = [
+//     { name: '', years: [{year: '', months: [ {   month: '',   dates: [],  },  ],},], },  ];
+
+dataArray: any[] = [];
   services = [
     {
       name: 'Lift_Inspections',
@@ -27,8 +33,14 @@ export class DashboardComponent  {
     // Add more inspection service objects
   ];
 
-  viewDetails(service: any) {
+  viewDetails() {
    // Implement the logic to show service details, e.g., open a modal or navigate to a details page.
-    console.log('View details for:', service);
+
+
+   this.apicall.leaveData().subscribe((response: any) => {
+    console.log(response); // Log the response to the console
+    this.dataArray = response;
+  });
+   
   }
 }
