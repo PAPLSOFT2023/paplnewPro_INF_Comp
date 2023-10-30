@@ -7,6 +7,9 @@ const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 const { v4: uuidv4 } = require('uuid');
 
+const fs = require('fs');
+const PDFDocument = require('pdfkit');
+const sizeOf = require('image-size');
 
 const port = process.env.PORT || 3000;
 const secretKey = 'mySecretKeyForJWTAuthentication';// for token generation
@@ -93,6 +96,33 @@ const transporter = nodemailer.createTransport({
     pass: 'riic kzuu skre vvsv',
   },
 });
+
+// app.get('/api/generatepdf', (req, res) => {
+//   console.log("welcome___")
+//   // Create a new PDF document
+//   const doc = new PDFDocument();
+//   // Add content to the PDF
+//   doc
+//     .fontSize(16)
+//     .text('Hello, this is a PDF!', 100, 100)
+//     .fontSize(14)
+//     .text('Generated with pdfkit in Node.js', 100, 150);
+
+//   // Add an image
+//   const image = 'papl_logo.png';
+//   const dimensions = sizeOf(image);
+
+//   doc.image(image, 100, 200, { width: dimensions.width, height: dimensions.height });
+
+//   // Pipe the PDF content to the response
+//   res.setHeader('Content-Disposition', 'attachment; filename=example.pdf');
+//   res.setHeader('Content-Type', 'application/pdf');
+//   doc.pipe(res);
+
+//   // Finalize the PDF
+//   doc.end();
+// });
+
 
 
 app.get('/api/leaveData', (req, res) => {

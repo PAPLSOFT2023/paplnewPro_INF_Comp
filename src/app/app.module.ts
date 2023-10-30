@@ -92,6 +92,7 @@ import { DialogPComponent } from './INF/planning-eng-home/dialog-p/dialog-p.comp
 import { SideNavCommonUserComponent } from './Sidenav_for_commonUser/side-nav-common-user/side-nav-common-user.component';
 import { ForgotpasswordComponent } from './forgotpassword/forgotpassword.component';
 import { ServicesComponent } from './services/services.component';
+import { MailComponent } from './mail/mail.component';
 
 
 
@@ -150,6 +151,7 @@ import { ServicesComponent } from './services/services.component';
         SideNavCommonUserComponent,
         ForgotpasswordComponent,
         ServicesComponent,
+        MailComponent,
   
   
         

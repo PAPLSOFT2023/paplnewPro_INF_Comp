@@ -128,7 +128,6 @@
 
 
 <div>
-  <!-- Popup Form -->
   
    
 
@@ -166,14 +165,14 @@
 
 
 <div>
-  <!-- Popup Form Email automation -->
+
   <div class="data-entry-container" *ngIf="isPopupVisible4">
     <h2>Email_Automation</h2>
     <div class="form-group">
       <label for="field1">Email:</label>
       <input type="text" id="field1" [(ngModel)]="field1" required (ngModelChange)="onEmailChange()">
     </div>
-    <!-- Password input field with info icon inside -->
+    
     <div class="form-group">
       <label for="field1">App Password</label>
       <div class="input-group">
@@ -188,7 +187,7 @@
         </span>
       </div>
     </div>
-    <!-- Add more form fields as needed -->
+   
     <button type="submit">Save</button>
     <button (click)="cancelData()" class="btn btn-danger">Cancel</button>
   </div>
@@ -245,8 +244,16 @@
     </div>
   </div>
 
+
+
+
+
+
+
+
+
   <!-- Additional Card -->
-  <div class="card">
+  <!-- <div class="card">
     <div class="card-header">
       <h3 class="card-title">Email_Automation</h3>
       <img src="assets/mailautomation@2x.png" alt="Email Automation Logo" class="card-logo">
@@ -259,6 +266,194 @@
       <button class="card-button" (click)="openPopupForm4()">Update</button>
       
     </div>
-  </div>
+  </div> -->
+
 </div>
-<div class="overlay" id="popup1-overlay"></div>
+
+<div class="card-container">
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title">Dump Type</h3>
+      <img src="assets/dump_lift.png" alt="Profile Logo" class="card-logo">
+    </div>
+    <div class="card-content">
+      This is the content of Organization Profile.
+    </div>
+    <div class="card-actions">
+      <a href="#" class="card-link" (click)="openPopupForm1()">View</a>
+      <button class="card-button" (click)="openPopupForm1()">Update</button>
+    </div>
+  </div>
+  
+
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title">Dump Usage</h3>
+      <img src="assets/department.png" alt="Department Logo" class="card-logo">
+    </div>
+    <div class="card-content">
+      This is the content of Department.
+    </div>
+    <div class="card-actions">
+      <button class="card-button" (click)="openPopupForm2()">Update</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title">Home Type</h3>
+      <img src="assets/userrole1@2x.png" alt="User Role Logo" class="card-logo">
+    </div>
+    <div class="card-content">
+      This is the content of User_role.
+    </div>
+    <div class="card-actions">
+      <button class="card-button" (click)="openPopupForm3()">Update</button>
+    </div>
+  </div>
+
+</div>
+
+
+<div class="card-container">
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title">Home Usage</h3>
+      <img src="assets/profile1-removebg-preview.png" alt="Profile Logo" class="card-logo">
+    </div>
+    <div class="card-content">
+      This is the content of Organization Profile.
+    </div>
+    <div class="card-actions">
+      <a href="#" class="card-link" (click)="openPopupForm1()">View</a>
+      <button class="card-button" (click)="openPopupForm1()">Update</button>
+    </div>
+  </div>
+  
+
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title">Inspection Time</h3>
+      <img src="assets/department.png" alt="Department Logo" class="card-logo">
+    </div>
+    <div class="card-content">
+      This is the content of Department.
+    </div>
+    <div class="card-actions">
+      <button class="card-button" (click)="openPopupForm2()">Update</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title">Inspection Time Ins</h3>
+      <img src="assets/userrole1@2x.png" alt="User Role Logo" class="card-logo">
+    </div>
+    <div class="card-content">
+      This is the content of User_role.
+    </div>
+    <div class="card-actions">
+      <button class="card-button" (click)="openPopupForm3()">Update</button>
+    </div>
+  </div>
+
+</div>
+
+
+<div class="card-container">
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title">OEM Details</h3>
+      <img src="assets/profile1-removebg-preview.png" alt="Profile Logo" class="card-logo">
+    </div>
+    <div class="card-content">
+      This is the content of Organization Profile.
+    </div>
+    <div class="card-actions">
+      <a href="#" class="card-link" (click)="openPopupForm1()">View</a>
+      <button class="card-button" (click)="openPopupForm1()">Update</button>
+    </div>
+  </div>
+  
+
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title">Region Details</h3>
+      <img src="assets/department.png" alt="Department Logo" class="card-logo">
+    </div>
+    <div class="card-content">
+      This is the content of Department.
+    </div>
+    <div class="card-actions">
+      <button class="card-button" (click)="openPopupForm2()">Update</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title">Travel Accomodation</h3>
+      <img src="assets/userrole1@2x.png" alt="User Role Logo" class="card-logo">
+    </div>
+    <div class="card-content">
+      This is the content of User_role.
+    </div>
+    <div class="card-actions">
+      <button class="card-button" (click)="openPopupForm3()">Update</button>
+    </div>
+  </div>
+
+</div>
+
+
+<div class="card-container">
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title">Type Elevator</h3>
+      <img src="assets/profile1-removebg-preview.png" alt="Profile Logo" class="card-logo">
+    </div>
+    <div class="card-content">
+      This is the content of Organization Profile.
+    </div>
+    <div class="card-actions">
+      <a href="#" class="card-link" (click)="openPopupForm1()">View</a>
+      <button class="card-button" (click)="openPopupForm1()">Update</button>
+    </div>
+  </div>
+  
+
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title">Type of Building</h3>
+      <img src="assets/department.png" alt="Department Logo" class="card-logo">
+    </div>
+    <div class="card-content">
+      This is the content of Department.
+    </div>
+    <div class="card-actions">
+      <button class="card-button" (click)="openPopupForm2()">Update</button>
+    </div>
+  </div>
+
+  <!-- <div class="card">
+    <div class="card-header">
+      <h3 class="card-title">Travel Accomodation</h3>
+      <img src="assets/userrole1@2x.png" alt="User Role Logo" class="card-logo">
+    </div>
+    <div class="card-content">
+      This is the content of User_role.
+    </div>
+    <div class="card-actions">
+      <button class="card-button" (click)="openPopupForm3()">Update</button>
+    </div>
+  </div> -->
+
+</div>
+
+
+
+
+
+
+
+
+

@@ -20,7 +20,7 @@ import { PlanningEngHomeComponent } from './INF/planning-eng-home/planning-eng-h
 import { PlanningEngInfComponent } from './INF/planning-eng-home/planning-eng-inf/planning-eng-inf.component';
 import { ForgotpasswordComponent } from './forgotpassword/forgotpassword.component';
 import { ServicesComponent } from './services/services.component';
-
+import { MailComponent } from './mail/mail.component';
 const routes: Routes = [
   {path:'app-home',component:AppHomeComponent,},
   
@@ -32,6 +32,8 @@ const routes: Routes = [
   
   {path: 'afterlogin',component: AfterloginComponent,
     children: [
+
+      {path:'mail',component:MailComponent},
         {path:'software_admin_dashboard', component:SoftwareAdminDashboardComponent},
         {path:'software_admin_dashboard_user_manage', component:SoftwareAdminUserManageComponent,
         children:[

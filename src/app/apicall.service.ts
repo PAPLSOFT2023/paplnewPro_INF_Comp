@@ -11,6 +11,11 @@ export class ApicallService {
   constructor(private httpClient:HttpClient) { }
   // this func for load customerdata
 
+generatePDF():Observable<any>{
+  console.log("wsdef")
+  // this.httpClient.get(this.apiURL+"generate-pdf");
+  return this.httpClient.get(this.apiURL+"generatepdf");
+}
 
 
 
