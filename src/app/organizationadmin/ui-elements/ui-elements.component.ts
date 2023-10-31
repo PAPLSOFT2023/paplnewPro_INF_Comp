@@ -43,6 +43,7 @@ export class UiElementsComponent  {
   // Properties for controlling the popup forms
   isPopupVisible1: boolean = false;
   isPopupVisible2: boolean = false;
+  isPopupVisible_dumptype:boolean=false;
   isPopupVisible3: boolean = false;
   isPopupVisible4: boolean = false;
   field1: string = '';
@@ -72,7 +73,7 @@ export class UiElementsComponent  {
         this.departments.push(this.departmenttext)
     },(error:any)=>{
       if(error.status==400)
-      {
+      { 
         alert("This data already exists")
       }
       else{
@@ -189,6 +190,7 @@ export class UiElementsComponent  {
     this.isPopupVisible2 = false;
     this.isPopupVisible3 = false;
     this.isPopupVisible4 = false;
+    this.isPopupVisible_dumptype=false;
   }
 
   // Method to get Roll and department data
@@ -270,6 +272,13 @@ else{
 
     this.closePopupForm();
     this.isPopupVisible2 = true;
+  }
+  openPopupFormDump_Usage(): void {
+
+    this.getRolebasedData();
+
+    this.closePopupForm();
+    this.isPopupVisible_dumptype = true;
   }
 //role update
   openPopupForm3(): void {

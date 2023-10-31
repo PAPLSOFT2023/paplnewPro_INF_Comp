@@ -123,6 +123,45 @@
 </div>
 
 
+<div>
+  <!-- Popup Form -->
+  
+   
+
+<!-- Data Entry Container -->
+<div class="data-entry-container" *ngIf="isPopupVisible_dumptype">
+  <h2>Department</h2>
+  <div class="form-group">
+
+    <label for="dataInput">Enter Dump Type:</label>
+    <input type="text" id="dataInput"  class="form-control"[(ngModel)]="departmenttext" placeholder="Enter Dump Type">
+    <button (click)="addToDropdownDepartment()" class="btn btn-primary">Add</button>
+    <button (click)="cancelData()" class="btn btn-danger">Cancel</button>
+  </div>
+
+  <div class="form-group">
+    <label for="dataDropdown">Existing Dump Types:</label>
+   
+    <select [(ngModel)]="selectedData">
+      <option *ngFor="let Dept of departments" [value]="Dept">{{ Dept }}</option>
+    </select>
+  </div>
+  
+    <!-- Add a delete button -->
+    <div class="form-group">
+    <button (click)="deleteData1()" class="btn btn-danger">Delete</button>
+    
+    
+    </div>
+
+  
+    
+    
+    
+  </div>
+
+</div>
+
   
 <!-- Add more form fields as needed -->
 
@@ -295,7 +334,7 @@
       This is the content of Department.
     </div>
     <div class="card-actions">
-      <button class="card-button" (click)="openPopupForm2()">Update</button>
+      <button class="card-button" (click)="openPopupFormDump_Usage()">Update</button>
     </div>
   </div>
 
@@ -325,8 +364,8 @@
       This is the content of Organization Profile.
     </div>
     <div class="card-actions">
-      <a href="#" class="card-link" (click)="openPopupForm1()">View</a>
-      <button class="card-button" (click)="openPopupForm1()">Update</button>
+     
+      <button class="card-button" (click)="openPopupForm2()">Update</button>
     </div>
   </div>
   
