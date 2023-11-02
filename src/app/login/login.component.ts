@@ -41,51 +41,48 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.username !== '' && this.password !== '') {
-      // Your existing login logic
+    if (this.rememberMe) {
+      if (this.username !== '' && this.password !== '') {
+        // Your login logic goes here
+        console.log('remember me works');
+        this.authService.login(this.username, this.password).subscribe(
+          (response: any) => {
+            const token = response.token;
+            const status = response.status;
+            const role1 = response.role;
+            const organization = response.organization;
+            const userName = response.user_name;
 
-      // Check if "Remember Me" is checked
-      if (this.rememberMe) {
-        console.log('Cookies worked');
-        // Set cookies for username and password
-        this.cookieService.set('rememberedUsername', this.username);
-        this.cookieService.set('rememberedPassword', this.password);
+            // Store the token and user information in session storage
+            sessionStorage.setItem('Role', role1);
+            sessionStorage.setItem('Organization', organization);
+            sessionStorage.setItem('UserName', userName);
+
+            // Redirect to another page or perform desired actions
+            if (status === 1) {
+              console.log(role1, organization, userName);
+              this.router.navigate(['/afterlogin', { role: role1 }]);
+            } else {
+              alert('You do not have a valid subscription.');
+            }
+          },
+          (error: any) => {
+            console.error(error);
+            if (error.status === 401) {
+              // Unauthorized: Invalid username or password
+              // Display an error message to the user
+              alert('Unauthorized user');
+            } else {
+              // Handle other types of errors (e.g., server errors)
+              alert('An error occurred');
+            }
+            // Handle login error
+          }
+        );
       }
-
-      this.authService.login(this.username, this.password).subscribe(
-        (response: any) => {
-          const token = response.token;
-          const status = response.status;
-          const role1 = response.role;
-          const organization = response.organization;
-          const userName = response.user_name;
-
-          // Store the token and user information in session storage
-          sessionStorage.setItem('Role', role1);
-          sessionStorage.setItem('Organization', organization);
-          sessionStorage.setItem('UserName', userName);
-
-          // Redirect to another page or perform desired actions
-          if (status === 1) {
-            console.log(role1, organization, userName);
-            this.router.navigate(['/afterlogin', { role: role1 }]);
-          } else {
-            alert('You do not have a valid subscription.');
-          }
-        },
-        (error: any) => {
-          console.error(error);
-          if (error.status === 401) {
-            // Unauthorized: Invalid username or password
-            // Display an error message to the user
-            alert('Unauthorized user');
-          } else {
-            // Handle other types of errors (e.g., server errors)
-            alert('An error occurred');
-          }
-          // Handle login error
-        }
-      );
+    } else {
+      // Handle the case when "Remember Me" is not checked
+      console.log('Remember Me not checked, please tick the checkbox');
     }
   }
 
