@@ -93,6 +93,7 @@ import { SideNavCommonUserComponent } from './Sidenav_for_commonUser/side-nav-co
 import { ForgotpasswordComponent } from './forgotpassword/forgotpassword.component';
 import { ServicesComponent } from './services/services.component';
 import { MailComponent } from './mail/mail.component';
+import { ReCaptchaV3Service } from 'ngx-captcha';
 
 
 

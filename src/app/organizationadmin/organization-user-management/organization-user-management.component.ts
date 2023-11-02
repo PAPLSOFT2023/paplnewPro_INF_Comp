@@ -60,6 +60,8 @@ onDropdownChangeDepart(event: any) {
       // console.log(response[i])
      
       this.user=response[i];
+
+
       if (response[i].Status === 1) {
         
         // Set this.user.Status to 'active'
@@ -95,7 +97,7 @@ onDropdownChangeDepart(event: any) {
    (error:any)=>{
     console.log(error);
   
-   })
+   }) 
 
   }
 

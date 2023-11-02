@@ -305,7 +305,7 @@ else{
 app.post('/api/login', (req, res) => {
   const { username, password } = req.body;
 
-  const query = 'SELECT Email,Password,Organization,Status,Role FROM clientadmin WHERE Email = ?';
+  const query = 'SELECT Email,Password,Organization,Status,Role,Username FROM clientadmin WHERE Email = ?';
   db.query(query, [username], (err, results) => {
     if (err) {
       // console.log("+++", err);
@@ -336,8 +336,9 @@ app.post('/api/login', (req, res) => {
         const status = user.Status;
         const role = user.Role;
         const organization = user.Organization;
+        const user_name=user.Username;
 
-        res.json({ token, status, role, organization });
+        res.json({ token, status, role, organization,user_name });
       } 
       catch (error) {
         res.status(500).json({ error: 'Token creation failed' });

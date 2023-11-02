@@ -2,93 +2,83 @@
 <div class="forgot-password-link">
   <div class="center-container"></div>
 
-<div class="login-container">
+  <div class="login-container">
 
-  <div class="login-form">
-    <h2><img src="assets/papl_logo.png" alt="Your Logo" class="logo"></h2>
-    
-    <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
-      <div class="input-container">
-        <label for="username">
-          <i class="fa fa-envelope"></i> Email:
-        </label>
-        <div class="input-with-icon">
-          <input type="text" id="username" [(ngModel)]="username" name="username" required #usernameInput="ngModel" />
-        </div>
-      </div>
-      <!-- <br> -->
-      <div class="input-container">
-        <label for="password">
-          <i class="fa fa-lock"></i> Password:
-        </label>
-        <div class="input-with-icon">
-          <input
-            type="{{ showPassword ? 'text' : 'password' }}"
-            id="password"
-            [(ngModel)]="password"
-            name="password"
-            required
-            #passwordInput="ngModel"
-            class="password-input"
-          />
-          <i
-            class="fa"
-            [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"
-            id="togglePassword"
-            (click)="togglePasswordVisibility()"
-          ></i>
-        </div>
-        <div *ngIf="passwordInput.invalid && (passwordInput.dirty || passwordInput.touched)" class="error-message">
-          Password is required.
-        </div>
-      </div>
+    <div class="login-form">
+      <h2><img src="assets/papl_logo.png" alt="Your Logo" class="logo"></h2>
 
-      <div class="remember-forgot-container">
-        <div class="remember-me-container">
-          <label for="rememberMe" class="remember-me-label">
-            <input type="checkbox" id="rememberMe" [(ngModel)]="rememberMe" name="rememberMe" />
-            Remember Me
+      <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+        <div class="input-container">
+          <label for="username">
+            <i class="fa fa-envelope"></i> Email:
           </label>
+          <div class="input-with-icon">
+            <input type="text" id="username" [(ngModel)]="username" name="username" required #usernameInput="ngModel" />
+          </div>
         </div>
-        <div class="forgot-password-link">
-          <a routerLink="/forgotpassword">Forgot Password?</a>
+
+        <div class="input-container">
+          <label for="password">
+            <i class="fa fa-lock"></i> Password:
+          </label>
+          <div class="input-with-icon">
+            <input
+              type="{{ showPassword ? 'text' : 'password' }}"
+              id="password"
+              [(ngModel)]="password"
+              name="password"
+              required
+              #passwordInput="ngModel"
+              class="password-input"
+            />
+            <i
+              class="fa"
+              [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"
+              id="togglePassword"
+              (click)="togglePasswordVisibility()"
+            ></i>
+          </div>
+          <div *ngIf="passwordInput.invalid && (passwordInput.dirty || passwordInput.touched)" class="error-message">
+            Password is required.
+          </div>
         </div>
-      </div>
 
-      <!-- Additional Features -->
-      <div class="additional-features">
-        <!-- Password Strength Indicator -->
-        <!-- Social Media Login Buttons -->
-        <!-- Two-Factor Authentication -->
-        <!-- Add the reCAPTCHA widget to protect against bots -->
-          <!-- <ngx-recaptcha2 #captchaElem [siteKey]="siteKey" formControlName="recaptcha"></ngx-recaptcha2> -->
-        <!-- Security Alerts -->
-        <!-- Terms and Conditions Link -->
-        <!-- Multi-language Support Dropdown -->
-        <!-- User Profile Picture Upload -->
-        <!-- Password Recovery Questions -->
-        <!-- Session Timeout Settings -->
-      </div>
+        <div class="remember-forgot-container">
+          <div class="remember-me-container">
+            <label for="rememberMe" class="remember-me-label">
+              <input type="checkbox" id="rememberMe" [(ngModel)]="rememberMe" name="rememberMe" />
+              Remember Me
+            </label>
+          </div>
+          <div class="forgot-password-link">
+            <a routerLink="/forgotpassword">Forgot Password?</a>
+          </div>
+        </div>
 
-      <div class="input-container">
-        <button type="submit" class="submit-button">
-          LOGIN
-        </button>
-      </div>
-    </form>
+        <!-- Add the reCAPTCHA widget here
+        <div class="input-container">
+          <ngx-recaptcha2
+            #captchaElem
+            [siteKey]="''"
+            formControlName="recaptcha"
+            (resolved)="onCaptchaResolved($event)"
+          ></ngx-recaptcha2>
+        </div> -->
 
-    <div class="links">
-      <p>
-        
-        New Organization <a routerLink="/neworganization" class="signup-link">Here</a>
-        
-      </p>
-      
-      <p class="copyright-notice">Copyright © 2023 by PAPL. All rights reserved.</p>
-      
-  
+        <div class="input-container">
+          <button type="submit" class="submit-button">
+            LOGIN
+          </button>
+        </div>
+      </form>
+
+      <div class="links">
+        <p>
+          New Organization <a routerLink="/neworganization" class="signup-link">Here</a>
+        </p>
+
+        <p class="copyright-notice">Copyright © 2023 by PAPL. All rights reserved.</p>
+      </div>
     </div>
-    
   </div>
-</div>
 </div>

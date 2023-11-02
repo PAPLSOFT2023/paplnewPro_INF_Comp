@@ -7,8 +7,13 @@ import { response } from 'express';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent  {
+
   
-constructor(private apicall:ApicallService){}
+constructor(private apicall:ApicallService){
+console.log("&&&&&&&&&&&&&&&",sessionStorage.getItem("UserName"));
+
+
+}
 
 // dataArray: any[] = [
 //     { name: '', years: [{year: '', months: [ {   month: '',   dates: [],  },  ],},], },  ];
