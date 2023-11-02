@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { ApicallService } from '../apicall.service';
+import { response } from 'express';
 
 @Component({
   selector: 'app-forgotpassword',
@@ -9,15 +11,32 @@ import { Router } from '@angular/router';
 export class ForgotpasswordComponent {
   email: string = '';
 
-  constructor(private router: Router) {
+  constructor(private router: Router,private apicall:ApicallService) {
     // ... constructor code
   }
 
-  onSubmit() {}
-    // Add your logic to send a password reset email
-    // You can use a service to make an API request to your backend
+  onSubmit() {
+    console.log(this.email)
+    this.apicall.checkUserEmailExists(this.email).subscribe((response:any)=>{
+      if(response)
+      {
+        console.log(response)
+      }else{
+        console.log(response)
+      }
 
-    // Display a success message or handle errors
+    },(error:any)=>{
+
+      console.log(error)
+    });
+
+
+
+  }
+
+   
+
+
 
     BackToLogin() {
       // Navigate back to the login page when the "Back to Login" button is clicked

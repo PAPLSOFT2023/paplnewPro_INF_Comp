@@ -30,6 +30,7 @@
     "font-awesome": "^4.7.0",
     "mysql": "^2.18.1",
     "ngx-captcha": "^13.0.0",
+    "ngx-cookie-service": "^15.0.0",
     "ngx-mat-intl-tel-input": "^5.0.0",
     "rxjs": "~7.5.0",
     "tslib": "^2.6.2",

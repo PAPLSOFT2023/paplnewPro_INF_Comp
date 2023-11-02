@@ -202,7 +202,36 @@ app.post('/api/profileInsert',(req,res)=>{
 })
 
 
+app.get('/api/Email_exists',(req,res)=>{
+ 
+
+  const {Email}= req.body;
+  console.log("server called",req.body)
+  const query='SELECT Email FROM clientadmin where Email= ? ';
+  db.query(query,[Email],(err,results)=>{
+if(err){
+
+  return res.status(500).json({ error: 'Internal server error' });
+
+
+} 
+else {
+ 
+  const data = results[0];
+  console.log(data)
+  return res.json(data)
+}
+
+
+  });
+
+});
+
+
+
+
 app.get('/api/loginData',(req, res)=>{
+
 
   const query='SELECT Email,Username,Organization,Status,Role,Emailverified,Department FROM clientadmin';
   db.query(query,(err,results)=>{
@@ -251,7 +280,8 @@ app.delete('/api/Role_Data_Delete', (req, res) => {
   db.query("DELETE FROM organization_role WHERE Organization=? AND Role=?", [organization, role], (err, result) => {
     if (err) {
       return res.status(500).json({ error: 'Internal server error' });
-    } else {
+    } 
+    else {
       if (result.affectedRows > 0) {
         return res.json({ message: 'Delete Successful' });
       } else {
@@ -511,10 +541,12 @@ app.get('/api/getRoleData', (req, res) => {
     if (err) {
       console.error("Error:", err);
       return res.status(500).json({ error: 'Internal server error' });
-    } else if (results.length === 0) {
+    } 
+    else if (results.length === 0) {
       console.error("No results found for organization:", organization);
       return res.status(401).json({ error: 'Invalid Organization Name' });
-    } else {
+    } 
+    else {
       const uniqueDepartments = new Set();
       const uniqueRoles = new Set();
       const uniqueOrganizations = new Set();

@@ -83,7 +83,21 @@ deleteLoginDetails(email: string): Observable<any> {
  return this.httpClient.get(this.apiURL+'loginData');
   }
 
+  checkUserEmailExists(email:string):Observable<any>{
+    console.log("Api called")
+    const url = `${this.apiURL}Email_exists`;
+    const params = new HttpParams().set('Email', email);
 
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+
+    const options = {
+      headers: headers,
+      params: params
+    };
+    return this.httpClient.get(url,options) ;
+  }
 
   login(username: string, password: string): Observable<any> {
     const body = { username, password };
@@ -124,6 +138,11 @@ deleteLoginDetails(email: string): Observable<any> {
 
     return this.httpClient.get(url, options);
   }
+
+
+
+
+
 
   InsertDepartmentData(Department:string,Organization:string):Observable<any>
   {

@@ -15,6 +15,9 @@
           <div class="input-with-icon">
             <input type="text" id="username" [(ngModel)]="username" name="username" required #usernameInput="ngModel" />
           </div>
+          <div *ngIf="usernameInput.invalid && (usernameInput.dirty || usernameInput.touched)" class="error-message">
+            Email is required.
+          </div>
         </div>
 
         <div class="input-container">
@@ -55,15 +58,9 @@
           </div>
         </div>
 
-        <!-- Add the reCAPTCHA widget here
         <div class="input-container">
-          <ngx-recaptcha2
-            #captchaElem
-            [siteKey]="''"
-            formControlName="recaptcha"
-            (resolved)="onCaptchaResolved($event)"
-          ></ngx-recaptcha2>
-        </div> -->
+          <ngx-recaptcha2 #captchaElem [siteKey]="sitekey" formControlName="recaptcha"></ngx-recaptcha2>
+        </div>
 
         <div class="input-container">
           <button type="submit" class="submit-button">
@@ -73,12 +70,11 @@
       </form>
 
       <div class="links">
-        <p>
-          New Organization <a routerLink="/neworganization" class="signup-link">Here</a>
-        </p>
-
-        <p class="copyright-notice">Copyright © 2023 by PAPL. All rights reserved.</p>
+        <p>New Organization <a routerLink="/neworganization" class="signup-link">Here</a></p>
       </div>
+
     </div>
+
+    <p class="copyright-notice">Copyright © 2023 by PAPL. All rights reserved.</p>
   </div>
 </div>

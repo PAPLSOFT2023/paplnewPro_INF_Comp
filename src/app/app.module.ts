@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormsModule } from '@angular/forms';
+import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { UiElementsComponent } from './organizationadmin/ui-elements/ui-elements.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -93,7 +93,7 @@ import { SideNavCommonUserComponent } from './Sidenav_for_commonUser/side-nav-co
 import { ForgotpasswordComponent } from './forgotpassword/forgotpassword.component';
 import { ServicesComponent } from './services/services.component';
 import { MailComponent } from './mail/mail.component';
-import { ReCaptchaV3Service } from 'ngx-captcha';
+
 
 
 
@@ -153,6 +153,7 @@ import { ReCaptchaV3Service } from 'ngx-captcha';
         ForgotpasswordComponent,
         ServicesComponent,
         MailComponent,
+     
   
   
         
@@ -163,6 +164,7 @@ import { ReCaptchaV3Service } from 'ngx-captcha';
     BrowserAnimationsModule,
     AppRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     NgxCaptchaModule,
     
