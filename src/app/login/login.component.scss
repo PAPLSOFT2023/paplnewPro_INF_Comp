@@ -1,5 +1,6 @@
 /* login.component.css */
 
+
 /* Outer container with background color and padding */
 .login-container {
   position: absolute;
@@ -20,6 +21,12 @@
   padding: 20px;
   
 }
+// verification link
+.send_link{
+  margin-top: 10px;
+ 
+}
+
 /* Center the parent container */
 .centered-container {
   display: flex;

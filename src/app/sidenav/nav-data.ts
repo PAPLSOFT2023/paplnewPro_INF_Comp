@@ -92,7 +92,7 @@ export const oragizationadmin: INavbarData[] = [
 
 
 export function getNavbarData(User: String): INavbarData[] {
-
+console.log("**&&&&&&&&",User)
 
     if(User=="Softwareadmin"){
         // console.log("________")
@@ -120,8 +120,7 @@ export function getNavbarData(User: String): INavbarData[] {
      }
      else{
         // console.log("..........+.",User)
-            return SalesNav;
-
+            return SalesNav ;
         
      }
 }

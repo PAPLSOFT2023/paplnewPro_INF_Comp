@@ -3,6 +3,7 @@ import { ApicallService } from '../apicall.service';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import { response } from 'express';
 
 @Component({
   selector: 'app-login',
@@ -17,6 +18,7 @@ export class LoginComponent implements OnInit {
   recaptchaResponse!: string;
   protected aFormGroup!: FormGroup;
   isEmptyEmail = true;
+  mail_not_verified=false;
 
   sitekey: string = '6LelQesoAAAAAC7muw12s8KTsGwD3mOvdQRjrY8S';
 
@@ -59,7 +61,7 @@ export class LoginComponent implements OnInit {
           const role1 = response.role;
           const organization = response.organization;
           const userName = response.user_name;
-
+          const mail_status=response.mail_status;
           // Store the token and user information in session storage
           sessionStorage.setItem('Role', role1);
           sessionStorage.setItem('Organization', organization);
@@ -67,9 +69,16 @@ export class LoginComponent implements OnInit {
 
           // Redirect to another page or perform desired actions
           if (status === 1) {
+            if(mail_status==1){
             console.log(role1, organization, userName);
             this.router.navigate(['/afterlogin', { role: role1 }]);
-          } else {
+            }
+            else{
+              this.mail_not_verified=true;
+              alert('Mail Not Verified.');
+            }
+          }
+           else {
             alert('You do not have a valid subscription.');
           }
         },
@@ -99,5 +108,27 @@ export class LoginComponent implements OnInit {
     console.log('reCAPTCHA resolved:', this.recaptchaResponse);
     // Store reCAPTCHA response in a variable
     this.recaptchaResponse = response;
+  }
+
+  Resend_Mail_verificarion(){
+    console.log("REsend");
+
+    if(this.username !=''){
+      this.authService.Resend_mail_verification(this.username).subscribe((response: any) => {
+        console.log("response", response);
+      
+        if (response.success) {
+          // Show success alert
+          alert('Verification link sent successfully');
+          this.mail_not_verified=true;
+        } else {
+          // Show error alert
+          alert('Failed to send verification link');
+        }
+      });
+    
+    
+    }
+    
   }
 }

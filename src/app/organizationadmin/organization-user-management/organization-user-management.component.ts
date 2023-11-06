@@ -152,7 +152,7 @@ this.resetUser();
 
       // console.log("UUUUUU",this.user.Role+this.user.Department)
     
-
+     this.user.Organization= sessionStorage.getItem('Organization') as string;
     if(this.user.Email && this.user.Password && this.user.Organization && this.user.Department && this.user.Status && this.user.Role && this.user.Username)
       { 
         

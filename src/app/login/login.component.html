@@ -19,6 +19,9 @@
             Email is required.
           </div>
         </div>
+        <div class="send_link" *ngIf="mail_not_verified"  >
+          <a (click)="  Resend_Mail_verificarion()" style="cursor: pointer; text-decoration: underline; color: rgb(255, 60, 0); float: right;">Send Verification Link </a>
+      </div>
 
         <div class="input-container">
           <label for="password">

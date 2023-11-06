@@ -11,6 +11,28 @@ export class ApicallService {
   constructor(private httpClient:HttpClient) { }
   // this func for load customerdata
 
+
+Resend_mail_verification(email:string):Observable<any>{
+
+
+    console.log("Api called",email)
+    const url = `${this.apiURL}ResendVerificationLink`;
+    const params = new HttpParams().set('Email', email);
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+
+    const options = {
+      headers: headers,
+      params: params
+    };
+ 
+  return this.httpClient.get(url,options) ;
+}
+
+
+
 generatePDF():Observable<any>{
   console.log("wsdef")
   // this.httpClient.get(this.apiURL+"generate-pdf");
@@ -18,9 +40,11 @@ generatePDF():Observable<any>{
 }
 
 
-leaveData():Observable<any>{
-  return this.httpClient.get(this.apiURL+"leaveData");
-}
+// leaveData():Observable<any>{
+//   return this.httpClient.get(this.apiURL+"leaveData");
+// }
+
+
 
 
 profileInsert(organization_name:string,address:string,pincode:string,state:string,country:string,contact:string,organization:string):Observable<any>{
@@ -193,13 +217,21 @@ deleteLoginDetails(email: string): Observable<any> {
 
   // INF
 
+  
   selectedDetails:string[] | any=[];
+
+  inspector_names:string[]=[];
   
 
-  private contract_no = this.apiURLCommon+'contract_no';
+  private contract_no = 'httpClient://localhost:3000/contract_no';
 
-  private contract_no1 = this.apiURLCommon+'contract_no1';
-  
+  private contract_no1 = 'httpClient://localhost:3000/contract_no1';
+
+  private leave = 'httpClient://localhost:3000/api/leaveData';
+
+
+
+
   //to display contract number 
   getContractNo(): Observable<string[]> {
     return this.httpClient.get<string[]>(this.contract_no);
@@ -210,7 +242,11 @@ deleteLoginDetails(email: string): Observable<any> {
   }
 
   getDetailsForContractName(c_no: string|null): Observable<any> {
-    return this.httpClient.get<any>(`http://localhost:3000/details/${c_no}`);
+    return this.httpClient.get<any>(`httpClient://localhost:3000/details/${c_no}`);
+  }
+
+  leaveData():Observable<any>{
+    return this.httpClient.get(this.leave);
   }
 
 
@@ -221,6 +257,8 @@ deleteLoginDetails(email: string): Observable<any> {
   escalator:number=0;
   moving_walk:number=0;
   travelator:number=0;
+
+  inspector_list:string[]=[];
 
   //elevator
   elevator_names:string[]=[]; //1
@@ -297,6 +335,6 @@ deleteLoginDetails(email: string): Observable<any> {
   getCheckedCount() {
     return this.checkedCount;
   }
-
+  
 
 }

@@ -21,7 +21,7 @@ private route: ActivatedRoute){
     const organizationkey='Organization';
     const storedValue = sessionStorage.getItem(rolekey);
     const stored_organization=sessionStorage.getItem(organizationkey)
-    
+    console.log("*****&*&*&&&",storedValue)
 
     // This is for role based dashboard default loding home content
 
