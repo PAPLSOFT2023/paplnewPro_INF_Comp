@@ -16,6 +16,9 @@ const secretKey = 'mySecretKeyForJWTAuthentication';// for token generation
 
 const app = express();
 
+// const ipAddress = '192.168.1.14';
+
+
 app.use(cors());
 app.use(bodyParser.json());
 app.use(express.json()); 
@@ -23,6 +26,7 @@ app.use(express.json());
 // Firebase Next Link
 const admin = require('firebase-admin');
 const serviceAccount = require('./paplapplication-firebase-adminsdk-dlrxg-4adbf847ee.json');
+const { error } = require('console');
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   databaseURL: 'https://paplapplication-default-rtdb.firebaseio.com',
@@ -31,47 +35,7 @@ admin.initializeApp({
 const Firebase_db = admin.database();
 const ref = Firebase_db.ref('/Leave/Leaveforleadknown/krishnannarayananpaplcorpcom');
 
-// ref.once('value', (snapshot) => {
-//   const data = snapshot.val();
-//   const resultArray = [];
 
-//   Object.keys(data).forEach(personName => {
-//     const personObject = { name: personName, years: [] };
-//     const from_personData = data[personName];
-
-//     Object.keys(from_personData).forEach(year => {
-//       const yearObject = { year: year, months: [] };
-//       const from_yearData = from_personData[year];
-
-//       Object.keys(from_yearData).forEach(month => {
-//         const monthObject = { month: month, dates: [] };
-//         const from_monthData = from_yearData[month];
-
-//         Object.keys(from_monthData).forEach(date => {
-//           monthObject.dates.push(date);
-//         });
-
-//         yearObject.months.push(monthObject);
-//       });
-
-//       personObject.years.push(yearObject);
-//     });
-
-//     resultArray.push(personObject);
-//   });
-
-//   console.log(resultArray);
-//   process.exit(); // Close the script after fetching data
-// }, (errorObject) => {
-//   console.error('The read failed: ' + errorObject.code);
-// });
-
-
-
-
-
-
-// app.use(express.static(__dirname + '/dist/your-angular-app-name'));
 const db = mysql.createConnection({
   host: 'localhost',
   user: 'root',
@@ -93,35 +57,9 @@ const transporter = nodemailer.createTransport({
   service: 'Gmail',
   auth: {
     user: 'paplsoft.itservice@gmail.com',
-    pass: 'riic kzuu skre vvsv',
+    pass: 'cicc tahd itrg guwd',
   },
 });
-
-// app.get('/api/generatepdf', (req, res) => {
-//   console.log("welcome___")
-//   // Create a new PDF document
-//   const doc = new PDFDocument();
-//   // Add content to the PDF
-//   doc
-//     .fontSize(16)
-//     .text('Hello, this is a PDF!', 100, 100)
-//     .fontSize(14)
-//     .text('Generated with pdfkit in Node.js', 100, 150);
-
-//   // Add an image
-//   const image = 'papl_logo.png';
-//   const dimensions = sizeOf(image);
-
-//   doc.image(image, 100, 200, { width: dimensions.width, height: dimensions.height });
-
-//   // Pipe the PDF content to the response
-//   res.setHeader('Content-Disposition', 'attachment; filename=example.pdf');
-//   res.setHeader('Content-Type', 'application/pdf');
-//   doc.pipe(res);
-
-//   // Finalize the PDF
-//   doc.end();
-// });
 
 
 app.get('/api/leaveData', (req, res) => {
@@ -167,6 +105,9 @@ app.get('/api/leaveData', (req, res) => {
         });
       });
     });
+
+
+
 
     // Convert the grouped data object to an array
     const resultArray = Object.values(groupedData);
@@ -335,7 +276,7 @@ else{
 app.post('/api/login', (req, res) => {
   const { username, password } = req.body;
 
-  const query = 'SELECT Email,Password,Organization,Status,Role,Username FROM clientadmin WHERE Email = ?';
+  const query = 'SELECT Email,Password,Organization,Status,Role,Username,Emailverified FROM clientadmin WHERE Email = ?';
   db.query(query, [username], (err, results) => {
     if (err) {
       // console.log("+++", err);
@@ -367,8 +308,9 @@ app.post('/api/login', (req, res) => {
         const role = user.Role;
         const organization = user.Organization;
         const user_name=user.Username;
+        const mail_status=user.Emailverified;
 
-        res.json({ token, status, role, organization,user_name });
+        res.json({ token, status, role, organization,user_name,mail_status });
       } 
       catch (error) {
         res.status(500).json({ error: 'Token creation failed' });
@@ -398,8 +340,8 @@ app.put('/api/adminregister_login_update', (req, res) => {
       else{
      
         
-      // sendVerificationEmail(userid, verificationToken);
-      // console.log("Verification token",verificationToken,email,result);
+      sendVerificationEmail(userid, verificationToken);
+      console.log("Verification token",verificationToken,email,result);
       }
     });
 });
@@ -594,6 +536,42 @@ app.get('/api/getRoleData', (req, res) => {
 
 
 
+
+app.get('/api/ResendVerificationLink', (req, res) => {
+  const email = req.query.Email;
+  const verificationToken = uuidv4();
+
+
+   
+
+
+
+  sendVerificationEmailboolean(email, verificationToken, (error) => {
+    if (error) {
+      res.json({ success: false, message: 'Failed to send verification email' });
+    } else {
+      db.query('UPDATE clientadmin SET Emailtoken= ? WHERE Email=?',[verificationToken,email],(error,result)=>{ 
+
+        if(result)
+        {
+          console.log("DB Updated")
+          res.json({ success: true, message: 'Verification link sent successfully' });
+        }
+
+
+       });
+      
+    }
+  });
+});
+
+
+
+
+
+
+
+//  check mail verified or not
 app.get('/api/verify-email', (req, res) => {
   const { email, token } = req.query;
 
@@ -658,12 +636,33 @@ function sendVerificationEmail(email, token) {
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
       console.error('Email sending error:', error);
-    } else {
-      // console.log('Email sent:', info.response);
+    }
+     else {
+      console.log('Email sent:', info.response);
     }
   });
 }
 
+function sendVerificationEmailboolean(email, token, callback) {
+  const verificationLink = `http://localhost:3000/api/verify-email?email=${email}&token=${token}`;
+
+  const mailOptions = {
+    from: 'paplsoft.itservice@gmail.com',
+    to: email,
+    subject: 'Email Verification',
+    html: `Click the following link to verify your email: <a href="${verificationLink}">${verificationLink}</a>`,
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.error('Email sending error:', error);
+      callback(error);
+    } else {
+      console.log('Email sent:', info.response);
+      callback(null);
+    }
+  });
+}
 
 
 
@@ -692,7 +691,7 @@ function sendVerificationEmail(email, token) {
 
 
 const db1 = mysql.createConnection({
-  host: '127.0.0.1',
+  host: '0.0.0.0',
   user: 'root',
   password: '',
   database: 'papl_inspection',
@@ -700,7 +699,7 @@ const db1 = mysql.createConnection({
 
 
 
-//  INF
+
 // Define a route to fetch values from MySQL
 app.get('/api/building_type', (req, res) => {
   const query = 'SELECT building_name FROM type_of_building';
@@ -879,22 +878,50 @@ app.get('/api/region', (req, res) => {
   });
 
 
-  //select inspector
+app.get('/api/inspector', (req, res) => {
+  
 
-  app.get('/api/inspector', (req, res) => {
-    const query = 'SELECT NAME FROM emp_data where dept="FIELD"';
-  
-    db1.query(query, (err, results) => {
+
+  const encodedValue = req.query.encodedValue;
+
+  // First query to get location and oem details
+  const firstQuery = `SELECT location, oem_details FROM inf_26 WHERE contract_number = '${encodedValue}'`;
+
+  // Execute the first database query
+  db1.query(firstQuery, (err, result) => {
       if (err) {
-        console.error('Error fetching values from MySQL:', err);
-        res.status(500).json({ error: 'Internal Server Error' });
-        return;
+          console.error(err);
+          res.status(500).json({ error: 'Internal Server Error (First Query)' });
+      } else {
+          const location = result[0].location;
+          const oem = result[0].oem_details;
+
+
+          // SELECT inspector_name, PAPL_DOJ FROM insp_data WHERE previous_employment = "${oem}" AND location_previousemp = "${location}" AND NOT DATE_ADD(PAPL_DOJ, INTERVAL 2 YEAR) <= NOW();
+          // Second query based on the obtained oem value
+
+          // SELECT inspector_name,PAPL_DOJ1 FROM insp_data WHERE (PAPL_DOJ1 IS NULL) OR (previous_employment = "${oem}" AND location_previousemp = "${location}" AND (PAPL_DOJ1 IS NOT NULL AND DATE_ADD(PAPL_DOJ1, INTERVAL 2 YEAR) <= NOW()));`;
+          const secondQuery = `SELECT inspector_name, PSN,PAPL_DOJ FROM insp_data WHERE (previous_employment = "${oem}" AND location_previousemp = "${location}" AND DATE_ADD(PAPL_DOJ, INTERVAL 2 YEAR) <= NOW()) OR (previous_employment != "${oem}" OR location_previousemp != "${location}"); `;
+
+          // Execute the second database query
+          db1.query(secondQuery, (err, inspectorResult) => {
+              if (err) {
+                  console.error(err);
+                  res.status(500).json({ error: 'Internal Server Error (Second Query)' });
+              } else {
+                  // Extract data from the second query result
+                  const values = inspectorResult.map(row => row.inspector_name +' - '+row.PSN);
+
+                  // Send the response back to the client with a structured format
+                
+                  res.json(values);
+              }
+          });
       }
-  
-      const values = results.map((row) => row.NAME);
-      res.json(values);
-    });
   });
+  
+});
+
 
 
   //inspection time
@@ -931,6 +958,24 @@ app.get('/api/region', (req, res) => {
     });
   });
 
+
+
+  //inspector type api
+  app.get('/api/inspector_type', (req, res) => {
+    const query = 'SELECT inspector_type FROM inspector_type';
+  
+    db1.query(query, (err, results) => {
+      if (err) {
+        console.error('Error fetching values from MySQL:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+        return;
+      }
+  
+      const values = results.map((row) => row.inspector_type);
+      res.json(values);
+    });
+  });
+
   //store inf26 form
   app.post('/api/store_data', (req, res) => {
     const { contractNumber,region,location,checked_count,checked_items,unchecked_count,unchecked_items,total_items,elevator_values,home,dump,pincode,master_customer,work_order_no,customer_name_workorder,project_name,building_name,building_type,inspection_type_sync,site_address,customer_contact_name,customer_contact_number,customer_contact_mailid,total_number_of_units,no_of_elevator,no_of_stops_elevator,no_of_escalator,no_of_travelator,no_of_mw,no_of_dw,no_of_stops_dw,no_of_home_elevator,no_of_stops_home_elevator,no_of_car_parking,travel_expenses_by,accomodation_by,	no_of_visits_as_per_work_order,no_of_mandays_as_per_work_order,total_units_schedule,balance_to_inspect,inspection_time,inspector_name,tpt6,tpt7,load_test,pmt,rope_condition,client_whatsapp_number,inspection_time_ins,schedule_from,schedule_to,customer_workorder_date, oem_details } = req.body;
@@ -950,11 +995,11 @@ app.get('/api/region', (req, res) => {
 //api to store 
   app.post('/api/store_data1', (req, res) => {
     // const { contractNumber,region,location,elevator_values,home,dump,pincode,master_customer,work_order_no,customer_name_workorder,project_name,building_name,building_type,inspection_type_sync,site_address,customer_contact_name,customer_contact_number,customer_contact_mailid,total_number_of_units,no_of_elevator,no_of_stops_elevator,no_of_escalator,no_of_travelator,no_of_mw,no_of_dw,no_of_stops_dw,no_of_home_elevator,no_of_stops_home_elevator,no_of_car_parking,travel_expenses_by,accomodation_by,	no_of_visits_as_per_work_order,no_of_mandays_as_per_work_order,inspection_time,tpt6,tpt7,load_test,pmt,rope_condition,client_whatsapp_number,customer_workorder_date, oem_details } = req.body;
-    const { contractNumber,region,location,checked_count,checked_items,unchecked_count,unchecked_items,total_items,elevator_values,home,dump,pincode,master_customer,work_order_no,customer_name_workorder,project_name,building_name,building_type,inspection_type_sync,site_address,customer_contact_name,customer_contact_number,customer_contact_mailid,total_number_of_units,no_of_elevator,no_of_stops_elevator,no_of_escalator,no_of_travelator,no_of_mw,no_of_dw,no_of_stops_dw,no_of_home_elevator,no_of_stops_home_elevator,no_of_car_parking,travel_expenses_by,accomodation_by,	no_of_visits_as_per_work_order,no_of_mandays_as_per_work_order,total_units_schedule,balance_to_inspect,inspection_time,inspector_name,tpt6,tpt7,load_test,pmt,rope_condition,client_whatsapp_number,inspection_time_ins,schedule_from,schedule_to,customer_workorder_date, oem_details,car_parking_values,escalator_values,mw_values,travelator_values,job_type } = req.body;
+    const { contractNumber,region,location,checked_count,checked_items,unchecked_count,unchecked_items,total_items,elevator_values,home,dump,pincode,master_customer,work_order_no,customer_name_workorder,project_name,building_name,building_type,inspection_type_sync,site_address,customer_contact_name,customer_contact_number,customer_contact_mailid,total_number_of_units,no_of_elevator,no_of_stops_elevator,no_of_escalator,no_of_travelator,no_of_mw,no_of_dw,no_of_stops_dw,no_of_home_elevator,no_of_stops_home_elevator,no_of_car_parking,travel_expenses_by,accomodation_by,	no_of_visits_as_per_work_order,no_of_mandays_as_per_work_order,total_units_schedule,balance_to_inspect,inspection_time,inspector_name,tpt6,tpt7,load_test,pmt,rope_condition,callback,balance,client_whatsapp_number,inspection_time_ins,schedule_from,schedule_to,customer_workorder_date, oem_details,car_parking_values,escalator_values,mw_values,travelator_values,job_type } = req.body;
 
-    const query = 'INSERT INTO inf_26 (contract_number, region, location, elevator_values, home_elevator_values, dump_values, pincode, master_customer_name, customer_workorder_name, customer_name_as_per_work_order, project_name ,building_name, type_of_building,	type_of_inspection ,site_address, customer_contact_name, customer_contact_number,customer_contact_mailid ,total_number_of_units,no_of_elevator,no_of_stops_elevator, no_of_escalator, no_of_travelator, no_of_mw ,no_of_dw, no_of_stops_dw ,no_of_home_elevator, no_of_stops_home_elevator,no_of_car_parking,travel_expenses_by,accomodation_by,	no_of_visits_as_per_work_order,no_of_mandays_as_per_work_order,inspection_time,tpt6,tpt7,load_test,pmt,rope_condition,client_whatsapp_number,customer_workorder_date,oem_details,car_parking_values,escalator_values,mw_values,travelator_values,job_type) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);';
+    const query = 'INSERT INTO inf_26 (contract_number, region, location, elevator_values, home_elevator_values, dump_values, pincode, master_customer_name, customer_workorder_name, customer_name_as_per_work_order, project_name ,building_name, type_of_building,	type_of_inspection ,site_address, customer_contact_name, customer_contact_number,customer_contact_mailid ,total_number_of_units,no_of_elevator,no_of_stops_elevator, no_of_escalator, no_of_travelator, no_of_mw ,no_of_dw, no_of_stops_dw ,no_of_home_elevator, no_of_stops_home_elevator,no_of_car_parking,travel_expenses_by,accomodation_by,	no_of_visits_as_per_work_order,no_of_mandays_as_per_work_order,inspection_time,tpt6,tpt7,load_test,pmt,rope_condition,callback,balance,client_whatsapp_number,customer_workorder_date,oem_details,car_parking_values,escalator_values,mw_values,travelator_values,job_type) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);';
   
-    db1.query(query, [contractNumber,region,location,JSON.stringify(elevator_values),JSON.stringify(home),JSON.stringify(dump),pincode,master_customer,work_order_no,customer_name_workorder,project_name,building_name,building_type,inspection_type_sync,site_address,customer_contact_name,customer_contact_number,customer_contact_mailid,total_number_of_units,no_of_elevator,no_of_stops_elevator,no_of_escalator,no_of_travelator,no_of_mw,no_of_dw,no_of_stops_dw,no_of_home_elevator,no_of_stops_home_elevator,no_of_car_parking,travel_expenses_by,accomodation_by,no_of_visits_as_per_work_order,no_of_mandays_as_per_work_order,inspection_time,tpt6,tpt7,load_test,pmt,rope_condition,client_whatsapp_number,customer_workorder_date,oem_details,JSON.stringify(car_parking_values),JSON.stringify(escalator_values),JSON.stringify(mw_values),JSON.stringify(travelator_values),job_type], (err, result) => {
+    db1.query(query, [contractNumber,region,location,JSON.stringify(elevator_values),JSON.stringify(home),JSON.stringify(dump),pincode,master_customer,work_order_no,customer_name_workorder,project_name,building_name,building_type,inspection_type_sync,site_address,customer_contact_name,customer_contact_number,customer_contact_mailid,total_number_of_units,no_of_elevator,no_of_stops_elevator,no_of_escalator,no_of_travelator,no_of_mw,no_of_dw,no_of_stops_dw,no_of_home_elevator,no_of_stops_home_elevator,no_of_car_parking,travel_expenses_by,accomodation_by,no_of_visits_as_per_work_order,no_of_mandays_as_per_work_order,inspection_time,tpt6,tpt7,load_test,pmt,rope_condition,callback,balance,client_whatsapp_number,customer_workorder_date,oem_details,JSON.stringify(car_parking_values),JSON.stringify(escalator_values),JSON.stringify(mw_values),JSON.stringify(travelator_values),job_type], (err, result) => {
       if (err) {
         console.error('Error storeing values:', err);
         res.status(500).json({ error: 'Error storing values' });
@@ -968,11 +1013,11 @@ app.get('/api/region', (req, res) => {
   //sales when about V job
   app.post('/api/store_data2', (req, res) => {
     // const { contractNumber,region,location,elevator_values,home,dump,pincode,master_customer,work_order_no,customer_name_workorder,project_name,building_name,building_type,inspection_type_sync,site_address,customer_contact_name,customer_contact_number,customer_contact_mailid,total_number_of_units,no_of_elevator,no_of_stops_elevator,no_of_escalator,no_of_travelator,no_of_mw,no_of_dw,no_of_stops_dw,no_of_home_elevator,no_of_stops_home_elevator,no_of_car_parking,travel_expenses_by,accomodation_by,	no_of_visits_as_per_work_order,no_of_mandays_as_per_work_order,inspection_time,tpt6,tpt7,load_test,pmt,rope_condition,client_whatsapp_number,customer_workorder_date, oem_details } = req.body;
-    const { contractNumber,region,location,checked_count,checked_items,unchecked_count,unchecked_items,total_items,elevator_values,home,dump,pincode,master_customer,work_order_no,customer_name_workorder,project_name,building_name,building_type,inspection_type_sync,site_address,customer_contact_name,customer_contact_number,customer_contact_mailid,total_number_of_units,no_of_elevator,no_of_stops_elevator,no_of_escalator,no_of_travelator,no_of_mw,no_of_dw,no_of_stops_dw,no_of_home_elevator,no_of_stops_home_elevator,no_of_car_parking,travel_expenses_by,accomodation_by,	no_of_visits_as_per_work_order,no_of_mandays_as_per_work_order,total_units_schedule,balance_to_inspect,inspection_time,inspector_name,tpt6,tpt7,load_test,pmt,rope_condition,client_whatsapp_number,inspection_time_ins,schedule_from,schedule_to,customer_workorder_date, oem_details,car_parking_values,escalator_values,mw_values,travelator_values,job_type } = req.body;
+    const { contractNumber,region,location,checked_count,checked_items,unchecked_count,unchecked_items,total_items,elevator_values,home,dump,pincode,master_customer,work_order_no,customer_name_workorder,project_name,building_name,building_type,inspection_type_sync,site_address,customer_contact_name,customer_contact_number,customer_contact_mailid,total_number_of_units,no_of_elevator,no_of_stops_elevator,no_of_escalator,no_of_travelator,no_of_mw,no_of_dw,no_of_stops_dw,no_of_home_elevator,no_of_stops_home_elevator,no_of_car_parking,travel_expenses_by,accomodation_by,	no_of_visits_as_per_work_order,no_of_mandays_as_per_work_order,total_units_schedule,balance_to_inspect,inspection_time,inspector_name,tpt6,tpt7,load_test,pmt,rope_condition,callback,balance,client_whatsapp_number,inspection_time_ins,schedule_from,schedule_to,customer_workorder_date, oem_details,car_parking_values,escalator_values,mw_values,travelator_values,job_type } = req.body;
 
-    const query = 'INSERT INTO inf_26 (contract_number, region, location, pincode, master_customer_name, customer_workorder_name, customer_name_as_per_work_order, project_name ,building_name, type_of_building,	type_of_inspection ,site_address, customer_contact_name, customer_contact_number,customer_contact_mailid ,travel_expenses_by,accomodation_by,	no_of_visits_as_per_work_order,no_of_mandays_as_per_work_order,inspection_time,tpt6,tpt7,load_test,pmt,rope_condition,client_whatsapp_number,customer_workorder_date,job_type) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);';
+    const query = 'INSERT INTO inf_26 (contract_number, region, location, pincode, master_customer_name, customer_workorder_name, customer_name_as_per_work_order, project_name ,building_name, type_of_building,	type_of_inspection ,site_address, customer_contact_name, customer_contact_number,customer_contact_mailid ,travel_expenses_by,accomodation_by,	no_of_visits_as_per_work_order,no_of_mandays_as_per_work_order,inspection_time,tpt6,tpt7,load_test,pmt,rope_condition,callback,balance,client_whatsapp_number,customer_workorder_date,job_type) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);';
   
-    db1.query(query, [contractNumber,region,location,pincode,master_customer,work_order_no,customer_name_workorder,project_name,building_name,building_type,inspection_type_sync,site_address,customer_contact_name,customer_contact_number,customer_contact_mailid,travel_expenses_by,accomodation_by,no_of_visits_as_per_work_order,no_of_mandays_as_per_work_order,inspection_time,tpt6,tpt7,load_test,pmt,rope_condition,client_whatsapp_number,customer_workorder_date,job_type], (err, result) => {
+    db1.query(query, [contractNumber,region,location,pincode,master_customer,work_order_no,customer_name_workorder,project_name,building_name,building_type,inspection_type_sync,site_address,customer_contact_name,customer_contact_number,customer_contact_mailid,travel_expenses_by,accomodation_by,no_of_visits_as_per_work_order,no_of_mandays_as_per_work_order,inspection_time,tpt6,tpt7,load_test,pmt,rope_condition,callback,balance,client_whatsapp_number,customer_workorder_date,job_type], (err, result) => {
       if (err) {
         console.error('Error storeing values:', err);
         res.status(500).json({ error: 'Error storing values' });
@@ -985,11 +1030,11 @@ app.get('/api/region', (req, res) => {
 
    //inspection update for rest of details
    app.put('/api/update_data', (req, res) => {
-    const {contractNumber,checked_count,checked_items,unchecked_count,unchecked_items,total_items,schedule_from,schedule_to,inspector_name,inspection_time_ins,total_units_schedule,balance_to_inspect  } = req.body; // Assuming email is sent in the request body
+    const {contractNumber,checked_count,checked_items,unchecked_count,unchecked_items,total_items,schedule_from,schedule_to,inspector_name,inspection_time_ins,total_units_schedule,balance_to_inspect,i_status,no_of_breakdays  } = req.body; // Assuming email is sent in the request body
   
-    const query = 'UPDATE inf_26 SET checked_count = ?, checked_items=?, unchecked_count=?, unchecked_items=?,	total_items=?, inspection_time_ins=?, total_units_schedule=?, balance_to_inspect=?, schedule_from=?,schedule_to=?, inspector_name=? WHERE contract_number = ?';
+    const query = 'UPDATE inf_26 SET checked_count = ?, checked_items=?, unchecked_count=?, unchecked_items=?,	total_items=?, inspection_time_ins=?, total_units_schedule=?, balance_to_inspect=?, schedule_from=?,schedule_to=?, inspector_list=? ,i_status=?, no_of_breakdays=? WHERE contract_number = ?';
   
-    db1.query(query, [checked_count,JSON.stringify(checked_items),unchecked_count,JSON.stringify(unchecked_items),JSON.stringify(total_items),inspection_time_ins,total_units_schedule,balance_to_inspect,schedule_from,schedule_to,inspector_name,contractNumber], (err, result) => {
+    db1.query(query, [checked_count,JSON.stringify(checked_items),unchecked_count,JSON.stringify(unchecked_items),JSON.stringify(total_items),inspection_time_ins,total_units_schedule,balance_to_inspect,schedule_from,schedule_to,JSON.stringify(inspector_name),i_status,no_of_breakdays,contractNumber], (err, result) => {
       if (err) {
         console.error('Error executing SQL query:', err);
         res.status(500).json({ error: 'Internal Server Error' });
@@ -1027,11 +1072,11 @@ app.get('/api/region', (req, res) => {
     //   mw_values:mw_values, 
     //   travelator_values:travelator_values, 
 
-    const {contractNumber,elevator_values,home,dump,oem_details,total_number_of_units,no_of_elevator,no_of_stops_elevator,no_of_escalator,no_of_travelator,no_of_mw,no_of_dw, no_of_stops_dw,no_of_home_elevator,no_of_stops_home_elevator,no_of_car_parking,car_parking_values,escalator_values,mw_values,travelator_values } = req.body; // Assuming email is sent in the request body
+    const {contractNumber,elevator_values,home,dump,oem_details,total_number_of_units,no_of_elevator,no_of_stops_elevator,no_of_escalator,no_of_travelator,no_of_mw,no_of_dw, no_of_stops_dw,no_of_home_elevator,no_of_stops_home_elevator,no_of_car_parking,car_parking_values,escalator_values,mw_values,travelator_values,status } = req.body; // Assuming email is sent in the request body
   
-    const query = 'UPDATE inf_26 SET 	oem_details = ?,total_number_of_units=?, no_of_elevator=?, no_of_stops_elevator=?, no_of_escalator=?, no_of_travelator=?, no_of_mw=?, no_of_dw=?, no_of_stops_dw=?, no_of_home_elevator=?, no_of_stops_home_elevator=?, no_of_car_parking=?,elevator_values=?, home_elevator_values=?, travelator_values=?, dump_values=?, car_parking_values=?,escalator_values=?, mw_values=? WHERE contract_number = ?';
+    const query = 'UPDATE inf_26 SET 	oem_details = ?,total_number_of_units=?, no_of_elevator=?, no_of_stops_elevator=?, no_of_escalator=?, no_of_travelator=?, no_of_mw=?, no_of_dw=?, no_of_stops_dw=?, no_of_home_elevator=?, no_of_stops_home_elevator=?, no_of_car_parking=?,elevator_values=?, home_elevator_values=?, travelator_values=?, dump_values=?, car_parking_values=?,escalator_values=?, mw_values=?,status=? WHERE contract_number = ?';
   
-    db1.query(query, [oem_details,total_number_of_units,no_of_elevator, no_of_stops_elevator,no_of_escalator,no_of_travelator,no_of_mw,no_of_dw,no_of_stops_dw, no_of_home_elevator,no_of_stops_home_elevator,no_of_car_parking,JSON.stringify(elevator_values),JSON.stringify(home),JSON.stringify(travelator_values),JSON.stringify(dump),JSON.stringify(car_parking_values),JSON.stringify(escalator_values),JSON.stringify(mw_values),contractNumber], (err, result) => {
+    db1.query(query, [oem_details,total_number_of_units,no_of_elevator, no_of_stops_elevator,no_of_escalator,no_of_travelator,no_of_mw,no_of_dw,no_of_stops_dw, no_of_home_elevator,no_of_stops_home_elevator,no_of_car_parking,JSON.stringify(elevator_values),JSON.stringify(home),JSON.stringify(travelator_values),JSON.stringify(dump),JSON.stringify(car_parking_values),JSON.stringify(escalator_values),JSON.stringify(mw_values),status,contractNumber], (err, result) => {
       if (err) {
         console.error('Error executing SQL query:', err);
         res.status(500).json({ error: 'Internal Server Error' });
@@ -1047,9 +1092,10 @@ app.get('/api/region', (req, res) => {
 
 
 
-  //to get all contract number
+
   app.get('/contract_no', (req, res) => {
-    const query = 'SELECT contract_number FROM inf_26';
+    // const query = 'SELECT contract_number FROM inf_26 where i_status=0';
+    const query = "SELECT contract_number  FROM inf_26 WHERE i_status = 0 AND (    (job_type = 'V' AND status = '1')    OR job_type <> 'V');"
   
     db1.query(query, (err, results) => {
       if (err) {
@@ -1061,11 +1107,15 @@ app.get('/api/region', (req, res) => {
       }
     });
   });
+  
+  
+  
+
 
 
   //select contract no for v jobs
   app.get('/contract_no1', (req, res) => {
-    const query = 'SELECT contract_number FROM inf_26 where job_type="V"';
+    const query = 'SELECT contract_number FROM inf_26 where job_type="V" and status=0';
   
     db1.query(query, (err, results) => {
       if (err) {
@@ -1105,7 +1155,7 @@ app.get('/api/region', (req, res) => {
   app.get('/api/job_type', (req, res) => {
     const query = 'SELECT job_type FROM job_type';
   
-    db1.query(query, (err, results) => {
+    db11.query(query, (err, results) => {
       if (err) {
         console.error('Error executing SQL query:', err);
         res.status(500).json({ error: 'Internal Server Error' });
@@ -1113,10 +1163,18 @@ app.get('/api/region', (req, res) => {
         const names = results.map((row) => row.job_type);
         res.json(names);
       }
-      
     });
   });
 
+
+
+ 
+  
+
+// Start the Express server
+app.listen(port, () => {
+  console.log(`Server is listening on port ${port}`);
+});
 
 
 
@@ -1132,5 +1190,11 @@ app.get('/api/region', (req, res) => {
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
-    
+
+// app.listen(port, ipAddress, () => {
+//   console.log(`Server is running on http://${ipAddress}:${port}`);
+// });
+// app.listen(port, '0.0.0.0', () => {
+//   console.log(`Server is running on http://0.0.0.0:${port}`);
+// });
     
