@@ -1,0 +1,174 @@
+import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { DatePipe } from '@angular/common';
+import { ApicallService } from 'src/app/apicall.service';
+
+@Component({
+  selector: 'app-inf-pdf',
+  templateUrl: './inf-pdf.component.html',
+  styleUrls: ['./inf-pdf.component.scss']
+})
+export class InfPdfComponent {
+  selectContract:string|null='';
+
+  selectedDetails:any[]=[];
+
+  inf_26:{id:number,contract_number:string,customer_workorder_name:string,customer_workorder_date:string,customer_name_as_per_work_order:string,type_of_inspection:string,job_type:string,project_name:string,building_name:string,location:string,type_of_building:string,site_address:string,customer_contact_name:string,ustomer_contact_number:string,customer_contact_number:string,customer_contact_mailid:string,oem_details:string,no_of_elevator:number,no_of_escalator:number,no_of_travelator:number,	no_of_mw:number, no_of_car_parking:number,travel_expenses_by:string,accomodation_by:string,no_of_stops_elevator:number,no_of_stops_dw:number,no_of_home_elevator:number,no_of_visits_as_per_work_order:number,no_of_mandays_as_per_work_order:number,	total_units_schedule:number,schedule_from:string,schedule_to:string,tpt6:number,	tpt7:number, load_test:number,pmt:number,rope_condition:number,callback:number,balance:number,inspector_list:string[]}={id:0,contract_number:'',customer_workorder_name:'',customer_workorder_date:'',customer_name_as_per_work_order:'',type_of_inspection:'',job_type:'',project_name:'',building_name:'',location:'',type_of_building:'',site_address:'',customer_contact_name:'',ustomer_contact_number:'',customer_contact_number:'',customer_contact_mailid:'',oem_details:'',no_of_elevator:0,no_of_escalator:0,no_of_travelator:0,	no_of_mw:0,no_of_car_parking:0,travel_expenses_by:'',accomodation_by:'',no_of_stops_elevator:0,no_of_stops_dw:0,no_of_home_elevator:0,no_of_visits_as_per_work_order:0,no_of_mandays_as_per_work_order:0,	total_units_schedule:0,schedule_from:'',schedule_to:'',tpt6:0,	tpt7:0, load_test:0,pmt:0, rope_condition:0,callback:0,balance:0,inspector_list:[]};
+  tpt6_val:string='';
+  tpt7_val:string='';
+  load_test:string='';
+  pmt:string='';
+  rope_condition:string='';
+  callback:string='';
+  balance:string='';
+  concatenatedInspectors: string='';
+
+
+
+  
+
+  
+  
+   currentDate = new Date();
+//   const year = currentDate.getFullYear();
+// const month = currentDate.getMonth() + 1; // Note: Months are zero-indexed
+// const day = currentDate.getDate();
+  formattedDate:string|null='';
+  s_from:string|null='';
+  s_to:string|null='';
+  differenceInDays:number=0;
+  // cus_date=new Date(this.inf_26.customer_workorder_date);
+//  / formattedDate= this.cus_date.toISOString().split('T')[0];
+
+
+
+  // selectedDetails:any[]=this.dataService.selectedDetails;
+
+  
+
+  constructor(private dataService:ApicallService,private route:ActivatedRoute,private datePipe:DatePipe){
+
+
+  }
+  ngOnInit(){
+    
+    
+
+
+    this.route.paramMap.subscribe(params => {
+      const encodedValue =  params.get('c_no');
+
+     // this.selectContract=decodeURIComponent(decodedValue);
+     if (encodedValue !== null) {
+       this.selectContract = encodedValue;
+     }
+     
+     
+
+
+     //api call
+     this.dataService.getDetailsForContractName(this.selectContract).subscribe((details: any) => {
+       this.inf_26 = details;
+      //  console.log("*****",details.id)
+      this.selectedDetails=details;
+
+      // this.concatenatedInspectors=this.inf_26.inspector_list.join(', ');
+      //  const dateObj = new Date(this.selectedDetails.customer_workorder_date);
+      const dateObj = new Date(this.inf_26.customer_workorder_date);
+      const se_from = new Date(this.inf_26.schedule_from);
+      const se_to = new Date(this.inf_26.schedule_to);
+      const differenceInMilliseconds = Math.abs(se_from.getTime() - se_to.getTime());
+      if(this.inf_26.tpt6===1){
+        this.tpt6_val="Tpt6";
+      }
+
+      if(this.inf_26.tpt7){
+        this.tpt7_val="Tpt7";
+      }
+
+      if(this.inf_26.load_test){
+        this.load_test="LoadTest"
+      }
+
+      if(this.inf_26.pmt){
+        this.pmt="Pmt"
+      }
+
+      if(this.inf_26.rope_condition){
+        this.rope_condition="RopeCondition"
+      }
+
+      if(this.inf_26.callback){
+        this.callback="CallbackAnalysis"
+      }
+
+      if(this.inf_26.balance){
+        this.balance="BalanceLifeAssessment"
+      }
+
+
+
+        // Convert milliseconds to days
+      this.differenceInDays = Math.floor(differenceInMilliseconds / (1000 * 60 * 60 * 24));
+
+
+      //  // Get the date portion in the "YYYY-MM-DD" format
+       const originalDate = dateObj.toISOString().split('T')[0];
+       const original_s_from = se_from.toISOString().split('T')[0];
+       const original_s_to = se_to.toISOString().split('T')[0];
+
+
+       this.formattedDate = this.datePipe.transform(originalDate, 'dd-MM-yyyy');
+       this.s_from = this.datePipe.transform(original_s_from, 'dd-MM-yyyy');
+       this.s_to=this.datePipe.transform(original_s_to, 'dd-MM-yyyy');
+
+       this.dataService.selectedDetails=this.selectedDetails;
+       console.log(this.selectedDetails);
+
+      // Assuming this.inf_26.inspector_list is a string received from the API
+      if (typeof this.inf_26.inspector_list === 'string') {
+        // Use type assertion for the string methods
+        const items = (this.inf_26.inspector_list as string).replace(/\[|\]|"/g, '').split(',');
+      
+        // Filter out empty strings and extra spaces
+        const dataArray = items.map((item: string) => item.trim()).filter((item: string) => item !== '');
+      
+        // Join the filtered array elements with a comma and a space
+        this.concatenatedInspectors = dataArray.join(', ');
+      } else {
+        this.concatenatedInspectors = ''; // Set it to an empty string or default value
+      }
+      
+
+      
+
+      console.log('concat array',this.concatenatedInspectors);
+      
+      
+
+
+      
+      
+
+      
+       
+
+     });
+
+    
+ 
+   });
+   console.log("concat "+this.concatenatedInspectors);
+   
+
+
+    
+
+  }
+
+  view() {
+     
+  }
+  
+
+}

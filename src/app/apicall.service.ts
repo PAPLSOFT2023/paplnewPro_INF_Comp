@@ -8,7 +8,7 @@ export class ApicallService {
   private apiURLCommon='http://localhost:3000/';
   private apiURL=this.apiURLCommon+'api/';
 
-  constructor(private httpClient:HttpClient) { }
+  constructor(private httpClient:HttpClient,private http:HttpClient) { }
   // this func for load customerdata
 
 
@@ -217,36 +217,36 @@ deleteLoginDetails(email: string): Observable<any> {
 
   // INF
 
-  
   selectedDetails:string[] | any=[];
 
   inspector_names:string[]=[];
   
 
-  private contract_no = 'httpClient://localhost:3000/contract_no';
+  private contract_no = 'http://localhost:3000/contract_no';
 
-  private contract_no1 = 'httpClient://localhost:3000/contract_no1';
+  private contract_no1 = 'http://localhost:3000/contract_no1';
 
-  private leave = 'httpClient://localhost:3000/api/leaveData';
+  private leave = 'http://localhost:3000/api/leaveData';
 
 
 
+  // constructor(private http:HttpClient) { }
 
   //to display contract number 
   getContractNo(): Observable<string[]> {
-    return this.httpClient.get<string[]>(this.contract_no);
+    return this.http.get<string[]>(this.contract_no);
   }
 
   getContractNo1(): Observable<string[]> {
-    return this.httpClient.get<string[]>(this.contract_no1);
+    return this.http.get<string[]>(this.contract_no1);
   }
 
   getDetailsForContractName(c_no: string|null): Observable<any> {
-    return this.httpClient.get<any>(`httpClient://localhost:3000/details/${c_no}`);
+    return this.http.get<any>(`http://localhost:3000/details/${c_no}`);
   }
 
   leaveData():Observable<any>{
-    return this.httpClient.get(this.leave);
+    return this.http.get(this.leave);
   }
 
 

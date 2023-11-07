@@ -8,6 +8,7 @@ import { ApicallService } from 'src/app/apicall.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router'; 
 
 
 @Component({
@@ -34,6 +35,8 @@ export class SalesFormComponent {
   load_test:boolean=false;
   pmt:boolean=false;
   rope_condition:boolean=false;
+  callback:boolean=false;
+  balance:boolean=false;
 
   //flag for check boxes
   tpt6_flag=0;
@@ -41,6 +44,8 @@ export class SalesFormComponent {
   load_test_flag=0;
   pmt_flag=0;
   rope_condition_flag=0;
+  callback_flag=0;
+  balance_flag=0;
   
   //functions for asign the checkbox values into flag values
 
@@ -62,6 +67,14 @@ export class SalesFormComponent {
 
   updaterope_conditionFlag() {
     this.rope_condition_flag= this.rope_condition ? 1 : 0;
+  }
+  updatecallbackFlag(){
+    this.callback_flag=this.callback?1:0;
+
+  }
+  updatebalanceFlag(){
+    this.balance_flag=this.balance? 1: 0;
+
   }
 
   check(){
@@ -118,7 +131,7 @@ export class SalesFormComponent {
 
 
 
-  constructor(private http:HttpClient,private dialog:MatDialog,private dataService:ApicallService,private route: ActivatedRoute){
+  constructor(private http:HttpClient,private dialog:MatDialog,private dataService:ApicallService,private route: ActivatedRoute, private router:Router){
     
   }
   ngOnInit(): void {
@@ -163,11 +176,11 @@ export class SalesFormComponent {
       console.log(data);
       
     });
-    this.http.get<string[]>(inspector).subscribe((data) => {
-      this.inspector = data;
-      console.log(data);
+    // this.http.get<string[]>(inspector).subscribe((data) => {
+    //   this.inspector = data;
+    //   console.log(data);
       
-    });
+    // });
 
     this.http.get<string[]>(inspection_time).subscribe((data) => {
       this.inspection_time = data;
@@ -356,6 +369,8 @@ openDialog1(){
       load_test:this.load_test_flag,
       pmt:this.pmt_flag,
       rope_condition:this.rope_condition_flag,
+      callback:this.callback_flag,
+      balance:this.balance_flag,
       client_whatsapp_number:this.client_whatsapp_number,
       inspection_time_ins:this.inspection_time_ins_sync,
       schedule_from : this.scheduleFrom,
@@ -382,6 +397,12 @@ openDialog1(){
         console.log('Data stored successfully', response);
         const successMessage = 'Success...!';
     const userConfirmation = window.confirm(successMessage);
+
+    if(userConfirmation){
+      this.router.navigate(['/afterlogin/sales_home']);
+
+    }
+    
       },
       (error) => {
         console.error('Error storing data', error);

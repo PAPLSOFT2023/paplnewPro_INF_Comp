@@ -36,6 +36,8 @@ export class SalesVComponent {
   load_test:boolean=false;
   pmt:boolean=false;
   rope_condition:boolean=false;
+  callback:boolean=false;
+  balance:boolean=false;
 
   //flag for check boxes
   tpt6_flag=0;
@@ -43,6 +45,8 @@ export class SalesVComponent {
   load_test_flag=0;
   pmt_flag=0;
   rope_condition_flag=0;
+  callback_flag=0;
+  balance_flag=0;
   
   //functions for asign the checkbox values into flag values
 
@@ -64,6 +68,15 @@ export class SalesVComponent {
 
   updaterope_conditionFlag() {
     this.rope_condition_flag= this.rope_condition ? 1 : 0;
+  }
+
+  updatecallbackFlag(){
+    this.callback_flag=this.callback?1:0;
+
+  }
+  updatebalanceFlag(){
+    this.balance_flag=this.balance? 1: 0;
+
   }
 
   check(){
@@ -165,11 +178,11 @@ export class SalesVComponent {
       console.log(data);
       
     });
-    this.http.get<string[]>(inspector).subscribe((data) => {
-      this.inspector = data;
-      console.log(data);
+    // this.http.get<string[]>(inspector).subscribe((data) => {
+    //   this.inspector = data;
+    //   console.log(data);
       
-    });
+    // });
 
     this.http.get<string[]>(inspection_time).subscribe((data) => {
       this.inspection_time = data;
@@ -356,11 +369,14 @@ openDialog1(){
       load_test:this.load_test_flag,
       pmt:this.pmt_flag,
       rope_condition:this.rope_condition_flag,
+      callback:this.callback_flag,
+      balance:this.balance_flag,
       client_whatsapp_number:this.client_whatsapp_number,
      
       customer_workorder_date:this.work_order_date,
      
-      job_type:this.selectedOption
+      job_type:this.selectedOption,
+      status:1
 
 
 
@@ -378,7 +394,7 @@ openDialog1(){
         const successMessage = 'Success...!';
     const userConfirmation = window.confirm(successMessage);
     if(userConfirmation){
-      this.router.navigate(['/sales_home']);
+      this.router.navigate(['/afterlogin/sales_home']);
 
     }
       },
@@ -387,5 +403,6 @@ openDialog1(){
       }
     );
   }
+
 
 }

@@ -93,6 +93,11 @@ import { SideNavCommonUserComponent } from './Sidenav_for_commonUser/side-nav-co
 import { ForgotpasswordComponent } from './forgotpassword/forgotpassword.component';
 import { ServicesComponent } from './services/services.component';
 import { MailComponent } from './mail/mail.component';
+import { CalenderComponent } from './INF/inspection-inf/calender/calender.component';
+import { MultipleInspectorComponent } from './INF/inspection-inf/multiple-inspector/multiple-inspector.component';
+import { InfPdfComponent } from './INF/inf-pdf/inf-pdf.component';
+import { DatePipe } from '@angular/common';
+
 
 
 
@@ -153,6 +158,9 @@ import { MailComponent } from './mail/mail.component';
         ForgotpasswordComponent,
         ServicesComponent,
         MailComponent,
+        CalenderComponent,
+        MultipleInspectorComponent,
+        InfPdfComponent,
      
   
   
@@ -192,7 +200,7 @@ import { MailComponent } from './mail/mail.component';
     
 
   ],
-  providers: [  { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }, // Set locale to 'en-GB' for 'DD/MM/YYYY' format
+  providers: [DatePipe,  { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }, // Set locale to 'en-GB' for 'DD/MM/YYYY' format
   { provide: MAT_DATE_FORMATS,
      useValue: { parse: { dateInput: 'DD/MM/YYYY' }, display: { dateInput: 'DD/MM/YYYY', monthYearLabel: 'MMM YYYY', dateA11yLabel: 'LL', monthYearA11yLabel: 'MMMM YYYY' } } },
 ],

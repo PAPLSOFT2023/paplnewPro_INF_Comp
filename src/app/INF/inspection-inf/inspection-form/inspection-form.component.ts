@@ -12,6 +12,8 @@ import { NgxMatIntlTelInputComponent } from 'ngx-mat-intl-tel-input';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { DialogCComponent } from '../dialog-c/dialog-c.component';
+import { CalenderComponent } from '../calender/calender.component';
+import { MultipleInspectorComponent } from '../multiple-inspector/multiple-inspector.component';
 
 @Component({
   selector: 'app-inspection-form',
@@ -24,6 +26,12 @@ export class InspectionFormComponent implements OnInit {
   
   // dateObj = this.selectedDetails.customer_workorder_date;
   formattedDate: string = "";
+  encodedValue:string='';
+
+
+
+
+ 
 
   // formattedDate = dateObj.toISOString().split('T')[0];
 
@@ -62,6 +70,9 @@ export class InspectionFormComponent implements OnInit {
   inspector:string[]=[];
   inspection_time:string[]=[];
   inspection_time_ins:string[]=[];
+  inspector_type:string[]=[];
+
+  dataArray1:any[]=[];
 
 
   //checkbox values
@@ -140,6 +151,9 @@ export class InspectionFormComponent implements OnInit {
   scheduleFrom:Date= new Date();
   scheduleTo:Date = new Date();
   work_order_date= new Date();
+  no_of_breakdays:string = '';
+  inspectorType: string ='Single Inspector';
+
 
   //checked items
   // from_date: Date=
@@ -155,16 +169,16 @@ export class InspectionFormComponent implements OnInit {
 
 
   constructor(private http:HttpClient,private dialog:MatDialog,private dataService:ApicallService,private route:ActivatedRoute,private router:Router){
-    
   }
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
-      const encodedValue =  params.get('c_no');
+       const encodedValue =  params.get('c_no');
 
       // this.selectContract=decodeURIComponent(decodedValue);
       if (encodedValue !== null) {
         this.selectContract = decodeURIComponent(encodedValue);
       }
+      
       
 
 
@@ -176,11 +190,45 @@ export class InspectionFormComponent implements OnInit {
         // Get the date portion in the "YYYY-MM-DD" format
         this.formattedDate = dateObj.toISOString().split('T')[0];
         this.dataService.selectedDetails=this.selectedDetails;
+        console.log(this.selectedDetails);
+        
 
+      });
+
+      const inspector=`http://localhost:3000/api/inspector?encodedValue=${encodedValue}`;
+
+
+      this.http.get<string[]>(inspector).subscribe((data) => {
+        this.inspector = data;
+        console.log(data);
+      //   if (Array.isArray(data)) {
+      //     this.inspector = data;
+      // } else {
+      //     // Convert the object to an array or handle it according to your requirements
+      //     this.inspector = [data];
+      this.dataService.inspector_names=this.inspector;
+
+      // }
+      },error=>{
+        console.error(error);
       });
 
   
     });
+
+
+
+    // const  ins_json ={
+    //   oem:this.selectedDetails.oem_details,
+    //   oem_location:this.selectedDetails.location
+    // };
+
+   
+
+    // console.log('check '+ins_json.oem_location);
+    
+
+
   
 
 
@@ -192,6 +240,8 @@ export class InspectionFormComponent implements OnInit {
     const inspector='http://localhost:3000/api/inspector';
     const inspection_time ='http://localhost:3000/api/inspection_time';
     const inspection_time_ins ='http://localhost:3000/api/inspection_time_ins';
+    const inspector_type_url ='http://localhost:3000/api/inspector_type';
+
 
     
     this.http.get<string[]>(apiUrl).subscribe((data) => {
@@ -212,7 +262,6 @@ export class InspectionFormComponent implements OnInit {
     this.http.get<string[]>(oem).subscribe((data) => {
       this.oem = data;
       console.log(data);
-      
     });
 
     this.http.get<string[]>(travel).subscribe((data) => {
@@ -220,15 +269,31 @@ export class InspectionFormComponent implements OnInit {
       console.log(data);
       
     });
-    this.http.get<string[]>(inspector).subscribe((data) => {
-      this.inspector = data;
+
+    this.http.get<string[]>(inspector_type_url).subscribe((data) => {
+      this.inspector_type = data;
       console.log(data);
       
     });
 
+    this.dataService.leaveData().subscribe((response: any) => {
+      console.log('leave datas are '+response); // Log the response to the console
+      this.dataArray1 = response;
+    });
+    
+    
+    // const queryParams = `?oem=${ins_json.oem}&oem_location=${ins_json.oem_location}`;
+
+    // const queryParams='';
+
+    
+    
+   
+    
+
     this.http.get<string[]>(inspection_time).subscribe((data) => {
       this.inspection_time = data;
-      console.log(data);
+      console.log(data); 
       
     });
 
@@ -237,6 +302,7 @@ export class InspectionFormComponent implements OnInit {
       console.log(data);
       
     });
+   
   
   
   }
@@ -253,11 +319,42 @@ export class InspectionFormComponent implements OnInit {
     const dialogRef = this.dialog.open(DialogCComponent,{restoreFocus:false});
     dialogRef.afterClosed().subscribe(()=>{
       // alert('this dialog has been closed.');
+      if (this.selectedDetails && this.selectedDetails.oem_details && this.selectedDetails.location) {
+        const ins_json = {
+          oem: this.selectedDetails.oem_details,
+          oem_location: this.selectedDetails.location
+        };
+        console.log("oem data"+ins_json.oem);
+        
+    
+        // Construct the query parameters and make the HTTP request...
+      } else {
+        console.error('Invalid or undefined values for oem_details or location.');
+      }
     });
   }
 
 openDialog1(){
+ 
   const dialogRef = this.dialog.open(DialogComponent,{restoreFocus:false});
+  dialogRef.afterClosed().subscribe(()=>{
+    // alert('this dialog has been closed.');
+    });
+  }
+
+
+openDialog2(){
+ 
+  const dialogRef = this.dialog.open(MultipleInspectorComponent,{restoreFocus:false});
+  dialogRef.afterClosed().subscribe(()=>{
+    // alert('this dialog has been closed.');
+    });
+  }
+
+
+openDialog3(){
+ 
+  const dialogRef = this.dialog.open(CalenderComponent,{restoreFocus:false});
   dialogRef.afterClosed().subscribe(()=>{
     // alert('this dialog has been closed.');
     });
@@ -277,14 +374,46 @@ openDialog1(){
   //     }
   //   );
   // }
+  fetchData(){
+    const inspector='http://localhost:3000/api/inspector';
+
+
+    if (this.dataService.selectedDetails && this.dataService.selectedDetails.oem_details && this.dataService.selectedDetails.location) {
+      const ins_json = {
+        oem: this.dataService.selectedDetails.oem_details,
+        oem_location: this.dataService.selectedDetails.location
+      };
+      console.log("oem data"+ins_json.oem);
+      
+  
+      // Construct the query parameters and make the HTTP request...
+    } else {
+      console.error('Invalid or undefined values for oem_details or location.');
+    }
+
+    const oem_data = this.dataService.selectedDetails.oem_details;
+    
+    console.log('oem details are '+oem_data);
+    
+    
+    
+    this.http.get<string[]>(inspector).subscribe((data) => {
+      this.inspector = data;
+      console.log(data);
+      
+    },error=>{
+      console.error(error);
+    });
+
+  }
   check1(){
-    console.log(this.scheduleFrom);
-    console.log(this.tpt6_flag);
-    console.log(this.tpt7_flag);
-    console.log(this.rope_condition_flag);
-    console.log(this.pmt_flag);
-    console.log(this.load_test_flag);
-    console.log(this.client_whatsapp_number);
+    const inspector_list = this.dataService.inspector_list;
+    inspector_list.push(this.inspector_name);
+    console.log(inspector_list);
+
+
+    
+
     
     
     
@@ -315,6 +444,12 @@ openDialog1(){
 
     
   }
+
+  ngAfterViewInit(){
+   
+
+  }
+ 
 
   onSubmit() {
     //elevators
@@ -352,9 +487,14 @@ openDialog1(){
     const no_of_home_elevator = this.dataService.hydra_elevator;
     const no_of_stops_home_elevator = this.dataService.calculateSum1();
 
+
     const no_of_car_parking = this.dataService.car_parking;
 
     const no_of_escalator = this.dataService.escalator;
+
+    const inspector_list = this.dataService.inspector_list;
+
+    inspector_list.push(this.inspector_name);
     console.log('items',checked_items_values);
     
     console.log('value from service',checkedCount);
@@ -369,10 +509,12 @@ openDialog1(){
       total_items:total_items,
       total_units_schedule:checkedCount,
       balance_to_inspect:uncheckedCount,
-      inspector_name:this.inspector_name,
+      inspector_name:inspector_list,
       inspection_time_ins:this.inspection_time_ins_sync,
       schedule_from : this.scheduleFrom,
       schedule_to : this.scheduleTo,
+      i_status:1,
+      no_of_breakdays:this.no_of_breakdays
 
 
 
@@ -384,19 +526,23 @@ openDialog1(){
       
     };
 
+
     this.http.put('http://localhost:3000/api/update_data', store_values).subscribe(
       (response) => {
         console.log('Data stored successfully', response);
-        const successMessage = 'Success...!';
+        const successMessage = 'Inspection is initialized successfully. Please use the shortcut key Ctrl+P to download this document';
         const userConfirmation = window.confirm(successMessage);
         if(userConfirmation){
-          this.router.navigate(['/inspection_home']);
+          console.log("Called..*******",this.selectedDetails.contract_number)
+          this.router.navigate(['afterlogin/pdf',this.selectedDetails.contract_number]);
         }
       },
       (error) => {
         console.error('Error storing data', error);
       }
     );
+
+    
   }
 
 }

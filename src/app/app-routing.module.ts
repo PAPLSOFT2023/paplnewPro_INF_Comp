@@ -21,6 +21,7 @@ import { PlanningEngInfComponent } from './INF/planning-eng-home/planning-eng-in
 import { ForgotpasswordComponent } from './forgotpassword/forgotpassword.component';
 import { ServicesComponent } from './services/services.component';
 import { MailComponent } from './mail/mail.component';
+import { InfPdfComponent } from './INF/inf-pdf/inf-pdf.component';
 
 const routes: Routes = [
   {path:'app-home',component:AppHomeComponent,},
@@ -34,7 +35,7 @@ const routes: Routes = [
   {path: 'afterlogin',component: AfterloginComponent,
     children: [
 
-      {path:'mail',component:MailComponent},
+        {path:'mail',component:MailComponent},
         {path:'software_admin_dashboard', component:SoftwareAdminDashboardComponent},
         {path:'software_admin_dashboard_user_manage', component:SoftwareAdminUserManageComponent,
         
@@ -55,6 +56,8 @@ const routes: Routes = [
          {path:'sales_v/:selectedOption',component:SalesVComponent},
          {path:'plan_eg_home',component:PlanningEngHomeComponent },
          {path:'plan_eng_inf/:c_no',component:PlanningEngInfComponent},
+         {path:'pdf/:c_no',component:InfPdfComponent}
+
          
     ],
   },

@@ -143,6 +143,7 @@ export class PlanningEngInfComponent {
   scheduleTo:Date = new Date();
   work_order_date= new Date();
 
+
   //checked items
   // from_date: Date=
  
@@ -222,11 +223,11 @@ export class PlanningEngInfComponent {
       console.log(data);
       
     });
-    this.http.get<string[]>(inspector).subscribe((data) => {
-      this.inspector = data;
-      console.log(data);
+    // this.http.get<string[]>(inspector).subscribe((data) => {
+    //   this.inspector = data;
+    //   console.log(data);
       
-    });
+    // });
 
     this.http.get<string[]>(inspection_time).subscribe((data) => {
       this.inspection_time = data;
@@ -401,15 +402,7 @@ openDialog1(){
       mw_values:mw_values, 
       travelator_values:travelator_values, 
       contractNumber: this.selectedDetails.contract_number,
-
-
-
-
-
-
-      
-      
-
+      status:1
       
     };
 
@@ -419,7 +412,7 @@ openDialog1(){
         const successMessage = 'Success...!';
         const userConfirmation = window.confirm(successMessage);
         if(userConfirmation){
-          this.router.navigate(['/plan_eg_home']);
+          this.router.navigate(['afterlogin/plan_eg_home']);
         }
       },
       (error) => {

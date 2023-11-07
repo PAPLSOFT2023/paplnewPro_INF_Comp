@@ -1,20 +1,20 @@
-.body {
+.body{
     height: 150vh;
-    max-width: 100%;
+    width: 100vw;
     top: 0px;
-}
+ }
  .mat-card1{
      /* height: 160vh; */
      width: 95vw;
-     /* margin-left: 45px;
-     margin-right: 20px; */
-     /* background-image: linear-gradient(125deg, #446e98 50%,#000000 50%); */
+     margin-left: 45px;
+     margin-right: 20px;
+     background-image: linear-gradient(125deg, #2c3e50 50%,#000000 50%);
      /* background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
      margin-top: 20px;
      border-radius: 30px;
  }
  .mat-icon1{
-    color: #737374;
+    color: #747373;
  }
  .mat-card2{
      width: 89vw;
@@ -33,7 +33,12 @@
      margin-top: 50px;
      border-radius: 20px;
  }
-
+ .h2{
+     font-family: Georgia;
+     font-size: 50px;
+     margin-left: 400px;
+     margin-top: 20px;
+ }
  .form-field1{
      width: 20vw;
      margin-top: 30px;
@@ -70,13 +75,17 @@
     font-family: Georgia;
  }
 
-
+ .body{
+    height: 150vh;
+    width: 100vw;
+    top: 0px;
+ }
  .mat-card1{
      height: 160vh;
      width: 95vw;
      margin-left: 45px;
      margin-right: 20px;
-     /* background-image: linear-gradient(125deg, #2c3e50 50%,#000000 50%); */
+     background-image: linear-gradient(125deg, #2c3e50 50%,#000000 50%);
      /* background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
      margin-top: 20px;
      border-radius: 30px;
@@ -99,10 +108,10 @@
      border-radius: 20px;
  }
  .h2{
-    font-family:  'Times New Roman', Times, serif;
-    font-size: 22px;
-    text-align: center;
-    margin-top: 30px;
+     font-family: Georgia;
+     font-size: 50px;
+     margin-left: 400px;
+     margin-top: 30px;
  }
  .form-field1{
      width: 20vw;
@@ -165,36 +174,28 @@
  }
  .mat-card3{
     width: 89vw;
-    height: 45vh;
+    height:50vh;
     margin-left: 40px;
     margin-right: 8px;
     margin-top: 50px;
     border-radius: 20px;
 }
 
-
+/* .body{
+    height: 150vh;
+    width: 150vw;
+    top: 0px;
+ } */
  .mat-card1{
      height: 180vh;
      width: 95vw;
      margin-left: 45px;
      margin-right: 20px;
-     /* background-image: linear-gradient(125deg, #2c3e50 50%,#000000 50%); */
+     background-image: linear-gradient(125deg, #2c3e50 50%,#000000 50%);
      /* background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
      margin-top: 20px;
      border-radius: 30px;
  }
-
- @media only screen and (max-width: 768px) {
-    .body, .mat-card1, .mat-card2, .mat-card3, .h2, .form-field1, .form-field2, .form-field3, .mat-accordion, .btnOk, .btnsubmit, .mat-icon1, .checkbox, .checkbox1, .check-label {
-        width: 100%;
-        margin-left: 0;
-        margin-right: 0;
-    }
-
-    .h2 {
-        margin-left: 20px;
-    }
-}
 
 
 

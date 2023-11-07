@@ -691,14 +691,25 @@ function sendVerificationEmailboolean(email, token, callback) {
 
 
 const db1 = mysql.createConnection({
-  host: '0.0.0.0',
+  host: '127.0.0.1',
   user: 'root',
   password: '',
   database: 'papl_inspection',
 });
 
+// Connect to the MySQL database
+db1.connect((err) => {
+  if (err) {
+    console.error('Error connecting to MySQL:', err);
+    return;
+  }
+  console.log('Connected to MySQL database');
+});
 
 
+
+
+//apis for inf 26
 
 // Define a route to fetch values from MySQL
 app.get('/api/building_type', (req, res) => {
@@ -777,6 +788,7 @@ app.get('/api/region', (req, res) => {
       res.json(values);
     });
   });
+  
 
 
 
@@ -878,8 +890,134 @@ app.get('/api/region', (req, res) => {
   });
 
 
-app.get('/api/inspector', (req, res) => {
+  //select inspector
+
+  // app.get('/api/inspector', (req, res) => {
+  //   const parsedUrl = url.parse(req.url);
+  // const queryParams = querystring.parse(parsedUrl.query);
+
+  // const oem = queryParams.oem;
+  // const oemLocation = queryParams.oem_location;
+  //   const query = 'SELECT inspector_name FROM insp_data';
   
+  //   db.query(query, (err, results) => {
+  //     if (err) {
+  //       console.error('Error fetching values from MySQL:', err);
+  //       res.status(500).json({ error: 'Internal Server Error' });
+  //       return;
+  //     }
+  
+  //     const values = results.map((row) => row.inspector_name);
+  //     res.json(values);
+  //   });
+
+
+//   const parsedUrl = url.parse(req.url);
+//   const queryParams = querystring.parse(parsedUrl.query);
+
+//   const oem = queryParams.oem;
+//   const oemLocation = queryParams.oem_location;
+//   const papl_doj = queryParams.papl_doj; // Get the papl_doj parameter from the query parameters
+
+//   const query = `
+//     SELECT inspector_name 
+//     FROM insp_data 
+//     WHERE location_previousemp = 'MUMBAI' 
+//     AND previous_employment = 'HITACHI' 
+//     AND DATEDIFF(NOW(), STR_TO_DATE(papl_doj, '%Y-%m-%d')) > 730
+//   `;
+
+//   db.query(query, (err, results) => {
+//     if (err) {
+//       console.error('Error fetching values from MySQL:', err);
+//       res.status(500).json({ error: 'Internal Server Error' });
+//       return;
+//     }
+
+//     const values = results.map((row) => row.inspector_name);
+//     res.json(values);
+//   });
+// });
+// In this modified code, the papl_doj parameter is extracted from the queryParams object. Ensure that the parameter papl_doj is being sent in the query string from the client side when making the GET request to this endpoint. Also, make sure that the papl_doj parameter is properly formatted in the 'YYYY-MM-DD' format in the query string.
+
+
+
+
+// User
+  // const papl_doj = queryParams.papl_doj; // Get the papl_doj parameter from the query parameters
+// , i dont have a value for this, that value comes from mysql table
+
+// const url = require('url');
+// const querystring = require('querystring');
+
+// app.get('/api/inspector', (req, res) => {
+//   const parsedUrl = url.parse(req.url);
+//   const queryParams = querystring.parse(parsedUrl.query);
+
+//   const oem = queryParams.oem;
+//   const oemLocation = queryParams.oem_location;
+
+//   // Modify the SQL query to include papl_doj from the database table
+//   const query = `
+//   SELECT inspector_name, PAPL_DOJ 
+//   FROM insp_data 
+//   WHERE 
+//       (location_previousemp = ? AND previous_employment = ?)
+//       OR 
+//       (location_previousemp <> ? OR previous_employment <> ?);
+// `;
+
+//   db.query(query, [oemLocation,oem,oemLocation,oem], (err, results) => {
+//     if (err) {
+//       console.error('Error fetching values from MySQL:', err);
+//       res.status(500).json({ error: 'Internal Server Error' });
+//       return;
+//     }
+
+//     // Filter the results based on the date condition
+//     const filteredResults = results.filter(row => {
+//       const doj = new Date(row.PAPL_DOJ);
+//       const currentDate = new Date();
+//       const diffInDays = Math.floor((currentDate - doj) / (1000 * 60 * 60 * 24)); // Calculate the difference in days
+//       return diffInDays > 730;
+//     });
+
+//     const values = filteredResults.map(row => row.inspector_name);
+//     res.json(values);
+//   });
+//   });
+
+app.get('/api/inspector', (req, res) => {
+  // const oem = req.query.oem;
+  // const oemLocation = req.query.oem_location;
+
+  // const encodedValue = req.query.encodedValue;
+
+ 
+  // const query = `SELECT location, oem_details FROM inf_26 WHERE contract_number = '${encodedValue}'`;
+
+  //   // Execute the database query
+  //   db.query(query, (err, result) => {
+  //       if (err) {
+  //           // Handle database query error
+  //           console.error(err);
+  //           res.status(500).json({ error: 'Internal Server Error' });
+  //       } else {
+  //           // Extract location and oem from the database query result
+  //           const location = result[0].location;
+  //           const oem = result[0].oem_details;
+
+  //           // Send the extracted data back to the client
+  //           const responseObject = {
+  //               encodedValue: encodedValue,
+  //               location: location,
+  //               oem: oem,
+  //               message: 'Received data successfully'
+  //           };
+  //           res.json(responseObject);
+  //       }
+  //   });
+
 
 
   const encodedValue = req.query.encodedValue;
@@ -1092,6 +1230,102 @@ app.get('/api/inspector', (req, res) => {
 
 
 
+  // const db1 = mysql.createPool({
+  //   host: this.host,
+  //   user: this.user,
+  //   password: this.password,
+  //   database: this.database,
+  // });
+
+  // app.post('/api/store_data', async (req, res) => {
+  //   try {
+  //     const { contractNumber, region, location } = req.body;
+  
+  //     // Insert data into the MySQL table, including the new field
+  //     const [results] = await db1.query('INSERT INTO inf_26 (contract_number, region, location) VALUES (?, ?, ?)', [contractNumber, region, location]);
+  
+  //     console.log('Data inserted:', results);
+  //     res.json({ message: 'Data inserted successfully' });
+  //   } catch (error) {
+  //     console.error('Error inserting data:', error);
+  //     res.status(500).json({ error: 'An error occurred while storing data' });
+  //   }
+  // });
+
+  //to get all contract number
+  // app.get('/contract_no', (req, res) => {
+  //   const query = 'SELECT contract_number FROM inf_26';
+  
+  //   db.query(query, (err, results) => {
+  //     if (err) {
+  //       console.error('Error executing SQL query:', err);
+  //       res.status(500).json({ error: 'Internal Server Error' });
+  //     } else {
+  //       const names = results.map((row) => row.contract_number);
+  //       res.json(names);
+  //     }
+  //   });
+  // });
+  // app.get('/contract_no', (req, res) => {
+  //   let query = 'SELECT contract_number FROM inf_26 WHERE i_status=0';
+  
+  //   // Check if job_type parameter is provided in the request
+  //   if (req.query.job_type && req.query.job_type === 'V') {
+  //     query += ' WHERE job_type = ? AND status = ?';
+  //     const values = ['V', 1];
+  
+  //     db.query(query, values, (err, results) => {
+  //       if (err) {
+  //         console.error('Error executing SQL query:', err);
+  //         res.status(500).json({ error: 'Internal Server Error' });
+  //       } else {
+  //         const names = results.map((row) => row.contract_number);
+  //         res.json(names);
+  //       }
+  //     });
+  //   } else {
+  //     // If job_type is not 'V', fetch all records
+  //     db.query(query, (err, results) => {
+  //       if (err) {
+  //         console.error('Error executing SQL query:', err);
+  //         res.status(500).json({ error: 'Internal Server Error' });
+  //       } else {
+  //         const names = results.map((row) => row.contract_number);
+  //         res.json(names);
+  //       }
+  //     });
+  //   }
+  // });
+  // app.get('/contract_no', (req, res) => {
+  //   // const jobType = 'SELECT job_type from inf_26';
+  //   let query = 'SELECT contract_number FROM inf_26 where i_status=0';
+  //   console.log(jobType);
+  
+  //   if (jobType === 'V') {
+  //     query += ' WHERE job_type = ? AND status = ? AND i_status=?';
+  //     const values = ['V', 1 , 0];
+  
+  //     db.query(query, values, (err, results) => {
+  //       if (err) {
+  //         console.error('Error executing SQL query:', err);
+  //         res.status(500).json({ error: 'Internal Server Error' });
+  //       } else {
+  //         const names = results.map((row) => row.contract_number);
+  //         res.json(names);
+  //       }
+  //     });
+  //   } else {
+  //     db.query(query, (err, results) => {
+  //       if (err) {
+  //         console.error('Error executing SQL query:', err);
+  //         res.status(500).json({ error: 'Internal Server Error' });
+  //       } else {
+  //         const names = results.map((row) => row.contract_number);
+  //         res.json(names);
+  //       }
+  //     });
+  //   }
+  // });
 
   app.get('/contract_no', (req, res) => {
     // const query = 'SELECT contract_number FROM inf_26 where i_status=0';
@@ -1155,7 +1389,7 @@ app.get('/api/inspector', (req, res) => {
   app.get('/api/job_type', (req, res) => {
     const query = 'SELECT job_type FROM job_type';
   
-    db11.query(query, (err, results) => {
+    db1.query(query, (err, results) => {
       if (err) {
         console.error('Error executing SQL query:', err);
         res.status(500).json({ error: 'Internal Server Error' });
@@ -1165,16 +1399,6 @@ app.get('/api/inspector', (req, res) => {
       }
     });
   });
-
-
-
- 
-  
-
-// Start the Express server
-app.listen(port, () => {
-  console.log(`Server is listening on port ${port}`);
-});
 
 
 
