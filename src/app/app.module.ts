@@ -163,6 +163,8 @@ import { DatePipe } from '@angular/common';
         MultipleInspectorComponent,
         InfPdfComponent,
         
+
+        
   
   
         
