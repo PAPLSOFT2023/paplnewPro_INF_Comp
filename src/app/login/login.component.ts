@@ -56,9 +56,12 @@ export class LoginComponent implements OnInit {
 
       this.authService.login(this.username, this.password).subscribe(
         (response: any) => {
+
+
+          if(response){
           const token = response.token;
           const status = response.status;
-          const role1 = response.role;
+          const role1 = response.role.replace('\r', '').replace('\n', '')
           const organization = response.organization;
           const userName = response.user_name;
           const mail_status=response.mail_status;
@@ -66,7 +69,9 @@ export class LoginComponent implements OnInit {
           sessionStorage.setItem('Role', role1);
           sessionStorage.setItem('Organization', organization);
           sessionStorage.setItem('UserName', userName);
-
+          console.log("???????????",response)
+          console.log("________",role1)
+          
           // Redirect to another page or perform desired actions
           if (status === 1) {
             if(mail_status==1){
@@ -81,6 +86,7 @@ export class LoginComponent implements OnInit {
            else {
             alert('You do not have a valid subscription.');
           }
+        }
         },
         (error: any) => {
           console.error(error);

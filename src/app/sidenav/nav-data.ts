@@ -92,7 +92,7 @@ export const oragizationadmin: INavbarData[] = [
 
 
 export function getNavbarData(User: String): INavbarData[] {
-console.log("**&&&&&&&&",User)
+console.log("**&&&&&&&&"+User)
 
     if(User=="Softwareadmin"){
         // console.log("________")
@@ -110,7 +110,7 @@ console.log("**&&&&&&&&",User)
      }
      else if(User.toLowerCase()=="inspection")
      {
-        // console.log("========")
+        console.log("========")
         return Inspection_Head_Nav;
      }
      else if(User.toLowerCase()=="planning and engineering")
@@ -119,7 +119,7 @@ console.log("**&&&&&&&&",User)
         return Planning_Engineering_Nav;
      }
      else{
-        // console.log("..........+.",User)
+        console.log("..........+.",User)
             return SalesNav ;
         
      }
