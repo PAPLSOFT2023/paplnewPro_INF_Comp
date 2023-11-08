@@ -126,7 +126,7 @@ export class LoginComponent implements OnInit {
         if (response.success) {
           // Show success alert
           alert('Verification link sent successfully');
-          this.mail_not_verified=true;
+          this.mail_not_verified=false;
         } else {
           // Show error alert
           alert('Failed to send verification link');

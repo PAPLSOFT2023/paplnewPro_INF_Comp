@@ -50,7 +50,7 @@ db.connect((err) => {
     return;
   }
    else {
-    console.log('Connected to MySQL Database 1');
+    console.log('Connected to MySQL Papl Client Database');
   }
 });
 
@@ -704,7 +704,7 @@ db1.connect((err) => {
     console.error('Error connecting to MySQL:', err);
     return;
   }
-  console.log('Connected to MySQL database2');
+  console.log('Connected to MySQL Papl Inspection');
 });
 
 

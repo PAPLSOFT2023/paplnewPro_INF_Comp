@@ -37,7 +37,7 @@ constructor(private router: Router,private route: ActivatedRoute){
       storedValue.toLowerCase() === 'planning and engineering' &&
       stored_organization.toLowerCase() === 'papl'
     ) {
-      console.log("P&E login")
+      // console.log("P&E login")
       // Redirect for roles with 'planning and engineering' and organizationKey 'papl'
       this.router.navigate(['plan_eg_home'], { relativeTo: this.route });
     }
@@ -47,7 +47,7 @@ constructor(private router: Router,private route: ActivatedRoute){
       storedValue.toLowerCase() === 'sales' &&
       stored_organization.toLowerCase() === 'papl'
     ) {
-      console.log("sales login")
+      // console.log("sales login")
       // Redirect for roles with 'planning and engineering' and organizationKey 'papl'
       this.router.navigate(['sales_home'], { relativeTo: this.route });
     }
@@ -58,7 +58,7 @@ constructor(private router: Router,private route: ActivatedRoute){
       stored_organization.toLowerCase() === 'papl'
     ) {
       // Redirect for roles with 'planning and engineering' and organizationKey 'papl'
-      console.log("inspection login")
+      // console.log("inspection login")
       this.router.navigate(['inspection_home'], { relativeTo: this.route });
     }
     else{
