@@ -103,6 +103,7 @@ import { DatePipe } from '@angular/common';
 
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -161,7 +162,7 @@ import { DatePipe } from '@angular/common';
         CalenderComponent,
         MultipleInspectorComponent,
         InfPdfComponent,
-     
+        
   
   
         
