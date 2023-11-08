@@ -35,17 +35,22 @@ export class DialogComponent implements OnInit {
 
   //standard elevators
   elevator_json =JSON.parse(this.dataService.selectedDetails.elevator_values);
-  elevator=this.elevator_json.elevator_names;
+  elevatorNames: string[] = this.elevator_json.elevator_names;
+  elevatorStops: number[] = this.elevator_json.elevator_stops;
+  elevator: string[] = this.elevatorNames.map((name, index) => name+' -' + ' (' + this.elevatorStops[index]+')');
 
   //home elevator values
   home_json =JSON.parse(this.dataService.selectedDetails.home_elevator_values);
-  home=this.home_json.home_names;
+  homeNames:string[]=this.home_json.home_names;
+  homeStops:number[]=this.home_json.home_stops;
+  home=this.homeNames.map((name,index)=> name+' -'+' ('+this.homeStops[index]+')' );
 
 
   //dumb elevator values
   dumb_json =JSON.parse(this.dataService.selectedDetails.dump_values);
-  dumb=this.dumb_json.dump_names;
-
+  dumbNames:string[]=this.dumb_json.dump_names;
+  dumbStops:string[]=this.dumb_json.dump_stops;
+  dumb=this.dumbNames.map((name,index)=>name+' -'+' ('+this.dumbStops[index]+')');
 //car parking
 car_json =JSON.parse(this.dataService.selectedDetails.car_parking_values);
 car_parking=this.car_json;
