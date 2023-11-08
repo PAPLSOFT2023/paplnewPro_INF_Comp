@@ -1384,6 +1384,8 @@ app.get('/api/inspector', (req, res) => {
     });
   });
 
+  
+
 
   
   app.get('/api/job_type', (req, res) => {
