@@ -48,8 +48,9 @@ db.connect((err) => {
   if (err) {
     console.error('Error', err);
     return;
-  } else {
-    console.log('Connected to MySQL');
+  }
+   else {
+    console.log('Connected to MySQL Database 1');
   }
 });
 
@@ -703,7 +704,7 @@ db1.connect((err) => {
     console.error('Error connecting to MySQL:', err);
     return;
   }
-  console.log('Connected to MySQL database');
+  console.log('Connected to MySQL database2');
 });
 
 
