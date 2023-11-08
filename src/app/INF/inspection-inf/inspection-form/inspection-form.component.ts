@@ -31,35 +31,7 @@ export class InspectionFormComponent implements OnInit {
 
 
 
- 
 
-  // formattedDate = dateObj.toISOString().split('T')[0];
-
-
-  // constructor(private route:ActivatedRoute,private dataService:DataService){ }
-  // ngOnInit() {
-    // Capture the 'name' parameter from the route and save it to 'selectedName'
-    // this.route.paramMap.subscribe(params => {
-    //   const encodedValue =  params.get('c_no');
-
-    //   // this.selectContract=decodeURIComponent(decodedValue);
-    //   if (encodedValue !== null) {
-    //     this.selectContract = decodeURIComponent(encodedValue);
-    //   }
-      
-
-
-    //   //api call
-    //   this.dataService.getDetailsForContractName(this.selectContract).subscribe((details: any) => {
-    //     this.selectedDetails = details;
-    //   });
-  
-    // });
-
-   
-   
-    
-  // }
 
   store_url='';
   values: string[] = [];
@@ -201,11 +173,7 @@ export class InspectionFormComponent implements OnInit {
       this.http.get<string[]>(inspector).subscribe((data) => {
         this.inspector = data;
         console.log(data);
-      //   if (Array.isArray(data)) {
-      //     this.inspector = data;
-      // } else {
-      //     // Convert the object to an array or handle it according to your requirements
-      //     this.inspector = [data];
+   
       this.dataService.inspector_names=this.inspector;
 
       // }
@@ -216,17 +184,6 @@ export class InspectionFormComponent implements OnInit {
   
     });
 
-
-
-    // const  ins_json ={
-    //   oem:this.selectedDetails.oem_details,
-    //   oem_location:this.selectedDetails.location
-    // };
-
-   
-
-    // console.log('check '+ins_json.oem_location);
-    
 
 
   

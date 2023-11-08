@@ -15,13 +15,12 @@ interface SideNavToggle {
 })
 export class AfterloginComponent {
 
-constructor(private router: Router,
-private route: ActivatedRoute){
+constructor(private router: Router,private route: ActivatedRoute){
   const rolekey = 'Role'; // Replace 'yourKey' with the actual key you used for storing the value
     const organizationkey='Organization';
     const storedValue = sessionStorage.getItem(rolekey);
     const stored_organization=sessionStorage.getItem(organizationkey)
-    console.log("*****&*&*&&&",storedValue)
+    console.log("*****&*&*&&&",storedValue,stored_organization)
 
     // This is for role based dashboard default loding home content
 
@@ -38,6 +37,7 @@ private route: ActivatedRoute){
       storedValue.toLowerCase() === 'planning and engineering' &&
       stored_organization.toLowerCase() === 'papl'
     ) {
+      // console.log("P&E login")
       // Redirect for roles with 'planning and engineering' and organizationKey 'papl'
       this.router.navigate(['plan_eg_home'], { relativeTo: this.route });
     }
@@ -47,6 +47,7 @@ private route: ActivatedRoute){
       storedValue.toLowerCase() === 'sales' &&
       stored_organization.toLowerCase() === 'papl'
     ) {
+      // console.log("sales login")
       // Redirect for roles with 'planning and engineering' and organizationKey 'papl'
       this.router.navigate(['sales_home'], { relativeTo: this.route });
     }
@@ -57,7 +58,11 @@ private route: ActivatedRoute){
       stored_organization.toLowerCase() === 'papl'
     ) {
       // Redirect for roles with 'planning and engineering' and organizationKey 'papl'
+      // console.log("inspection login")
       this.router.navigate(['inspection_home'], { relativeTo: this.route });
+    }
+    else{
+     alert("login error")
     }
     
 
