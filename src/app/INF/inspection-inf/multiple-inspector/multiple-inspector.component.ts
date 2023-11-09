@@ -74,15 +74,11 @@ moving_walk=this.mw_json;
  
    this.items = this.itemNames.map(name => ({ name, checked: false }));
 
-    this.updateTotals();
-    this.printItems();
+ 
   }
 
   printItems() {
-    console.log('Checked Items:', this.checkedItems);
-    console.log('Unchecked Items:', this.uncheckedItems);
-    console.log('checked count:',this.checkedCount);
-    console.log('unchecked count:',this.uncheckedCount);
+    this.updateTotals();
     
     
   }
