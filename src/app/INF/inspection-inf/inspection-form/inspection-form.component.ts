@@ -451,6 +451,8 @@ openDialog3(){
 
     const inspector_list = this.dataService.inspector_list;
 
+    const inspector_array = this.dataService.inspector_array;
+
     inspector_list.push(this.inspector_name);
     console.log('items',checked_items_values);
     
@@ -471,7 +473,8 @@ openDialog3(){
       schedule_from : this.scheduleFrom,
       schedule_to : this.scheduleTo,
       i_status:1,
-      no_of_breakdays:this.no_of_breakdays
+      no_of_breakdays:this.no_of_breakdays,
+      inspector_array:inspector_array
 
 
 
