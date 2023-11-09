@@ -1,3 +1,5 @@
+
+<!-- Profile -->
 <div>
   <!-- Popup Form -->
   <div class="popup-form" *ngIf="isPopupVisible1">
@@ -85,9 +87,6 @@
 
 <div>
   <!-- Popup Form -->
-  
-   
-
 <!-- Data Entry Container -->
 <div class="data-entry-container" *ngIf="isPopupVisible2">
   <h2>Department</h2>
@@ -119,10 +118,9 @@
     
     
   </div>
-
 </div>
 
-
+<!-- Dump Usage -->
 <div>
   <!-- Popup Form -->
   
@@ -133,14 +131,14 @@
   <h2>Department</h2>
   <div class="form-group">
 
-    <label for="dataInput">Enter Dump Type:</label>
-    <input type="text" id="dataInput"  class="form-control"[(ngModel)]="departmenttext" placeholder="Enter Dump Type">
+    <label for="dataInput">Enter Dump Usage:</label>
+    <input type="text" id="dataInput"  class="form-control"[(ngModel)]="departmenttext" placeholder="Enter Dump Usage">
     <button (click)="addToDropdownDepartment()" class="btn btn-primary">Add</button>
     <button (click)="cancelData()" class="btn btn-danger">Cancel</button>
   </div>
 
   <div class="form-group">
-    <label for="dataDropdown">Existing Dump Types:</label>
+    <label for="dataDropdown">Existing Dump Usages:</label>
    
     <select [(ngModel)]="selectedData">
       <option *ngFor="let Dept of departments" [value]="Dept">{{ Dept }}</option>
@@ -163,9 +161,8 @@
 </div>
 
   
-<!-- Add more form fields as needed -->
 
-
+<!--  User Role -->
 <div>
   
    
@@ -202,8 +199,8 @@
 
 
 
-
-<div>
+<!-- Email Automation -->
+<!-- <div>
 
   <div class="data-entry-container" *ngIf="isPopupVisible4">
     <h2>Email_Automation</h2>
@@ -230,7 +227,7 @@
     <button type="submit">Save</button>
     <button (click)="cancelData()" class="btn btn-danger">Cancel</button>
   </div>
-</div>
+</div> -->
 
 
 
@@ -251,7 +248,8 @@
       This is the content of Organization Profile.
     </div>
     <div class="card-actions">
-      <a href="#" class="card-link" (click)="openPopupForm1()">View</a>
+      <!-- <a href="#" class="card-link" (click)="openPopupForm1()">View</a> -->
+      <button class="card-button" (click)="openPopupForm1()">view</button>
       <button class="card-button" (click)="openPopupForm1()">Update</button>
     </div>
   </div>
@@ -316,7 +314,7 @@
       <img src="assets/dump_lift.png" alt="Profile Logo" class="card-logo">
     </div>
     <div class="card-content">
-      This is the content of Organization Profile.
+      This is the content of Dump Type.
     </div>
     <div class="card-actions">
       <a href="#" class="card-link" (click)="openPopupForm1()">View</a>
@@ -331,7 +329,7 @@
       <img src="assets/department.png" alt="Department Logo" class="card-logo">
     </div>
     <div class="card-content">
-      This is the content of Department.
+      This is the content of Dump Usage.
     </div>
     <div class="card-actions">
       <button class="card-button" (click)="openPopupFormDump_Usage()">Update</button>
@@ -344,7 +342,7 @@
       <img src="assets/userrole1@2x.png" alt="User Role Logo" class="card-logo">
     </div>
     <div class="card-content">
-      This is the content of User_role.
+      This is the content of Home Type.
     </div>
     <div class="card-actions">
       <button class="card-button" (click)="openPopupForm3()">Update</button>
@@ -361,7 +359,7 @@
       <img src="assets/profile1-removebg-preview.png" alt="Profile Logo" class="card-logo">
     </div>
     <div class="card-content">
-      This is the content of Organization Profile.
+      This is the content of Home Usage.
     </div>
     <div class="card-actions">
      
@@ -376,7 +374,7 @@
       <img src="assets/department.png" alt="Department Logo" class="card-logo">
     </div>
     <div class="card-content">
-      This is the content of Department.
+      This is the content of Inspection Time.
     </div>
     <div class="card-actions">
       <button class="card-button" (click)="openPopupForm2()">Update</button>
@@ -389,7 +387,7 @@
       <img src="assets/userrole1@2x.png" alt="User Role Logo" class="card-logo">
     </div>
     <div class="card-content">
-      This is the content of User_role.
+      This is the content of Inspection Time Ins.
     </div>
     <div class="card-actions">
       <button class="card-button" (click)="openPopupForm3()">Update</button>
@@ -406,7 +404,7 @@
       <img src="assets/profile1-removebg-preview.png" alt="Profile Logo" class="card-logo">
     </div>
     <div class="card-content">
-      This is the content of Organization Profile.
+      This is the content of OEM Details.
     </div>
     <div class="card-actions">
       <a href="#" class="card-link" (click)="openPopupForm1()">View</a>
@@ -421,7 +419,7 @@
       <img src="assets/department.png" alt="Department Logo" class="card-logo">
     </div>
     <div class="card-content">
-      This is the content of Department.
+      This is the content of Region Details.
     </div>
     <div class="card-actions">
       <button class="card-button" (click)="openPopupForm2()">Update</button>
@@ -434,7 +432,7 @@
       <img src="assets/userrole1@2x.png" alt="User Role Logo" class="card-logo">
     </div>
     <div class="card-content">
-      This is the content of User_role.
+      This is the content of Travel Accomodation.
     </div>
     <div class="card-actions">
       <button class="card-button" (click)="openPopupForm3()">Update</button>
@@ -451,7 +449,7 @@
       <img src="assets/profile1-removebg-preview.png" alt="Profile Logo" class="card-logo">
     </div>
     <div class="card-content">
-      This is the content of Organization Profile.
+      This is the content of Type Elevator.
     </div>
     <div class="card-actions">
       <a href="#" class="card-link" (click)="openPopupForm1()">View</a>
@@ -466,14 +464,14 @@
       <img src="assets/department.png" alt="Department Logo" class="card-logo">
     </div>
     <div class="card-content">
-      This is the content of Department.
+      This is the content of Type of Building.
     </div>
     <div class="card-actions">
       <button class="card-button" (click)="openPopupForm2()">Update</button>
     </div>
   </div>
 
-  <!-- <div class="card">
+  <!-- <div class="card">f
     <div class="card-header">
       <h3 class="card-title">Travel Accomodation</h3>
       <img src="assets/userrole1@2x.png" alt="User Role Logo" class="card-logo">

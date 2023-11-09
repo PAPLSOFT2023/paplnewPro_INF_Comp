@@ -262,7 +262,7 @@ else{
 
   // Define the openPopupForm methods
   openPopupForm1(): void {
-    this.closePopupForm();
+    // this.closePopupForm();
     this.isPopupVisible1 = true;
   }
 //department update
