@@ -20,8 +20,8 @@
         <tr>
         <td class="td_text_bold">PAPL CONTRACT NO.</td>
         <td class="td_text_normal" colspan="2">{{inf_26.contract_number}}</td>
-        <td class="td_text_bold" colspan="2">DATE:</td>
-        <td class="td_text_normal" colspan="2">{{ currentDate|date:'dd/MM/yyyy'}}</td>
+        <td class="td_text_bold" colspan="1" >DATE:</td>
+        <td class="td_text_normal" colspan="3">{{ currentDate|date:'dd/MM/yyyy'}}</td>
       </tr>
       <tr>
         <td class="td_text_bold">CUSTOMER WORK ORDER NUMBER & DATE:</td>
@@ -35,71 +35,66 @@
         <td class="td_text_bold" >TYPE OF INSPECTION.</td>
         <td class="td_text_normal" colspan="3">{{inf_26.type_of_inspection}}</td>
         <td class="td_text_bold"  ><time datetime="2010-06-03">SCOPE CODE:</time></td>
-        <td  colspan="2">{{inf_26.job_type}}</td>
+        <td  colspan="2" class="td_text_normal" >{{inf_26.job_type}}</td>
       </tr>
       <tr>
         <td class="td_text_bold">PROJECT NAME</td>
-        <td colspan="6">{{inf_26.project_name}}</td>
+        <td colspan="6" class="td_text_normal">{{inf_26.project_name}}</td>
      </tr>
      <tr>
         <td class="td_text_bold" >BUILDING NAME LOCATION</td>
-        <td colspan="6">{{inf_26.building_name +' & '+inf_26.location}}</td>
+        <td colspan="6" class="td_text_normal">{{inf_26.building_name +' & '+inf_26.location}}</td>
      </tr>
      <tr>
         <td class="td_text_bold">TYPE OF BUILDING</td>
-        <td colspan="6">{{inf_26.type_of_building}}</td>
+        <td colspan="6" class="td_text_normal">{{inf_26.type_of_building}}</td>
      </tr>
      <tr>
         <td class="td_text_bold">SITE ADDRESS</td>
-        <td colspan="6">{{inf_26.site_address}}</td>
+        <td colspan="6" class="td_text_normal">{{inf_26.site_address}}</td>
     </tr>
     <tr>
         <td class="td_text_bold" rowspan="2">
-             
-          CUSTOMER CONTACT PERSON & DETAILS
-  
-  
-  
-           
+          CUSTOMER CONTACT PERSON & DETAILS 
         </td>
-        <td colspan="6" >NAME: {{" "+inf_26.customer_contact_name}}</td>
+        <td colspan="6" class="td_text_normal" >NAME: {{" "+inf_26.customer_contact_name}}</td>
         
     </tr>
     <tr>
-        <td  colspan="3">MOBILE: {{inf_26.customer_contact_number}}</td>
-        <td colspan="3">MAIL ID: {{inf_26.customer_contact_mailid}}</td>
+        <td  colspan="3" class="td_text_normal">MOBILE: {{inf_26.customer_contact_number}}</td>
+        <td colspan="3" class="td_text_normal">MAIL ID: {{inf_26.customer_contact_mailid}}</td>
     </tr>
     <tr>
         <td class="td_text_bold">OEM DETAILS</td>
-        <td colspan="6">{{inf_26.oem_details}}</td>
+        <td colspan="6" class="td_text_normal">{{inf_26.oem_details}}</td>
     </tr>
     <tr>
         <td class="td_text_bold">
             TOTAL No. OF UNITS IN THE PROJECT
         </td>
-        <td  colspan="2">ELEV: {{inf_26.no_of_elevator}}</td>
-        <td colspan="1"> ESC: {{inf_26.no_of_escalator}}</td >
-        <td colspan="1">TRV: {{inf_26.no_of_travelator}}</td>
-        <td colspan="1">MW: {{inf_26.	no_of_mw}}</td>
-        <td colspan="1">CP: {{inf_26.no_of_car_parking}}</td>
+        <td  colspan="2" class="td_text_normal">ELEV: {{inf_26.no_of_elevator}}</td>
+        <td colspan="1" class="td_text_normal"> ESC: {{inf_26.no_of_escalator}}</td >
+        <td colspan="1" class="td_text_normal">TRV: {{inf_26.no_of_travelator}}</td>
+        <td colspan="1" class="td_text_normal">MW: {{inf_26.	no_of_mw}}</td>
+        <td colspan="1" class="td_text_normal">CP: {{inf_26.no_of_car_parking}}</td>
     </tr>
     <tr>
         <td class="td_text_bold"> No.OF STOPS</td>
-        <td colspan="2">ELEV: {{inf_26.no_of_stops_elevator}}</td>
-        <td colspan="2">DW: {{inf_26.no_of_stops_dw}}</td>
-        <td colspan="2">HE:{{inf_26.no_of_home_elevator}}</td>
+        <td colspan="2" class="td_text_normal" >ELEV: {{inf_26.no_of_stops_elevator}}</td>
+        <td colspan="2" class="td_text_normal">DW: {{inf_26.no_of_stops_dw}}</td>
+        <td colspan="2" class="td_text_normal">HE: {{inf_26.no_of_home_elevator}}</td>
     </tr>
     <tr>
         <td class="td_text_bold">SCOPE OF EXPENSES</td>
-        <td colspan="3">TRAVEL: {{inf_26.travel_expenses_by}}</td>
-        <td colspan="3">ACCOMMODATION: {{inf_26.accomodation_by}}</td>
+        <td colspan="3" class="td_text_normal">TRAVEL: {{inf_26.travel_expenses_by}}</td>
+        <td colspan="3" class="td_text_normal">ACCOMMODATION: {{inf_26.accomodation_by}}</td>
         </tr>
     
     <tr>
         <td class="td_text_bold">NUMBER OF VISITS & MANDAYS AS PER WORK</td>
-        <td colspan="3">NO. OF. VISITS: {{inf_26.no_of_visits_as_per_work_order}}</td>
+        <td colspan="3" class="td_text_normal">NO. OF. VISITS: {{inf_26.no_of_visits_as_per_work_order}}</td>
         <!-- <td colspan="1">INPROCESS:20</td> -->
-        <td colspan="3">MANDAYS AS PER WORK: {{inf_26.no_of_mandays_as_per_work_order}}</td>
+        <td colspan="3" class="td_text_normal">MANDAYS AS PER WORK: {{inf_26.no_of_mandays_as_per_work_order}}</td>
         <!-- <td colspan="1">INSP:25</td> -->
     </tr>
     
@@ -109,7 +104,7 @@
         <!-- <td colspan="1">INPROCESS:20</td> -->
         <td colspan="3">MANDAYS AS PER WORK: -</td>
     </tr>
-    <br>
+   
     <tr>
         <td class="td_text_bold">
             No.OF UNITS INSPECTED IN THE PAST VISITS
@@ -120,27 +115,27 @@
   
     <tr>
     <td class="td_text_bold">No.OF UNITS INSPECT IN THE CURRENT VISIT</td>
-    <td colspan="6"> {{inf_26.total_units_schedule}}</td>
+    <td colspan="6" class="td_text_normal">  {{inf_26.total_units_schedule}}</td>
     
   </tr>
   <tr>
     <td class="td_text_bold">SCHEDULED DAYS FOR CURRENT VISIT </td>
-    <td colspan="6">{{differenceInDays}}</td>
+    <td colspan="6" class="td_text_normal">{{differenceInDays}}</td>
     
   </tr>
   <tr>
     <td class="td_text_bold">SCHEDULED DATES FOR CURRENT INSPECTION</td>
-    <td colspan="3">FROM:{{s_from}}</td>
-    <td colspan="3">TO:{{s_to}}</td>
+    <td colspan="3" class="td_text_normal">FROM: {{s_from}}</td>
+    <td colspan="3" class="td_text_normal">TO: {{s_to}}</td>
     
   </tr>
   <tr> 
     <td class="td_text_bold" rowspan="2" > SPL. INSTRUCTIONS TO INSPECTOR</td>
-    <td colspan="7" style="font-weight: lighter;" >{{tpt6_val +" ,"+tpt7_val +" ,"+load_test+" ,"+pmt+" ,"+rope_condition}}</td>
+    <td colspan="7" class="td_text_normal" >{{tpt6_val +" ,"+tpt7_val +" ,"+load_test+" ,"+pmt+" ,"+rope_condition}}</td>
     </tr>
   
     <tr> 
-      <td colspan="7" style="font-weight: lighter;" >{{callback+" ,"+balance}}</td>
+      <td colspan="7" class="td_text_normal" >{{callback+" ,"+balance}}</td>
       </tr>
   
   </table>
@@ -155,15 +150,15 @@
     </tr>
     <tr>
         <td class="td_text_bold">1ST VISIT</td>
-        <td>{{s_from}}</td>
-        <td>{{s_to}}</td>
-        <td>{{inf_26.total_units_schedule}} </td>
-        <td>-</td>
+        <td class="td_text_normal">{{s_from}}</td>
+        <td class="td_text_normal">{{s_to}}</td>
+        <td class="td_text_normal">{{inf_26.total_units_schedule}} </td>
+        <td class="td_text_normal">-</td>
         <!-- <td *ngFor="let inspector of inf_26.inspector_list; let last = last">
           {{ inspector }}{{ last ? '' : ',' }}
         </td> -->
               <!-- <td>{{inf_26.inspector_list}}</td> -->
-              <td>{{concatenatedInspectors}}</td>
+              <td class="td_text_normal">{{concatenatedInspectors}}</td>
         
     </tr>
     <tr>
@@ -214,13 +209,13 @@
   
         <tr>
         <td class="td_text_bold" rowspan="2">PREPARED BY</td>
-        <td colspan="3" >NAME:</td>
+        <td colspan="3" >NAME: </td>
         <td class="td_text_bold" rowspan="2">AUTHORIZED BY</td>
-        <td colspan="3" >NAME:</td>
+        <td colspan="3" >NAME: </td>
       </tr>
         <tr>
-        <td  colspan="3">SIGN:</td>
-        <td colspan="3" >SIGN:</td>
+        <td  colspan="3">SIGN: </td>
+        <td colspan="3" >SIGN: </td>
        </tr>
               
      
@@ -269,4 +264,19 @@
     <!-- <h1>{{selectedDetails | json}}</h1>
      
     -->
-  
+    <table>
+    
+        <tr>
+          <th>Unit Name</th>
+          <th>No. of Stops</th>
+        </tr>
+     
+     
+        <!-- Use *ngFor to iterate over the combinedNames array -->
+        <tr *ngFor="let name of combinedNames; let i = index">
+          <td>{{ name }}</td>
+          <!-- Access the corresponding stop using the index -->
+          <td>{{ combinedStops[i] }}</td>
+        </tr>
+      
+    </table>
