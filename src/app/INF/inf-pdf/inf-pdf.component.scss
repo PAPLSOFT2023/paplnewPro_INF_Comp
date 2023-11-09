@@ -5,9 +5,13 @@ body {
     margin: 20px;
   }
 
-  
+  /* Apply small text size to the content */
+.reference-code-container h1 small {
+  font-size: small;
 
-  
+}
+
+
   /* Style for the main tables */
   table {
     width: 100%;
