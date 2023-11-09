@@ -491,7 +491,7 @@ openDialog3(){
         const userConfirmation = window.confirm(successMessage);
         if(userConfirmation){
           console.log("Called..*******",this.selectedDetails.contract_number)
-          this.router.navigate(['afterlogin/pdf',this.selectedDetails.contract_number]);
+          this.router.navigate(['pdf',this.selectedDetails.contract_number]);
         }
       },
       (error) => {

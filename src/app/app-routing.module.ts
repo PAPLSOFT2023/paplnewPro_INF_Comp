@@ -24,9 +24,9 @@ import { MailComponent } from './mail/mail.component';
 import { InfPdfComponent } from './INF/inf-pdf/inf-pdf.component';
 
 const routes: Routes = [
-  {path:'inf-pdf',component:InfPdfComponent},
+
   {path:'app-home',component:AppHomeComponent,},
-  
+  {path:'pdf/:c_no',component:InfPdfComponent},
   {path:"",redirectTo:"app-home",pathMatch:'full'},
   {path: "services",component:ServicesComponent}, 
   {path:"login",component:LoginComponent},
@@ -57,6 +57,7 @@ const routes: Routes = [
          {path:'sales_v/:selectedOption',component:SalesVComponent},
          {path:'plan_eg_home',component:PlanningEngHomeComponent },
          {path:'plan_eng_inf/:c_no',component:PlanningEngInfComponent},
+       
          
          
     ],
