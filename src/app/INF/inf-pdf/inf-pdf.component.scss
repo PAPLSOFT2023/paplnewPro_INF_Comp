@@ -4,7 +4,15 @@ body {
     background-color: #f7f7f7;
     margin: 20px;
   }
-  
+
+  /* Apply small text size to the content */
+.reference-code-container h1 small {
+  font-size: 10px;
+  color: #676565;
+
+}
+
+
   /* Style for the main tables */
   table {
     width: 100%;

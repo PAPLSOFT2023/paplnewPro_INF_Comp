@@ -7,11 +7,10 @@ import{Observable}from 'rxjs';
 export class ApicallService {
   private apiURLCommon='http://localhost:3000/';
   private apiURL=this.apiURLCommon+'api/';
+  
 
   constructor(private httpClient:HttpClient,private http:HttpClient) { }
   // this func for load customerdata
-
-
 Resend_mail_verification(email:string):Observable<any>{
 
 
@@ -30,6 +29,9 @@ Resend_mail_verification(email:string):Observable<any>{
  
   return this.httpClient.get(url,options) ;
 }
+
+
+
 
 
 
@@ -186,6 +188,8 @@ deleteLoginDetails(email: string): Observable<any> {
   }
 
 
+  
+
 
 
 
@@ -335,6 +339,8 @@ deleteLoginDetails(email: string): Observable<any> {
   getCheckedCount() {
     return this.checkedCount;
   }
+
+  
   
 
 }
