@@ -316,6 +316,11 @@ deleteLoginDetails(email: string): Observable<any> {
   travelator_values:string[]=[];
 
 
+  //filtered inspectors 
+  inspector_array: { name: string; headChecked: boolean; fromDate: Date; toDate: Date; }[] = [];
+
+
+
   //total_checked_items
   total_checked_items:string[]=[];
   
