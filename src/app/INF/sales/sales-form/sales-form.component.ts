@@ -273,6 +273,7 @@ openDialog1(){
   }
 
   onSubmit() {
+    this.contract_number = this.contract_number.replace(/papl/g, 'PAPL').replace(/\//g, '-');
     //elevators
     const elevator_names=this.dataService.elevator_names;
     const elevator_type=this.dataService.elevator_type;

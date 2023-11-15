@@ -28,7 +28,7 @@
 
           <mat-form-field appearance="outline" class="form-field3">
               <mat-label>Pincode</mat-label>
-                  <input matInput [(ngModel)]="pincode" name="pincode" required>
+                  <input matInput [(ngModel)]="pincode" name="pincode" required pattern="[0-9]{1,10}" maxlength="10">
           </mat-form-field>
           </div>
           <div>

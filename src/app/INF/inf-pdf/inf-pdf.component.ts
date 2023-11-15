@@ -183,20 +183,7 @@ const se_to1 = datePipe.transform(se_to,'yyyy-MM-dd')
       } else {
         this.concatenatedInspectors = ''; // Set it to an empty string or default value
       }
-      
-
-      
-
-      console.log('concat array',this.concatenatedInspectors);
-      
-      
-
-
-      
-      
-
-      
-       
+        console.log('concat array',this.concatenatedInspectors);
 
      });
 
