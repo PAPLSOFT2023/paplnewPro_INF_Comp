@@ -113,9 +113,15 @@ this.combinedStops = elevatorStops.concat(homeStops, dumbStops);
 
       // this.concatenatedInspectors=this.inf_26.inspector_list.join(', ');
       //  const dateObj = new Date(this.selectedDetails.customer_workorder_date);
+
+      const datePipe = new DatePipe('en-US');
       const dateObj = new Date(this.inf_26.customer_workorder_date);
       const se_from = new Date(this.inf_26.schedule_from);
       const se_to = new Date(this.inf_26.schedule_to);
+
+
+      const se_from1= datePipe.transform(se_from, 'yyyy-MM-dd')
+const se_to1 = datePipe.transform(se_to,'yyyy-MM-dd')
       const differenceInMilliseconds = Math.abs(se_from.getTime() - se_to.getTime());
       if(this.inf_26.tpt6===1){
         this.tpt6_val="Tpt6";
@@ -153,13 +159,13 @@ this.combinedStops = elevatorStops.concat(homeStops, dumbStops);
 
       //  // Get the date portion in the "YYYY-MM-DD" format
        const originalDate = dateObj.toISOString().split('T')[0];
-       const original_s_from = se_from.toISOString().split('T')[0];
-       const original_s_to = se_to.toISOString().split('T')[0];
+      //  const original_s_from = se_from.toISOString().split('T')[0];
+      //  const original_s_to = se_to.toISOString().split('T')[0];
 
 
        this.formattedDate = this.datePipe.transform(originalDate, 'dd-MM-yyyy');
-       this.s_from = this.datePipe.transform(original_s_from, 'dd-MM-yyyy');
-       this.s_to=this.datePipe.transform(original_s_to, 'dd-MM-yyyy');
+       this.s_from = this.datePipe.transform(se_from1, 'dd-MM-yyyy');
+       this.s_to=this.datePipe.transform(se_to1, 'dd-MM-yyyy');
 
        this.dataService.selectedDetails=this.selectedDetails;
        console.log(this.selectedDetails);
