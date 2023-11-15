@@ -457,6 +457,9 @@ openDialog3(){
     console.log('items',checked_items_values);
     
     console.log('value from service',checkedCount);
+    const datePipe = new DatePipe('en-US');
+    const scheduleFrom = datePipe.transform(this.scheduleFrom, 'yyyy-MM-dd');
+    const scheduleTo = datePipe.transform(this.scheduleTo,'yyyy-MM-dd');
     
     
     const store_values = {
@@ -470,8 +473,8 @@ openDialog3(){
       balance_to_inspect:uncheckedCount,
       inspector_name:inspector_list,
       inspection_time_ins:this.inspection_time_ins_sync,
-      schedule_from : this.scheduleFrom,
-      schedule_to : this.scheduleTo,
+      schedule_from : scheduleFrom,
+      schedule_to : scheduleTo,
       i_status:1,
       no_of_breakdays:this.no_of_breakdays,
       inspector_array:inspector_array

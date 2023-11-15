@@ -69,6 +69,7 @@ export class LoginComponent implements OnInit {
           sessionStorage.setItem('Role', role1);
           sessionStorage.setItem('Organization', organization);
           sessionStorage.setItem('UserName', userName);
+          
           console.log("???????????",response)
           console.log("________",role1)
           
