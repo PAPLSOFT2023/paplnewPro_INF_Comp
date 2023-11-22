@@ -14,53 +14,130 @@
   border-radius: 8px;
   border-radius: 5px;
   margin: 0 auto;
+}
   /* Set the background color for the card view page */
-.card-container {
-  background-color: #f0f0f0; /* Replace with your desired background color */
-}
 
-  
-  
-  
-}
-.overlay {
-  display: none;
+  /* Add this to your component's CSS or styles.scss file */
+
+
+
+//profile background blur
+.modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.7);
-  z-index: 1;
+  background: rgba(0, 0, 0, 0.5); /* Adjust the alpha value for the desired level of transparency */
+  z-index: 999;
+  backdrop-filter: blur(5px); /* Adjust the blur value for the desired level of blur */
+}
+
+//department background blur 
+.data-entry-container {
+  position: fixed;
+  top: 500%;
+  left: 500%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Adjust the alpha value for the desired level of transparency */
+  z-index: 999;
+  backdrop-filter: blur(5px); /* Adjust the blur value for the desired level of blur */
+}
+
+//user_role background blur 
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Adjust the opacity as needed */
+  z-index: 999; /* Ensure it's on top of other elements */
+}
+
+.data-entry-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  z-index: 1000; /* Ensure it's above the overlay */
+}
+
+
+
+/* Add this to your component's CSS or styles.scss file */
+.card-container {
+  background-color: #f0f0f0; /* Replace with your desired background color */
+}
+
+
+
+
+/* Assuming your form container has a class named "form-container" */
+.form-container {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
+  margin-top: 20px; /* Adjust as needed */
 }
 
-
-
-.popup-form h2 {
-  font-size: 24px;
-  margin-bottom: 20px;
-  margin-top: 0;
-  font-size: 1.5rem;
-  color: #0760fad5;
+/* Style for the Save button */
+button[type="submit"] {
+  padding: 10px 20px; /* Adjust padding as needed */
+  background-color: rgb(32, 108, 202); /* Green color, adjust as needed */
+  color: #fff; /* White text color, adjust as needed */
+  border: none;
+  border-radius: 5px;
+  margin: 3%;
+  cursor: pointer;
 }
+
+/* Style for the Cancel button */
+.btn-danger {
+  padding: 10px 20px; /* Adjust padding as needed */
+  background-color: rgb(214, 48, 48); /* Green color, adjust as needed */
+  color: #fff; /* White text color, adjust as needed */
+  border: none;
+  margin: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  
+ 
+}
+
+/* Optional hover effect for buttons */
+button:hover, .btn-danger:hover {
+  opacity: 0.8;
+}
+
 
 .popup-form .form-group {
   margin-bottom: 15px;
   text-align: left;
-  
 }
-
 .popup-form label {
   display: block;
   font-weight: bold;
 }
-
 .popup-form .input-group{
   position: relative;
 }
-
 .popup-form input[type="text"],
 .popup-form input[type="password"]
  {
@@ -72,10 +149,6 @@
   font-size: 16px;
   margin-top: 5px;
 }
-
-
-
-
 /* Styles for the card container */
 .card-container {
   display: flex;
@@ -83,103 +156,88 @@
   flex-wrap: wrap;
   gap: 20px;
 }
-
 .card {
   flex: 0 0 calc(25% - 20px);
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  padding: 16px;
+  padding: 25px;
   background-color: #ffffff;
   transition: transform 0.2s, box-shadow 0.2s;
-
-  &:hover {
+ &:hover {
     transform: translateY(-4px);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   }
-
-  .card-header {
+  
+ .card-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid #eee;
     margin-bottom: 12px;
-
-    .card-title {
+ .card-title {
       font-size: 1.25rem;
       margin: 0;
     }
-
-    .card-logo {
+.card-logo {
       width: 40px;
       height: 40px;
       margin-left: 10px;
     }
   }
-
-  .card-content {
-    font-size: 1rem;
+.card-content {
+    font-size: 0.9rem;
     margin-bottom: 12px;
   }
-
-  .card-actions {
+.card-actions {
     display: flex;
     justify-content: flex-end;
-
-    .card-button {
+.card-button {
       background-color: #1675e1;
       color: #fff;
       border: none;
-      border-radius: 4px;
-      padding: 8px 16px;
+      border-radius: 14px;
+      padding: 8px 12px;
       margin-left: 8px;
       cursor: pointer;
       transition: background-color 0.2s;
-
-      &:hover {
+&:hover {
         background-color: #0056b3;
       }
     }
   }
 }
-
 /* Styles for the data entry container */
 .data-entry-container {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 300px;
+  width: 380px;
   margin: 0 auto;
   max-width: 400%;
-  background-color: #f4f4f4;
-  border: 1px solid #ccc;
+  background-color: #ffffff;
+  border: 1px solid #ffffff;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   text-align: center;
   padding: 20px;
-  
-  
 }
-
 .data-entry-container h2 {
   font-size: 1.5rem;
   margin-bottom: 20px;
   color: #333;
 }
-
 /* Form Group Styles */
 .data-entry-container .form-group {
   margin-bottom: 20px;
   text-align: left;
 }
-
 .data-entry-container label {
   display: block;
   font-weight: bold;
   margin-bottom: 5px;
   color: #333;
 }
-
 .data-entry-container input[type="text"] {
   width: 100%;
   padding: 10px;
@@ -188,7 +246,6 @@
   font-size: 16px;
   color: #333;
 }
-
 /* Dropdown Styles */
 .data-entry-container select {
   width: 100%;
@@ -198,7 +255,6 @@
   font-size: 16px;
   color: #333;
 }
-
 /* Button Styles */
 .data-entry-container button {
   padding: 10px 20px;
@@ -207,24 +263,20 @@
   border: none;
   border-radius: 4px;
 }
-
 .data-entry-container button.btn-primary {
   background-color: #007bff;
   color: #fff;
   margin-right: 10px;
   transition: background-color 0.2s;
 }
-
 .data-entry-container button.btn-primary:hover {
   background-color: #1a759f;
 }
-
 .data-entry-container button.btn-danger {
   background-color: #ef233c;
   color: #fff;
   transition: background-color 0.2s;
 }
-
 .error-icon {
   /* Your styles for the exclamation icon */
   position: absolute;
@@ -236,88 +288,6 @@
   margin-left: 5px; /* Initially hide the icon */
 }
 
-.has-error .error-icon {
-  display: block; /* Show the icon when the input has an error */
-}
-
-.error-message {
-  /* Your styles for the error message */
-  color: red;
-}
-
-.success-message {
-  color: green;
-  margin-top: 10px;
-}
-/* Style the form container */
-.data-entry-container {
-  max-width: 400px;
-  margin: 0 auto;
-  padding: 20px;
-  text-align: center;
-}
-
-/* Style the form header */
-.data-entry-container h2 {
-  margin-top: 0;
-}
-
-/* Style form labels */
-.data-entry-container label {
-  font-weight: bold;
-}
-
-/* Style form input fields */
-.data-entry-container input[type="text"],
-.data-entry-container input[type="password"] {
-  width: 100%;
-  padding: 8px;
-  margin-bottom: 15px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-/* Style the password input field and info icon */
-.data-entry-container .input-group input[type="password"] {
-  border-radius: 0 4px 4px 0;
-  padding-right: 30px; /* Add space for the icon */
-}
-
-.data-entry-container .input-group .input-group-text {
-  cursor: pointer;
-}
-
-/* Style the info icon */
-.data-entry-container .input-group .input-group-text i {
-  line-height: 1;
-  vertical-align: middle;
-}
-
-/* Style form buttons */
-.data-entry-container button[type="submit"] {
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-/* Style the "Back" button */
-.data-entry-container button[type="submit"]:last-child {
-  background-color: #ccc;
-  margin-left: 10px;
-}
-
-p {
-  font-family: Arial, sans-serif;
-  font-size: 10px;
-  color: #d632329b; /* Text color */
-  background-color: #f0f0f0; /* Background color */
-  padding: 10px; /* Padding around the text */
-  line-height: 0.05; /* Adjust the line height to move the content up */
-}
-
 /* Style the card link */
 .card-link {
   color: #1563e2ba; /* Link color */
@@ -326,20 +296,15 @@ p {
   margin-top: 10px; /* Adjust the top margin as needed */
   display: block; /* Make it a block-level element for left alignment */
 }
-
 .card-link:hover {
   text-decoration: underline; /* Underline the link on hover */
 }
-
 /* Adjust card content alignment */
 .card-content {
   font-size: 2rem;
   margin-bottom: 12px;
   text-align: left; /* Left-align the content within the card */
 }
-
-
-
 /* Style for form inputs and select */
 input[type="text"],
 select {
@@ -349,33 +314,27 @@ select {
   border: 1px solid #ccc;
   border-radius: 4px;
 }
-
 /* Style for error messages and icons */
 .error-icon {
   color: #f00;
   font-size: 18px;
   margin-top: 5px;
 }
-
 .error-message {
   color: #f00;
   font-size: 12px;
 }
-
 /* Style for buttons */
-
 /* Style for the form container */
 .form-group.has-error {
   position: relative;
 }
-
 .form-group.has-error .error-icon {
   position: absolute;
   top: 50%;
   right: 10px;
   transform: translateY(-50%);
 }
-
 /* Style for the dropdown arrow */
 select {
   appearance: none;
@@ -391,89 +350,31 @@ select {
 .form-group {
   margin-bottom: 20px;
 }
-
 /* Style for labels */
 .form-group label {
   display: block;
   font-weight: bold;
 }
-
 /* Style for input fields */
 .form-group input[type="text"],
 .form-group select {
   width: 100%;
-  padding: 10px;
+  padding:10px;
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 16px;
 }
-
 /* Style for error messages and icons */
 .error-icon {
   display: none;
   color: red;
 }
-
 .error-message {
   color: red;
   font-size: 14px;
   margin-top: 5px;
 }
-/* Center-align the buttons */
-.button-container {
-  text-align: center;
-}
 
-/* Style the Save button */
-button[type="submit"] {
-  background-color: #007bff; /* Set the background color */
-  color: #fff; /* Set the text color */
-  padding: 10px 20px; /* Add padding for spacing */
-  border: none; /* Remove the border */
-  cursor: pointer; /* Add a pointer cursor on hover */
-  margin-right: 10px; /* Add margin between buttons */
-}
-
-/* Style the Cancel button */
-.btn-danger {
-  background-color: #dc3545; /* Set the background color */
-  color: #fff; /* Set the text color */
-  padding: 10px 20px; /* Add padding for spacing */
-  border: none; /* Remove the border */
-  cursor: pointer; /* Add a pointer cursor on hover */
-}
-
-/* Add hover effect for buttons */
-button[type="submit"]:hover,
-.btn-danger:hover {
-  opacity: 0.8; /* Reduce opacity on hover */
-}
-
-button {
-  background-color: #cf2828;
-  color: #fff;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-button:hover {
-  background-color: #903232;
-}
-
-/* Add more specific styles as needed for different form fields and elements */
-/* Style the popup form */
-.popup-form {
-  max-width: 400px;
-  margin: 0 auto;
-  padding: 20px;
-  border: 1px solid #ccc;
-  background-color: #fff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  border-radius: 5px;
-}
 
 /* Style the table */
 .table-structure {
@@ -481,14 +382,12 @@ button:hover {
   border-collapse: collapse;
   margin-top: 10px;
 }
-
 .table-structure th,
 .table-structure td {
   padding: 10px;
   text-align: left;
   border: 1px solid #ccc;
 }
-
 /* Style the table header row */
 .table-structure th {
   background-color: #007BFF;
@@ -496,44 +395,6 @@ button:hover {
   font-weight: bold;
 }
 
-/* Style the input fields */
-.input-field {
-  width: 100%;
-  padding: 8px;
-  margin: 5px 0;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-/* Style the close button */
-.btn-primary {
-  display: inline-block;
-  background-color: #007BFF;
-  color: #fff;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-top: 10px;
-  font-size: 16px;
-  transition: background-color 0.3s;
-}
-
-/* Style the close button on hover */
-.btn-primary:hover {
-  background-color: #0056b3;
-}
-/* Style the popup form */
-.popup-form {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-  border: 1px solid #ffffff;
-  background-color: #fdfdfd;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  border-radius: 5px;
-}
-
 /* Style the table */
 .table-structure {
   width: 100%;
@@ -541,14 +402,12 @@ button:hover {
   margin-top: 10px;
   border: 1px solid #ccc;
 }
-
 .table-structure th,
 .table-structure td {
   padding: 10px;
   text-align: left;
   border: 1px solid #ccc;
 }
-
 /* Style the table header row */
 .table-structure th {
   background-color: #17316d;
@@ -556,20 +415,42 @@ button:hover {
   font-weight: bold;
 }
 
-/* Style the button */
-.btn-primary {
-  background-color: #ca3932;
-  color: #fff;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-  margin-top: 10px;
-  transition: background-color 0.3s;
-}
-
 /* Style the button on hover */
 .btn-primary:hover {
   background-color: #c61717;
+}
+////////////////////////////////////////////////////
+/* Center the popup form vertically and horizontally */
+div.popup-form {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  text-align: center;
+}
+
+/* Style the form header */
+.popup-form h2 {
+  color: #333;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+/* Style form elements */
+.popup-form .form-group {
+  margin-bottom: 10px;
+}
+.popup-form label {
+  display: block;
+  font-weight: bold;
+  color: #666;
+}
+.popup-form input:required:invalid {
+  border-color: red; /* Red border for empty required fields */
+}
+.popup-form input:required:valid {
+  border-color: green; /* Green border for filled required fields */
 }
