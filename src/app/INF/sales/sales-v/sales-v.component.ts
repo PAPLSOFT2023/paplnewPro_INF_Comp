@@ -93,7 +93,7 @@ export class SalesVComponent {
   contract_number:string='';
   region:string='';
   location:string='';
-  pincode:string='';
+  pincode:number=0;
   master_customer:string='';
   work_order_no:string='';
   customer_name_workorder:string='';
