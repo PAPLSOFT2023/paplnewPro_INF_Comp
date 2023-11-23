@@ -17,6 +17,13 @@ import { Dialog9Component } from '../dialog9/dialog9.component';
 export class Dialog2Component  {
 
   selectedDetails:string[] | any=this.dataService.selectedDetails;
+  elevator_num=0;
+  total_num = 0;
+  final_count:number=0;
+
+
+  
+
 
 
  
@@ -32,6 +39,9 @@ export class Dialog2Component  {
    
   
   constructor(private dialog:MatDialog,public dataService: ApicallService){
+   this.elevator_num=this.dataService.total_count;
+  this.total_num = this.dataService.no_of_units;
+
    
     
 
@@ -40,6 +50,25 @@ export class Dialog2Component  {
   
   ngOnInit(): void {
     
+  }
+  view(): void {
+    console.log(this.dataService.total_units);
+    console.log('standard elevator', this.dataService.total_count);
+  
+    this.final_count = this.dataService.total_count + this.dataService.hydra_elevator + this.dataService.dumb_waiter + this.dataService.car_parking + this.dataService.escalator + this.dataService.moving_walk + this.dataService.travelator;
+  
+    console.log(this.final_count);
+  
+    if (this.dataService.total_units != this.final_count) {
+      alert("Error: Values don't match!");
+    } else {
+      // alert("no error")
+      // If the values match, close the dialog
+      // If you have a reference to MatDialogRef, you can use it to close the dialog
+      // For example:
+      // this.dialogRef.close();
+      // Replace 'this.dialogRef' with the actual reference to your MatDialogRef
+    }
   }
  
   
@@ -123,4 +152,15 @@ openDialog9(){
     });
 
   }
+
+checkCounts() {
+  if (this.elevator_num !== this.total_num) {
+    alert('Elevator count and total count of units are not equal!');
+    // You can also perform other actions here based on your requirements
+  }
+  console.log('elvator',this.elevator_num,'total',this.total_num);
+  
+}
+
+
 }
