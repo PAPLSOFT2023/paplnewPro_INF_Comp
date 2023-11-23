@@ -54,15 +54,25 @@ constructor(private router: Router,private route: ActivatedRoute){
     else if (
       storedValue !== null &&
       stored_organization !== null &&
-      storedValue.toLowerCase() === 'inspection' &&
+      storedValue.toLowerCase() === 'inspection head' &&
       stored_organization.toLowerCase() === 'papl'
     ) {
       // Redirect for roles with 'planning and engineering' and organizationKey 'papl'
       // console.log("inspection login")
       this.router.navigate(['inspection_home'], { relativeTo: this.route });
     }
+    else if (
+      storedValue !== null &&
+      stored_organization !== null &&
+      storedValue.toLowerCase() === 'inspector' &&
+      stored_organization.toLowerCase() === 'papl'
+    ) {
+      // Redirect for roles with 'planning and engineering' and organizationKey 'papl'
+      // console.log("inspection login")
+      this.router.navigate(['inspectorHome'], { relativeTo: this.route });
+    }
     else{
-     alert("login error")
+     alert("Your Role is not available")
     }
     
 

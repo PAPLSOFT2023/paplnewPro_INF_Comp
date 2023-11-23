@@ -365,7 +365,7 @@
 
 
   
-  <div class="data-entry-container" *ngIf="isPopupVisible_Region">
+  <div class="data-entry-container" *ngIf="isPopupVisible_Travel_Acc">
     <h2>Travel Accomodation</h2>
     <div class="form-group">
   
@@ -376,7 +376,7 @@
     </div>
   
     <div class="form-group">
-      <label for="dataDropdown">Existing Region:</label>
+      <label for="dataDropdown">Existing Travel Accomodation:</label>
      
       <select [(ngModel)]="selectedData">
         <option *ngFor="let Dept of Travel_Acc_Details" [value]="Dept">{{ Dept }}</option>

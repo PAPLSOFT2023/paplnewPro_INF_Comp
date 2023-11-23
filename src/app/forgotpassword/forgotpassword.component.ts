@@ -17,18 +17,23 @@ export class ForgotpasswordComponent {
 
   onSubmit() {
     console.log(this.email)
+    if(this.email){
     this.apicall.checkUserEmailExists(this.email).subscribe((response:any)=>{
       if(response)
       {
-        console.log(response)
-      }else{
-        console.log(response)
+        console.log("&&&&&",response)
+      }
+      else{
+        console.log("::::",response)
       }
 
     },(error:any)=>{
 
       console.log(error)
     });
+  }else{
+    alert("Please Enter Email")
+  }
 
 
 

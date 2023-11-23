@@ -393,6 +393,8 @@ deleteLoginDetails(email: string): Observable<any> {
  return this.httpClient.get(this.apiURL+'loginData');
   }
 
+
+  // This is check email exists or not
   checkUserEmailExists(email:string):Observable<any>{
     console.log("Api called")
     const url = `${this.apiURL}Email_exists`;

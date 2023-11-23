@@ -84,6 +84,7 @@ export class UiElementsComponent  {
   isPopupVisible_ins_time_insp:boolean=false;
   isPopupVisible_OEM:boolean=false;
   isPopupVisible_Region:boolean=false;
+  isPopupVisible_Travel_Acc:boolean=false;
   isPopupVisible_Type_Ele:boolean=false;
   isPopupVisible_Type_Bul:boolean=false;
 
@@ -240,9 +241,10 @@ export class UiElementsComponent  {
     this.isPopupVisible_hometype=false;
     this.isPopupVisible_homeusage=false;
     this.isPopupVisible_ins_time=false;
-   
+    this.isPopupVisible_ins_time_insp=false;
     this.isPopupVisible_OEM=false;
     this.isPopupVisible_Region=false;
+    this.isPopupVisible_Travel_Acc=false;
     this.isPopupVisible_Type_Ele=false;
     this.isPopupVisible_Type_Bul=false;
 
@@ -1086,11 +1088,21 @@ delete_Type_Bul_Data1  (): void {
     this.isPopupVisible2 = false;
     this.isPopupVisible3 = false;
     this.isPopupVisible4 = false;
+    this.isPopupVisible_dumptype=false;
+    this.isPopupVisible_dumpusage=false;
+    this.isPopupVisible_hometype=false;
+    this.isPopupVisible_homeusage=false;
+    this.isPopupVisible_ins_time=false;
+    this.isPopupVisible_ins_time_insp=false;
+    this.isPopupVisible_OEM=false;
+    this.isPopupVisible_Region=false;
+    this.isPopupVisible_Type_Ele=false;
+    this.isPopupVisible_Type_Bul=false;
   }
 
   // Define the openPopupForm methods
   openPopupForm1(): void {
-    // this.closePopupForm();
+    this.closePopupForm();
     this.isPopupVisible1 = true;
   }
 ///department update
@@ -1194,7 +1206,7 @@ openPopupForm_Travel_Acc():void
 
 
   this.closePopupForm();
-  this.isPopupVisible_Region= true;
+  this.isPopupVisible_Travel_Acc= true;
 }
 
 // openPopupForm_Type_Ele

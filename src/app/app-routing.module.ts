@@ -22,6 +22,8 @@ import { ForgotpasswordComponent } from './forgotpassword/forgotpassword.compone
 import { ServicesComponent } from './services/services.component';
 import { MailComponent } from './mail/mail.component';
 import { InfPdfComponent } from './INF/inf-pdf/inf-pdf.component';
+import { InspectorHomeComponent } from './inspector_dashboard/inspector-home/inspector-home.component';
+import { ScheduledWorkComponent } from './scheduled-work/scheduled-work.component';
 
 const routes: Routes = [
 
@@ -46,10 +48,18 @@ const routes: Routes = [
           {path:'organization_admin_profile_details',component:ProfiledetailManageComponent},
           
         ]},
-        {path: 'dashboard', component: DashboardComponent},
-        {path:'organization_adminUI', component:UiElementsComponent},
+        // organization admin
+        {path: 'dashboard', component: DashboardComponent},//home
+        {path:'organization_adminUI', component:UiElementsComponent},// add elements
         {path:'app-organization-user-management',component:OrganizationUserManagementComponent},
+        {path:'profile-manage',component:ProfiledetailManageComponent},
 
+
+        // Inspector
+        {path:"inspectorHome",component:InspectorHomeComponent},
+        {path:'scheduledWork', component:ScheduledWorkComponent},
+
+        
          {path:'inspection_home', component:InspectionInfComponent},
          {path:'inspection_inf/:c_no',component:InspectionFormComponent},
          {path:'sales_home',component:SalesHomeComponent},

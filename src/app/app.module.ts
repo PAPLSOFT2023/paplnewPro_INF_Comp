@@ -89,7 +89,7 @@ import { SalesVComponent } from './INF/sales/sales-v/sales-v.component';
 import { PlanningEngHomeComponent } from './INF/planning-eng-home/planning-eng-home.component';
 import { PlanningEngInfComponent } from './INF/planning-eng-home/planning-eng-inf/planning-eng-inf.component';
 import { DialogPComponent } from './INF/planning-eng-home/dialog-p/dialog-p.component';
-import { SideNavCommonUserComponent } from './Sidenav_for_commonUser/side-nav-common-user/side-nav-common-user.component';
+
 import { ForgotpasswordComponent } from './forgotpassword/forgotpassword.component';
 import { ServicesComponent } from './services/services.component';
 import { MailComponent } from './mail/mail.component';
@@ -97,8 +97,8 @@ import { CalenderComponent } from './INF/inspection-inf/calender/calender.compon
 import { MultipleInspectorComponent } from './INF/inspection-inf/multiple-inspector/multiple-inspector.component';
 import { InfPdfComponent } from './INF/inf-pdf/inf-pdf.component';
 import { DatePipe } from '@angular/common';
-
-
+import { InspectorHomeComponent } from './inspector_dashboard/inspector-home/inspector-home.component';
+import { ScheduledWorkComponent } from './scheduled-work/scheduled-work.component';
 
 
 
@@ -155,13 +155,14 @@ import { DatePipe } from '@angular/common';
        
         PlanningEngHomeComponent,
         PlanningEngInfComponent,
-        SideNavCommonUserComponent,
         ForgotpasswordComponent,
         ServicesComponent,
         MailComponent,
         CalenderComponent,
         MultipleInspectorComponent,
         InfPdfComponent,
+        InspectorHomeComponent,
+        ScheduledWorkComponent,
         
 
         

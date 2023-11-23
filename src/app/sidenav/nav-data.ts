@@ -82,13 +82,33 @@ export const oragizationadmin: INavbarData[] = [
                 label: 'Login Details',
             },
             {
-                routeLink: '/afterlogin/app-organization-user-management',
+                routeLink: '/afterlogin/profile-manage',
                 icon: 'fal fa-user',
                 label: 'Profile Details',
             },
         ]
     },
 ];
+
+
+
+export const inspector: INavbarData[] = [
+    {
+        routeLink: '/afterlogin/inspectorHome',
+        icon: 'fal fa-home',
+        label: 'Home'
+    },
+    {
+        routeLink: '/afterlogin/scheduledWork',
+        icon: 'fal fa-edit',
+        label: 'Scheduled Work'
+    },
+   
+   
+];
+
+
+
 
 
 export function getNavbarData(User: String): INavbarData[] {
@@ -108,7 +128,7 @@ console.log("**&&&&&&&&"+User)
         // console.log("---------")
         return SalesNav;
      }
-     else if(User.toLowerCase()=="inspection")
+     else if(User.toLowerCase()=="inspection head")
      {
         console.log("========")
         return Inspection_Head_Nav;
@@ -120,7 +140,7 @@ console.log("**&&&&&&&&"+User)
      }
      else{
         console.log("..........+.",User)
-            return SalesNav ;
+            return inspector ;
         
      }
 }

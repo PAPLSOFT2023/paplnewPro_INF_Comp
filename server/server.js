@@ -153,8 +153,8 @@ app.get('/api/Email_exists',(req,res)=>{
  
 
   const {Email}= req.body;
-  console.log("server called",req.body)
-  const query='SELECT Email FROM clientadmin where Email= ? ';
+  console.log("server called",Email)
+  const query='SELECT Email,Emailverified FROM clientadmin where Email= ? ';
   db.query(query,[Email],(err,results)=>{
 if(err){
 
@@ -164,9 +164,8 @@ if(err){
 } 
 else {
  
-  const data = results[0];
-  console.log(data)
-  return res.json(data)
+  console.log(results)
+  return res.json(results)
 }
 
 
@@ -1303,19 +1302,22 @@ app.put('/api/addToTravel_Acc_Details', (req, res) => {
 
 app.delete('/api/delete_Travel_Acc_Data1', (req, res) => {
   const {  Region } = req.body;
-
+console.log("SErver********** ",Region)
  
   if ( !Region    ) {
     return res.status(400).json({ error: 'Value is required in the request body' });
   }
 
-  db1.query("DELETE FROM travel_accomodation WHERE type_of =? ", [Region], (err, result) => {
+  db1.query("DELETE FROM travel_accomodation WHERE type_of = ? ", [Region], (err, result) => {
     if (err) {
+      // console.log("err ",Region)
       return res.status(500).json({ error: 'Internal server error' });
     } else {
       if (result.affectedRows > 0) {
+        // console.log("Deletesucc ",Region)
         return res.json({ message: 'Delete Successful' });
       } else {
+        // console.log("Not found ",Region)
         return res.status(404).json({ error: 'Data not found for deletion' });
       }
     }
