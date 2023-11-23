@@ -153,8 +153,8 @@ app.get('/api/Email_exists',(req,res)=>{
  
 
   const {Email}= req.body;
-  console.log("server called",req.body)
-  const query='SELECT Email FROM clientadmin where Email= ? ';
+  console.log("server called",Email)
+  const query='SELECT Email,Emailverified FROM clientadmin where Email= ? ';
   db.query(query,[Email],(err,results)=>{
 if(err){
 
@@ -164,9 +164,8 @@ if(err){
 } 
 else {
  
-  const data = results[0];
-  console.log(data)
-  return res.json(data)
+  console.log(results)
+  return res.json(results)
 }
 
 
@@ -529,10 +528,6 @@ app.get('/api/getRoleData', (req, res) => {
         Role,
         Organization
       };
-
-      // Now, result contains unique arrays for 'Department', 'Role', and 'Organization'
-      // console.log(result);
-
       res.json(result);
     }
   });
@@ -715,6 +710,773 @@ db1.connect((err) => {
 
 
 
+
+// Select dump usage
+app.get('/api/getDumpUsage',(req,res)=>{
+
+  
+ 
+  const query = 'SELECT usage_dumb FROM `dumb_usage` ';
+
+  db1.query(query, (err, results) => {
+    if (err) {
+      console.error("Error:", err);
+      return res.status(500).json({ error: 'Internal server error' });
+    } 
+     
+    else {
+
+    //  console.log("DUMP USAGE",results)
+      res.json(results);
+    }
+  });
+}
+);
+//  Insert dump usage
+app.put('/api/addDump_Usage', (req, res) => {
+  const { dump_usage } = req.body;
+  console.log("Server called");
+
+  const query = 'INSERT  INTO dumb_usage (usage_dumb) VALUES (?)';
+
+  db1.query(query, [dump_usage], (err, result) => {
+    if (err) {
+      console.error('Error executing SQL query:', err);
+      res.status(500).json({ error: 'Internal Server Error' });
+    } else {
+      if (result.affectedRows === 0) {
+        res.status(409).json({ error: 'Data already exists' });
+      } else {
+        res.json({ message: 'Data added successfully' });
+      }
+    }
+  });
+});
+// delete dump iusage
+app.delete('/api/DumpUsage_Data_Delete', (req, res) => {
+  const {  dumpusage } = req.body;
+
+  // Ensure that the organization and department are provided in the request body
+  if ( !dumpusage) {
+    return res.status(400).json({ error: 'Dump_Usage is required in the request body' });
+  }
+
+  db1.query("DELETE FROM dumb_usage WHERE usage_dumb=? ", [dumpusage], (err, result) => {
+    if (err) {
+      return res.status(500).json({ error: 'Internal server error' });
+    } else {
+      if (result.affectedRows > 0) {
+        return res.json({ message: 'Delete Successful' });
+      } else {
+        return res.status(404).json({ error: 'Data not found for deletion' });
+      }
+    }
+  });
+});
+
+
+
+//  GET DUMP TYPE
+app.get('/api/getDumpType',(req,res)=>{
+
+  
+ 
+  const query = 'SELECT type_dumb FROM `dumb_type` ';
+
+  db1.query(query, (err, results) => {
+    if (err) {
+      console.error("Error:", err);
+      return res.status(500).json({ error: 'Internal server error' });
+    } 
+    
+    else {
+
+     console.log("DUMP Type",results)
+      res.json(results);
+    }
+  });
+}
+);
+
+//  Insert dump type
+app.put('/api/addDump_Type', (req, res) => {
+  const { dump_type } = req.body;
+  console.log("Server called");
+
+  const query = 'INSERT  INTO dumb_type (type_dumb) VALUES (?)';
+
+  db1.query(query, [dump_type], (err, result) => {
+    if (err) {
+      console.error('Error executing SQL query:', err);
+      res.status(500).json({ error: 'Internal Server Error' });
+    } else {
+      if (result.affectedRows === 0) {
+        res.status(409).json({ error: 'Data already exists' });
+      } else {
+        res.json({ message: 'Data added successfully' });
+      }
+    }
+  });
+});
+
+// delete dumb type
+app.delete('/api/DumpType_Data_Delete', (req, res) => {
+  const {  dumptype } = req.body;
+
+ 
+  if ( !dumptype    ) {
+    return res.status(400).json({ error: 'Value is required in the request body' });
+  }
+
+  db1.query("DELETE FROM dumb_type WHERE type_dumb=? ", [dumptype], (err, result) => {
+    if (err) {
+      return res.status(500).json({ error: 'Internal server error' });
+    } else {
+      if (result.affectedRows > 0) {
+        return res.json({ message: 'Delete Successful' });
+      } else {
+        return res.status(404).json({ error: 'Data not found for deletion' });
+      }
+    }
+  });
+});
+
+
+// Get home type
+app.get('/api/getHomeType',(req,res)=>{
+
+  
+ 
+  const query = 'SELECT home_type FROM `home_type` ';
+
+  db1.query(query, (err, results) => {
+    if (err) {
+      console.error("Error:", err);
+      return res.status(500).json({ error: 'Internal server error' });
+    } 
+    
+    else {
+
+     console.log("DUMP Type",results)
+      res.json(results);
+    }
+  });
+}
+);
+
+// insert home type 
+app.put('/api/addHome_Type', (req, res) => {
+  const { home_type } = req.body;
+  console.log("Server called");
+
+  const query = 'INSERT  INTO home_type (home_type) VALUES (?)';
+
+  db1.query(query, [home_type], (err, result) => {
+    if (err) {
+      console.error('Error executing SQL query:', err);
+      res.status(500).json({ error: 'Internal Server Error' });
+    } else {
+      if (result.affectedRows === 0) {
+        res.status(409).json({ error: 'Data already exists' });
+      } else {
+        res.json({ message: 'Data added successfully' });
+      }
+    }
+  });
+});
+
+// delete home type
+app.delete('/api/HomeType_Data_Delete', (req, res) => {
+  const {  hometype } = req.body;
+
+ 
+  if ( !hometype    ) {
+    return res.status(400).json({ error: 'Value is required in the request body' });
+  }
+
+  db1.query("DELETE FROM home_type WHERE home_type=? ", [hometype], (err, result) => {
+    if (err) {
+      return res.status(500).json({ error: 'Internal server error' });
+    } else {
+      if (result.affectedRows > 0) {
+        return res.json({ message: 'Delete Successful' });
+      } else {
+        return res.status(404).json({ error: 'Data not found for deletion' });
+      }
+    }
+  });
+});
+
+// getHomeUsage
+
+app.get('/api/getHomeUsage',(req,res)=>{
+
+  
+ 
+  const query = 'SELECT home_usage FROM `home_usage` ';
+
+  db1.query(query, (err, results) => {
+    if (err) {
+      console.error("Error:", err);
+      return res.status(500).json({ error: 'Internal server error' });
+    } 
+    
+    else {
+
+     console.log("DUMP Type",results)
+      res.json(results);
+    }
+  });
+}
+);
+// addHome_Usage
+
+
+app.put('/api/addHome_Usage', (req, res) => {
+  const { home_usage } = req.body;
+  console.log("Server called");
+
+  const query = 'INSERT  INTO home_usage (home_usage) VALUES (?)';
+
+  db1.query(query, [home_usage], (err, result) => {
+    if (err) {
+      console.error('Error executing SQL query:', err);
+      res.status(500).json({ error: 'Internal Server Error' });
+    } else {
+      if (result.affectedRows === 0) {
+        res.status(409).json({ error: 'Data already exists' });
+      } else {
+        res.json({ message: 'Data added successfully' });
+      }
+    }
+  });
+});
+// HomeUsage_Data_Delete
+
+app.delete('/api/HomeUsage_Data_Delete', (req, res) => {
+  const {  homeusage } = req.body;
+
+ 
+  if ( !homeusage    ) {
+    return res.status(400).json({ error: 'Value is required in the request body' });
+  }
+
+  db1.query("DELETE FROM home_usage WHERE home_usage=? ", [homeusage], (err, result) => {
+    if (err) {
+      return res.status(500).json({ error: 'Internal server error' });
+    } else {
+      if (result.affectedRows > 0) {
+        return res.json({ message: 'Delete Successful' });
+      } else {
+        return res.status(404).json({ error: 'Data not found for deletion' });
+      }
+    }
+  });
+});
+// get_Ins_Time_Data
+
+app.get('/api/get_Ins_Time_Data',(req,res)=>{
+
+  
+ 
+  const query = 'SELECT time_shift FROM `inspection_time` ';
+
+  db1.query(query, (err, results) => {
+    if (err) {
+      console.error("Error:", err);
+      return res.status(500).json({ error: 'Internal server error' });
+    } 
+    
+    else {
+
+     console.log("DUMP Type",results)
+      res.json(results);
+    }
+  });
+}
+);
+
+
+// addIns_time
+
+
+app.put('/api/addIns_time', (req, res) => {
+  const { ins_time } = req.body;
+  console.log("Server called");
+
+  const query = 'INSERT  INTO inspection_time (time_shift) VALUES (?)';
+
+  db1.query(query, [ins_time], (err, result) => {
+    if (err) {
+      console.error('Error executing SQL query:', err);
+      res.status(500).json({ error: 'Internal Server Error' });
+    } else {
+      if (result.affectedRows === 0) {
+        res.status(409).json({ error: 'Data already exists' });
+      } else {
+        res.json({ message: 'Data added successfully' });
+      }
+    }
+  });
+});
+// delete_Ins_time_Data1
+
+
+app.delete('/api/delete_Ins_time_Data1', (req, res) => {
+  const {  Ins_time } = req.body;
+
+ 
+  if ( !Ins_time    ) {
+    return res.status(400).json({ error: 'Value is required in the request body' });
+  }
+
+  db1.query("DELETE FROM inspection_time WHERE time_shift=? ", [Ins_time], (err, result) => {
+    if (err) {
+      return res.status(500).json({ error: 'Internal server error' });
+    } else {
+      if (result.affectedRows > 0) {
+        return res.json({ message: 'Delete Successful' });
+      } else {
+        return res.status(404).json({ error: 'Data not found for deletion' });
+      }
+    }
+  });
+});
+
+
+//  get_Ins_Time_Insp_Data
+
+
+app.get('/api/get_Ins_Time_Insp_Data',(req,res)=>{
+
+  
+ 
+  const query = 'SELECT inspection_time FROM `inspection_time_ins` ';
+
+  db1.query(query, (err, results) => {
+    if (err) {
+      console.error("Error:", err);
+      return res.status(500).json({ error: 'Internal server error' });
+    } 
+    
+    else {
+
+     console.log("DUMP Type",results)
+      res.json(results);
+    }
+  });
+}
+);
+//  add ins_time_insp
+
+
+app.put('/api/ins_time_insp', (req, res) => {
+  const { ins_time_insp } = req.body;
+  console.log("Server called");
+
+  const query = 'INSERT  INTO inspection_time_ins (inspection_time) VALUES (?)';
+
+  db1.query(query, [ins_time_insp], (err, result) => {
+    if (err) {
+      console.error('Error executing SQL query:', err);
+      res.status(500).json({ error: 'Internal Server Error' });
+    } else {
+      if (result.affectedRows === 0) {
+        res.status(409).json({ error: 'Data already exists' });
+      } else {
+        res.json({ message: 'Data added successfully' });
+      }
+    }
+  });
+});
+
+
+// delete_Ins_time_insp_Data1
+
+
+app.delete('/api/delete_Ins_time_insp_Data1', (req, res) => {
+  const {  Ins_time_insp } = req.body;
+
+ 
+  if ( !Ins_time_insp    ) {
+    return res.status(400).json({ error: 'Value is required in the request body' });
+  }
+
+  db1.query("DELETE FROM inspection_time_ins WHERE inspection_time=? ", [Ins_time_insp], (err, result) => {
+    if (err) {
+      return res.status(500).json({ error: 'Internal server error' });
+    } else {
+      if (result.affectedRows > 0) {
+        return res.json({ message: 'Delete Successful' });
+      } else {
+        return res.status(404).json({ error: 'Data not found for deletion' });
+      }
+    }
+  });
+});
+// get_OEM_Data
+
+
+app.get('/api/get_OEM_Data',(req,res)=>{
+
+  
+ 
+  const query = 'SELECT oem_name FROM `oem_details` ';
+
+  db1.query(query, (err, results) => {
+    if (err) {
+      console.error("Error:", err);
+      return res.status(500).json({ error: 'Internal server error' });
+    } 
+    
+    else {
+
+     console.log("DUMP Type",results)
+      res.json(results);
+    }
+  });
+}
+);
+
+// add oem_details
+
+app.put('/api/oem_details', (req, res) => {
+  const { oem_details } = req.body;
+  console.log("Server called");
+
+  const query = 'INSERT  INTO oem_details (oem_name) VALUES (?)';
+
+  db1.query(query, [oem_details], (err, result) => {
+    if (err) {
+      console.error('Error executing SQL query:', err);
+      res.status(500).json({ error: 'Internal Server Error' });
+    } else {
+      if (result.affectedRows === 0) {
+        res.status(409).json({ error: 'Data already exists' });
+      } else {
+        res.json({ message: 'Data added successfully' });
+      }
+    }
+  });
+});
+
+
+// delete_OEM_Data1
+
+
+app.delete('/api/delete_OEM_Data1', (req, res) => {
+  const {  OEM } = req.body;
+
+ 
+  if ( !OEM    ) {
+    return res.status(400).json({ error: 'Value is required in the request body' });
+  }
+
+  db1.query("DELETE FROM oem_details WHERE oem_name =? ", [OEM], (err, result) => {
+    if (err) {
+      return res.status(500).json({ error: 'Internal server error' });
+    } else {
+      if (result.affectedRows > 0) {
+        return res.json({ message: 'Delete Successful' });
+      } else {
+        return res.status(404).json({ error: 'Data not found for deletion' });
+      }
+    }
+  });
+});
+
+// get_Region_Details
+
+app.get('/api/get_Region_Details',(req,res)=>{
+
+  
+ 
+  const query = 'SELECT region_name FROM `region_details` ';
+
+  db1.query(query, (err, results) => {
+    if (err) {
+      console.error("Error:", err);
+      return res.status(500).json({ error: 'Internal server error' });
+    } 
+    
+    else {
+
+     console.log("DUMP Type",results)
+      res.json(results);
+    }
+  });
+}
+);
+// add region_details
+
+
+app.put('/api/region_details', (req, res) => {
+  const { region_details } = req.body;
+  console.log("Server called");
+
+  const query = 'INSERT  INTO region_details (region_name) VALUES (?)';
+
+  db1.query(query, [region_details], (err, result) => {
+    if (err) {
+      console.error('Error executing SQL query:', err);
+      res.status(500).json({ error: 'Internal Server Error' });
+    } else {
+      if (result.affectedRows === 0) {
+        res.status(409).json({ error: 'Data already exists' });
+      } else {
+        res.json({ message: 'Data added successfully' });
+      }
+    }
+  });
+});
+// delete_Region_Data1
+
+app.delete('/api/delete_Region_Data1', (req, res) => {
+  const {  Region } = req.body;
+
+ 
+  if ( !Region    ) {
+    return res.status(400).json({ error: 'Value is required in the request body' });
+  }
+
+  db1.query("DELETE FROM region_details WHERE region_name =? ", [Region], (err, result) => {
+    if (err) {
+      return res.status(500).json({ error: 'Internal server error' });
+    } else {
+      if (result.affectedRows > 0) {
+        return res.json({ message: 'Delete Successful' });
+      } else {
+        return res.status(404).json({ error: 'Data not found for deletion' });
+      }
+    }
+  });
+});
+// get_Travel_Acc_Details
+
+
+app.get('/api/get_Travel_Acc_Details',(req,res)=>{
+
+  
+ 
+  const query = 'SELECT type_of FROM `travel_accomodation` ';
+
+  db1.query(query, (err, results) => {
+    if (err) {
+      console.error("Error:", err);
+      return res.status(500).json({ error: 'Internal server error' });
+    } 
+    
+    else {
+
+     console.log("DUMP Type",results)
+      res.json(results);
+    }
+  });
+}
+);
+
+// addToTravel_Acc_Details
+
+
+
+app.put('/api/addToTravel_Acc_Details', (req, res) => {
+  const { Travel_Acc_details } = req.body;
+  console.log("Server called");
+
+  const query = 'INSERT  INTO travel_accomodation (type_of) VALUES (?)';
+
+  db1.query(query, [Travel_Acc_details], (err, result) => {
+    if (err) {
+      console.error('Error executing SQL query:', err);
+      res.status(500).json({ error: 'Internal Server Error' });
+    } else {
+      if (result.affectedRows === 0) {
+        res.status(409).json({ error: 'Data already exists' });
+      } else {
+        res.json({ message: 'Data added successfully' });
+      }
+    }
+  });
+});
+// delete_Travel_Acc_Data1
+
+app.delete('/api/delete_Travel_Acc_Data1', (req, res) => {
+  const {  Region } = req.body;
+console.log("SErver********** ",Region)
+ 
+  if ( !Region    ) {
+    return res.status(400).json({ error: 'Value is required in the request body' });
+  }
+
+  db1.query("DELETE FROM travel_accomodation WHERE type_of = ? ", [Region], (err, result) => {
+    if (err) {
+      // console.log("err ",Region)
+      return res.status(500).json({ error: 'Internal server error' });
+    } else {
+      if (result.affectedRows > 0) {
+        // console.log("Deletesucc ",Region)
+        return res.json({ message: 'Delete Successful' });
+      } else {
+        // console.log("Not found ",Region)
+        return res.status(404).json({ error: 'Data not found for deletion' });
+      }
+    }
+  });
+});
+
+// get_Type_Ele_Details
+
+
+app.get('/api/get_Type_Ele_Details',(req,res)=>{
+
+  
+ 
+  const query = 'SELECT type FROM `type_elevator` ';
+
+  db1.query(query, (err, results) => {
+    if (err) {
+      console.error("Error:", err);
+      return res.status(500).json({ error: 'Internal server error' });
+    } 
+    
+    else {
+
+     console.log("DUMP Type",results)
+      res.json(results);
+    }
+  });
+}
+);
+
+// addToType_EleDetails
+
+app.put('/api/addToType_EleDetails', (req, res) => {
+  const { Travel_Acc_details } = req.body;
+  console.log("Server called");
+
+  const query = 'INSERT  INTO type_elevator (type) VALUES (?)';
+
+  db1.query(query, [Travel_Acc_details], (err, result) => {
+    if (err) {
+      console.error('Error executing SQL query:', err);
+      res.status(500).json({ error: 'Internal Server Error' });
+    } else {
+      if (result.affectedRows === 0) {
+        res.status(409).json({ error: 'Data already exists' });
+      } else {
+        res.json({ message: 'Data added successfully' });
+      }
+    }
+  });
+});
+
+// delete_Type_ele_Data1
+
+
+app.delete('/api/delete_Type_ele_Data1', (req, res) => {
+  const {  Region } = req.body;
+
+ 
+  if ( !Region    ) {
+    return res.status(400).json({ error: 'Value is required in the request body' });
+  }
+
+  db1.query("DELETE FROM type_elevator WHERE type =? ", [Region], (err, result) => {
+    if (err) {
+      return res.status(500).json({ error: 'Internal server error' });
+    } else {
+      if (result.affectedRows > 0) {
+        return res.json({ message: 'Delete Successful' });
+      } else {
+        return res.status(404).json({ error: 'Data not found for deletion' });
+      }
+    }
+  });
+});
+
+// get_Type_Bul_Details
+app.get('/api/get_Type_Bul_Details',(req,res)=>{
+
+  
+ 
+  const query = 'SELECT building_name FROM `type_of_building` ';
+
+  db1.query(query, (err, results) => {
+    if (err) {
+      console.error("Error:", err);
+      return res.status(500).json({ error: 'Internal server error' });
+    } 
+    
+    else {
+
+     console.log("DUMP Type",results)
+      res.json(results);
+    }
+  });
+}
+);
+
+// addToType_BulDetails
+app.put('/api/addToType_BulDetails', (req, res) => {
+  const { Travel_Acc_details } = req.body;
+  console.log("Server called");
+
+  const query = 'INSERT  INTO type_of_building (building_name) VALUES (?)';
+
+  db1.query(query, [Travel_Acc_details], (err, result) => {
+    if (err) {
+      console.error('Error executing SQL query:', err);
+      res.status(500).json({ error: 'Internal Server Error' });
+    } else {
+      if (result.affectedRows === 0) {
+        res.status(409).json({ error: 'Data already exists' });
+      } else {
+        res.json({ message: 'Data added successfully' });
+      }
+    }
+  });
+});
+
+// delete_Type_Bul_Data1
+app.delete('/api/delete_Type_Bul_Data1', (req, res) => {
+  const {  Region } = req.body;
+
+ 
+  if ( !Region    ) {
+    return res.status(400).json({ error: 'Value is required in the request body' });
+  }
+
+  db1.query("DELETE FROM type_of_building WHERE building_name =? ", [Region], (err, result) => {
+    if (err) {
+      return res.status(500).json({ error: 'Internal server error' });
+    } else {
+      if (result.affectedRows > 0) {
+        return res.json({ message: 'Delete Successful' });
+      } else {
+        return res.status(404).json({ error: 'Data not found for deletion' });
+      }
+    }
+  });
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //apis for inf 26
 
 // Define a route to fetch values from MySQL
@@ -845,7 +1607,7 @@ app.get('/api/region', (req, res) => {
       res.json(values);
     });
   });
-
+// Get Home USAGE FROM DB
 
   app.get('/api/home_usages', (req, res) => {
     const query = 'SELECT home_usage FROM home_usage';
@@ -879,7 +1641,7 @@ app.get('/api/region', (req, res) => {
     });
   });
 
-
+// Get Dumb Usage from DB
   app.get('/api/dumb_usages', (req, res) => {
     const query = 'SELECT usage_dumb FROM dumb_usage';
   
@@ -1236,102 +1998,8 @@ app.get('/api/inspector', (req, res) => {
 
 
 
-  // const db1 = mysql.createPool({
-  //   host: this.host,
-  //   user: this.user,
-  //   password: this.password,
-  //   database: this.database,
-  // });
 
-  // app.post('/api/store_data', async (req, res) => {
-  //   try {
-  //     const { contractNumber, region, location } = req.body;
   
-  //     // Insert data into the MySQL table, including the new field
-  //     const [results] = await db1.query('INSERT INTO inf_26 (contract_number, region, location) VALUES (?, ?, ?)', [contractNumber, region, location]);
-  
-  //     console.log('Data inserted:', results);
-  //     res.json({ message: 'Data inserted successfully' });
-  //   } catch (error) {
-  //     console.error('Error inserting data:', error);
-  //     res.status(500).json({ error: 'An error occurred while storing data' });
-  //   }
-  // });
-
-  //to get all contract number
-  // app.get('/contract_no', (req, res) => {
-  //   const query = 'SELECT contract_number FROM inf_26';
-  
-  //   db.query(query, (err, results) => {
-  //     if (err) {
-  //       console.error('Error executing SQL query:', err);
-  //       res.status(500).json({ error: 'Internal Server Error' });
-  //     } else {
-  //       const names = results.map((row) => row.contract_number);
-  //       res.json(names);
-  //     }
-  //   });
-  // });
-  // app.get('/contract_no', (req, res) => {
-  //   let query = 'SELECT contract_number FROM inf_26 WHERE i_status=0';
-  
-  //   // Check if job_type parameter is provided in the request
-  //   if (req.query.job_type && req.query.job_type === 'V') {
-  //     query += ' WHERE job_type = ? AND status = ?';
-  //     const values = ['V', 1];
-  
-  //     db.query(query, values, (err, results) => {
-  //       if (err) {
-  //         console.error('Error executing SQL query:', err);
-  //         res.status(500).json({ error: 'Internal Server Error' });
-  //       } else {
-  //         const names = results.map((row) => row.contract_number);
-  //         res.json(names);
-  //       }
-  //     });
-  //   } else {
-  //     // If job_type is not 'V', fetch all records
-  //     db.query(query, (err, results) => {
-  //       if (err) {
-  //         console.error('Error executing SQL query:', err);
-  //         res.status(500).json({ error: 'Internal Server Error' });
-  //       } else {
-  //         const names = results.map((row) => row.contract_number);
-  //         res.json(names);
-  //       }
-  //     });
-  //   }
-  // });
-  // app.get('/contract_no', (req, res) => {
-  //   // const jobType = 'SELECT job_type from inf_26';
-  //   let query = 'SELECT contract_number FROM inf_26 where i_status=0';
-  //   console.log(jobType);
-  
-  //   if (jobType === 'V') {
-  //     query += ' WHERE job_type = ? AND status = ? AND i_status=?';
-  //     const values = ['V', 1 , 0];
-  
-  //     db.query(query, values, (err, results) => {
-  //       if (err) {
-  //         console.error('Error executing SQL query:', err);
-  //         res.status(500).json({ error: 'Internal Server Error' });
-  //       } else {
-  //         const names = results.map((row) => row.contract_number);
-  //         res.json(names);
-  //       }
-  //     });
-  //   } else {
-  //     db.query(query, (err, results) => {
-  //       if (err) {
-  //         console.error('Error executing SQL query:', err);
-  //         res.status(500).json({ error: 'Internal Server Error' });
-  //       } else {
-  //         const names = results.map((row) => row.contract_number);
-  //         res.json(names);
-  //       }
-  //     });
-  //   }
-  // });
 
   app.get('/contract_no', (req, res) => {
     // const query = 'SELECT contract_number FROM inf_26 where i_status=0';
