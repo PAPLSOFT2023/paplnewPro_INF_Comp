@@ -60,7 +60,7 @@ export class Dialog2Component  {
     console.log(this.final_count);
   
     if (this.dataService.total_units != this.final_count) {
-      alert("Error: Values don't match!");
+      alert("Error: Unit Values doesn't match!");
     } else {
       // alert("no error")
       // If the values match, close the dialog
@@ -79,6 +79,7 @@ export class Dialog2Component  {
       // alert('this is new dialog!!');
       // console.log(this.dataService.total_count);
       console.log(this.selectedDetails);
+      
       
       
       
