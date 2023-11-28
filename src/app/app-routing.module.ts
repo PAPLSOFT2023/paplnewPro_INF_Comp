@@ -24,6 +24,7 @@ import { MailComponent } from './mail/mail.component';
 import { InfPdfComponent } from './INF/inf-pdf/inf-pdf.component';
 import { InspectorHomeComponent } from './inspector_dashboard/inspector-home/inspector-home.component';
 import { ScheduledWorkComponent } from './scheduled-work/scheduled-work.component';
+import { MailAutomationInspComponent } from './inspector_dashboard/mail-automation-insp/mail-automation-insp.component';
 
 const routes: Routes = [
 
@@ -58,6 +59,7 @@ const routes: Routes = [
         // Inspector
         {path:"inspectorHome",component:InspectorHomeComponent},
         {path:'scheduledWork', component:ScheduledWorkComponent},
+        {path:"mail_automation",component:MailAutomationInspComponent},
 
         
          {path:'inspection_home', component:InspectionInfComponent},

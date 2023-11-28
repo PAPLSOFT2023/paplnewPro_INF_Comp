@@ -589,26 +589,18 @@ app.get('/api/ResendVerificationLink', (req, res) => {
   const email = req.query.Email;
   const verificationToken = uuidv4();
 
-
-   
-
-
-
   sendVerificationEmailboolean(email, verificationToken, (error) => {
     if (error) {
       res.json({ success: false, message: 'Failed to send verification email' });
-    } else {
+    } 
+    else {
       db.query('UPDATE clientadmin SET Emailtoken= ? WHERE Email=?',[verificationToken,email],(error,result)=>{ 
-
         if(result)
         {
           console.log("DB Updated")
           res.json({ success: true, message: 'Verification link sent successfully' });
         }
-
-
        });
-      
     }
   });
 });
@@ -711,6 +703,8 @@ function sendVerificationEmailboolean(email, token, callback) {
     }
   });
 }
+
+
 
 
 
@@ -1505,6 +1499,22 @@ app.delete('/api/delete_Type_Bul_Data1', (req, res) => {
     }
   });
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
