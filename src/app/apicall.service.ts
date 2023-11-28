@@ -37,6 +37,14 @@ Resend_mail_verification(email:string):Observable<any>{
 
 
 
+
+get_Insp_Name_List():Observable<any>{
+
+  console.log("api called")
+  return this.httpClient.get(this.apiURL+"Get_Insp_List")
+}
+
+
 generatePDF():Observable<any>{
   console.log("wsdef")
   // this.httpClient.get(this.apiURL+"generate-pdf");
