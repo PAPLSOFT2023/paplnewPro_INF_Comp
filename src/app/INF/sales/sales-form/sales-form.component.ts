@@ -91,7 +91,7 @@ export class SalesFormComponent {
   contract_number:string='';
   region:string='';
   location:string='';
-  pincode:string='';
+  pincode:number=0;
   master_customer:string='';
   work_order_no:string='';
   customer_name_workorder:string='';
@@ -132,7 +132,7 @@ export class SalesFormComponent {
 
 
   constructor(private http:HttpClient,private dialog:MatDialog,private dataService:ApicallService,private route: ActivatedRoute, private router:Router){
-    
+    dataService.no_of_units=this.total_number_of_units;
   }
   ngOnInit(): void {
 
@@ -206,6 +206,8 @@ export class SalesFormComponent {
   //   });
   // }
   openDialog(){
+    this.dataService.total_units=this.total_number_of_units;
+
     const dialogRef = this.dialog.open(Dialog2Component,{restoreFocus:false});
     dialogRef.afterClosed().subscribe(()=>{
       // alert('this dialog has been closed.');
