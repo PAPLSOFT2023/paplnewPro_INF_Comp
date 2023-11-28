@@ -1608,8 +1608,7 @@ app.get('/api/region', (req, res) => {
     });
   });
 // Get Home USAGE FROM DB
-
-  app.get('/api/home_usages', (req, res) => {
+app.get('/api/home_usages', (req, res) => {
     const query = 'SELECT home_usage FROM home_usage';
   
     db1.query(query, (err, results) => {
@@ -1749,11 +1748,14 @@ app.get('/api/region', (req, res) => {
 //       const diffInDays = Math.floor((currentDate - doj) / (1000 * 60 * 60 * 24)); // Calculate the difference in days
 //       return diffInDays > 730;
 //     });
-
 //     const values = filteredResults.map(row => row.inspector_name);
 //     res.json(values);
 //   });
 //   });
+
+
+
+
 
 app.get('/api/inspector', (req, res) => {
   // const oem = req.query.oem;
