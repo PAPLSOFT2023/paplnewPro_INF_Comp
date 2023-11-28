@@ -26,7 +26,7 @@ app.use(express.json());
 // Firebase Next Link
 const admin = require('firebase-admin');
 const serviceAccount = require('./paplapplication-firebase-adminsdk-dlrxg-4adbf847ee.json');
-const { error } = require('console');
+const { error, log } = require('console');
 const e = require('express');
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -47,6 +47,12 @@ const db = mysql.createConnection({
   user: 'root',
   password: '',
   database: 'paplworkspace',
+});
+const db1 = mysql.createConnection({
+  host: '127.0.0.1',
+  user: 'root',
+  password: '',
+  database: 'papl_inspection',
 });
 
 
@@ -348,10 +354,12 @@ app.post('/api/login', (req, res) => {
         const mail_status=user.Emailverified;
 
         // This is get the Inspector name From insp_data Database
-        db1.query('SELECT  `inspector_name` FROM `insp_data` WHERE emailid=?  ',username,(err,result)=>{
+        db1.query('SELECT inspector_name FROM `insp_data` WHERE emailid= ?  ',username,(err,result)=>{
           if(result)
           {
-            user_name=result[0].inspector_name;
+            // user_name=result[0].inspector_name;
+            user_name=user.Username;
+
            
           }
           else{
@@ -738,12 +746,7 @@ function sendVerificationEmailboolean(email, token, callback) {
 
 
 
-const db1 = mysql.createConnection({
-  host: '127.0.0.1',
-  user: 'root',
-  password: '',
-  database: 'papl_inspection',
-});
+
 
 // Connect to the MySQL database
 db1.connect((err) => {
@@ -2124,6 +2127,51 @@ app.get('/api/inspector', (req, res) => {
       }
     });
   });
+
+  //notification count
+  // app.get('/api/countRecords', (req, res) => {
+  //   // const name = req.params.name;  // Extract 'name' parameter from the request query
+  //   const { name } = req.query;
+
+  //   console.log(name);
+  
+  //   // Construct the SQL query using FIND_IN_SET() to check if 'name' is within 'inspector_name'
+  //   let sqlQuery = `SELECT COUNT(*) AS count FROM inf_26 WHERE FIND_IN_SET(${db1.escape(name)}, inspector_list) > 0;`;
+  //   // if (name) {
+  //   //   sqlQuery += ` WHERE CONCAT(',', inspector_list, ',') LIKE ${db1.escape(`%,${name},%`)}`;
+  //   // }
+  
+  //   db1.query(sqlQuery, (error, results) => {
+  //     if (error) {
+  //       res.status(500).json({ error: 'Error fetching record count' });
+  //     } else {
+  //       const count = results[0].count;
+  //       console.log(count);
+  //       res.status(200).json(count);
+  //     }
+  //   });
+  // });
+
+  app.get('/api/countRecords', (req, res) => {
+    const { name } = req.query;
+    console.log(name);
+  
+    // Construct the SQL query to check if 'name' exists within 'inspector_like' JSON array
+    let sqlQuery = `SELECT COUNT(*) AS count FROM inf_26 WHERE JSON_CONTAINS(inspector_list, ${db1.escape(`"${name}"`)})`;
+  
+    db1.query(sqlQuery, (error, results) => {
+      if (error) {
+        res.status(500).json({ error: 'Error fetching record count' });
+      } else {
+        const count = results[0].count;
+        console.log(count);
+        res.status(200).json(count);
+      }
+    });
+  });
+  
+  
+  
 
 
 
