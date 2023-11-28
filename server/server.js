@@ -27,6 +27,7 @@ app.use(express.json());
 const admin = require('firebase-admin');
 const serviceAccount = require('./paplapplication-firebase-adminsdk-dlrxg-4adbf847ee.json');
 const { error } = require('console');
+const e = require('express');
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   databaseURL: 'https://paplapplication-default-rtdb.firebaseio.com',
@@ -76,6 +77,31 @@ const transporter = nodemailer.createTransport({
 });
 
 
+
+// get INspector List from scheduled INF26
+app.get('/api/Get_Insp_List',(req,res)=>{
+
+ 
+    
+    const query='SELECT `inspector_list` FROM `inf_26` WHERE 1 ';
+    db1.query(query, (err, results) => {
+      if (err) {
+        return res.status(500).json({ error: 'Internal server error' });
+      } else {
+        // Filter out empty values
+        const filteredResults = results.filter((result) => {
+          return result.inspector_list !== '[""]' && result.inspector_list !== null;
+        });
+    
+        console.log("--------->", filteredResults);
+        return res.json(filteredResults);
+      }
+    });
+  });
+
+
+
+// Get Leave Data For Inspection schedule from NExt Link
 app.get('/api/leaveData', (req, res) => {
   const ref = Firebase_db.ref('/Leave/Leaveforleadknown/krishnannarayananpaplcorpcom');
 
@@ -119,10 +145,6 @@ app.get('/api/leaveData', (req, res) => {
         });
       });
     });
-
-
-
-
     // Convert the grouped data object to an array
     const resultArray = Object.values(groupedData);
 
@@ -299,6 +321,14 @@ app.post('/api/login', (req, res) => {
       // console.log("---", err);
       return res.status(401).json({ error: 'Invalid username or password' });
     }
+    else{
+
+      
+
+
+
+
+      
 
     const user = results[0];
 
@@ -317,18 +347,35 @@ app.post('/api/login', (req, res) => {
           expiresIn: '1h',
         });
 
+        
+
         const status = user.Status;
         const role = user.Role;
         const organization = user.Organization;
-        const user_name=user.Username;
+         let user_name="sam";
         const mail_status=user.Emailverified;
 
-        res.json({ token, status, role, organization,user_name,mail_status });
+        // This is get the Inspector name From insp_data Database
+        db1.query('SELECT  `inspector_name` FROM `insp_data` WHERE emailid=?  ',username,(err,result)=>{
+          if(result)
+          {
+            user_name=result[0].inspector_name;
+           
+          }
+          else{
+            user_name=user.Username;
+          }
+          // console.log("Name from PAPL INSPECTION EMP",user_name)
+          res.json({ token, status, role, organization,user_name,mail_status });
+        })
+
+        
       } 
       catch (error) {
         res.status(500).json({ error: 'Token creation failed' });
       }
     });
+  }
   });
 });
 

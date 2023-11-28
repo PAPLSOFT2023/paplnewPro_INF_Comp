@@ -5,6 +5,8 @@ import{Observable}from 'rxjs';
   providedIn: 'root'
 })
 export class ApicallService {
+  total_units:number=0;
+
   private apiURLCommon='http://localhost:3000/';
   private apiURL=this.apiURLCommon+'api/';
   
@@ -46,6 +48,14 @@ get_emp_data():Observable<any>{
   console.log("Api called")
   return  this.httpClient.get(this.apiURL+"get_emp_data");
 }
+
+
+get_Insp_Name_List():Observable<any>{
+
+  console.log("api called")
+  return this.httpClient.get(this.apiURL+"Get_Insp_List")
+}
+
 
 generatePDF():Observable<any>{
   console.log("wsdef")
@@ -542,6 +552,8 @@ deleteLoginDetails(email: string): Observable<any> {
   calculateSum(): number {
     return this.elevator_stops.reduce((acc, currentValue) => acc + currentValue, 0);
   }
+
+  no_of_units:number=0;
   
 
   //home elevator

@@ -253,6 +253,8 @@ export class PlanningEngInfComponent {
   //   });
   // }
   openDialog(){
+    this.dataService.total_units=this.total_number_of_units;
+
     const dialogRef = this.dialog.open(Dialog2Component,{restoreFocus:false});
     dialogRef.afterClosed().subscribe(()=>{
       // alert('this dialog has been closed.');
