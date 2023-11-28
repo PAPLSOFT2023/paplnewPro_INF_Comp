@@ -49,6 +49,14 @@ const db = mysql.createConnection({
 });
 
 
+const db1 = mysql.createConnection({
+  host: '127.0.0.1',
+  user: 'root',
+  password: '',
+  database: 'papl_inspection',
+});
+
+
 db.connect((err) => {
   if (err) {
     console.error('Error', err);
@@ -324,6 +332,73 @@ app.post('/api/login', (req, res) => {
   });
 });
 
+
+
+// get emp Profile data
+
+app.get('/api/get_emp_data',(req,res)=>{
+  const query='SELECT NAME,email_id,PSN_NO,designation,contact_no,date_of_joining,date_of_birth,dept FROM emp_data';
+  db1.query(query,(err,results)=>{
+    if(err)
+    {
+      console.log("Error accoured",err);
+      return res.status(500).json({ error: err });
+    }
+    else{
+      
+      // console.log(results)
+      const arrayLength = results.length;
+       Logineddata =[];
+     
+      
+      // Iterate through the array
+      for (let i = 0; i < arrayLength; i++) {
+
+
+        // results[i].Password
+         Logineddata[i] = results[i];
+
+
+      
+       
+      }
+      console.log(Logineddata);
+      res.json(Logineddata);
+
+
+    }
+
+  });
+
+})
+
+// In your Node.js/Express server
+app.get('/api/update_emp_data/:id', (req, res) => {
+
+
+ 
+  const userId = req.params.id;
+  const updatedData = req.body;
+  console.log(userId,updatedData)
+
+  connection.query(
+    'UPDATE emp_data SET ? WHERE NAME = ?',
+    [updatedData, userId],
+    (err, results) => {
+      if (err) {
+        console.error('Error updating user in the database:', err);
+        res.status(500).json({ error: 'Error updating user in the database' });
+      } else {
+        console.log('User updated in the database.');
+        res.json({ message: 'User updated successfully' });
+      }
+    }
+  );
+});
+
+
+
+// software admin login Details update 
 app.put('/api/adminregister_login_update', (req, res) => {
   const {email,organization,role,lstatus,authenticator,username,emailverified,existingmail,department } = req.body;
 
@@ -566,6 +641,11 @@ app.get('/api/ResendVerificationLink', (req, res) => {
   });
 });
 
+//profiledetail code 
+// app.get('/api/get_email_data',(req,res)) => {
+//   const {}
+// }
+
 
 
 
@@ -691,12 +771,7 @@ function sendVerificationEmailboolean(email, token, callback) {
 
 
 
-const db1 = mysql.createConnection({
-  host: '127.0.0.1',
-  user: 'root',
-  password: '',
-  database: 'papl_inspection',
-});
+
 
 // Connect to the MySQL database
 db1.connect((err) => {
