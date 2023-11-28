@@ -45,7 +45,7 @@ const routes: Routes = [
         children:[
           {path:'organization_admin_login_details', component:LogindetailManageComponent},
           {path:'',redirectTo:'organization_admin_login_details',pathMatch:'full'},
-          {path:'organization_admin_profile_details',component:ProfiledetailManageComponent},
+          
           
         ]},
         // organization admin

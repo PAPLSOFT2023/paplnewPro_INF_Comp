@@ -12,6 +12,8 @@ export class ApicallService {
   
 
   constructor(private httpClient:HttpClient,private http:HttpClient) { }
+
+ 
   // this func for load customerdata
 Resend_mail_verification(email:string):Observable<any>{
 
@@ -32,10 +34,20 @@ Resend_mail_verification(email:string):Observable<any>{
   return this.httpClient.get(url,options) ;
 }
 
+// In ApicallService
+update_emp_data(userId: string, updatedData: any): Observable<any> {
+  console.log("api called")
+  return this.http.put<any>(`${this.apiURL}/update_emp_data/${userId}`, updatedData);
+}
 
 
 
 
+//emp_data database 
+get_emp_data():Observable<any>{
+  console.log("Api called")
+  return  this.httpClient.get(this.apiURL+"get_emp_data");
+}
 
 
 get_Insp_Name_List():Observable<any>{
