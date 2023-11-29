@@ -14,28 +14,30 @@
   <form (ngSubmit)="addUser()" #userForm="ngForm">
     <h2>Profile Register</h2>
 
-    <label for="name">Name:</label>
-    <input [(ngModel)]="user.Name" name="name" required />
-    <label for="Email_id">Email_id:</label>
-    <input [(ngModel)]="user.Email_id" name="Email_id" type="email" required />
+    <label for="NAME">Name:</label>
+
+    <input [(ngModel)]="user.NAME" NAME="NAME" required />
+    <label for="email_id">Email_id:</label>
+    <input [(ngModel)]="user.email_id" NAME="email_id" type="email" required />
+    
     
     <label for="PSN_NO">PSN_NO:</label>
-    <input [(ngModel)]="user.PSN_No" name="PSN_NO" required />
+    <input [(ngModel)]="user.PSN_NO" NAME="PSN_NO" required />
 
-    <label for="Designation">Designation:</label>
-    <input [(ngModel)]="user.Designation" name="Designation" required />
+    <label for="designation">Designation:</label>
+    <input [(ngModel)]="user.designation" NAME="designation" required />
 
-    <label for="Contact_No">Contact No:</label>
-    <input [(ngModel)]="user.Contact_No" name="Contact_No" required />
+    <label for="contact_no">Contact No:</label>
+    <input [(ngModel)]="user.contact_no" NAME="contact_no" required />
 
-   <label for="Date_Of_Joining">Date_Of_Joining:</label>
-    <input [(ngModel)]="user.Date_Of_Joining" name="Date_Of_Joining" type="date" required />
+   <label for="date_of_joining">Date_of_joining:</label>
+    <input [(ngModel)]="user.date_of_joining" NAME="date_of_joining" type="date" required />
 
     <label for="Date_Of_Birth">Date_Of_Birth:</label>
-    <input [(ngModel)]="user.Date_Of_Birth" name="Date_Of_Birth" type="date" required />
+    <input [(ngModel)]="user.date_of_birth" NAME="Date_Of_Birth" type="date" required />
 
-    <label for="Department">Department</label>
-    <input [(ngModel)]="user.Department" name="Department" required />
+    <label for="Department">Department:</label>
+    <input [(ngModel)]="user.dept" NAME="Department" required />
     <button type="submit" [disabled]="!userForm.valid">Add User</button>
     <button type="button" (click)="resetUser(); closeUserPopup()">Cancel</button>
   </form>
@@ -48,29 +50,29 @@
 <div *ngIf="isUserPopupOpen1" class="user-popup">
   <form (submit)="updateUser()" #userForm="ngForm">
     <h2>Update user</h2>
-    <label for="name">Name:</label>
-    <input [(ngModel)]="user.Name" name="name" required />
-    <label for="Email_id">Email_id:</label>
-    <input [(ngModel)]="user.Email_id" name="Email_id" type="email" required />
+    <label for="NAME">Name:</label>
+    <input [(ngModel)]="user.NAME" NAME="NAME" required />
+    <label for="email_id">email_id:</label>
+    <input [(ngModel)]="user.email_id" NAME="email_id" type="email" required />
     
     <label for="PSN_NO">PSN_NO:</label>
-    <input [(ngModel)]="user.PSN_No" name="PSN_NO" required />
+    <input [(ngModel)]="user.PSN_NO" NAME="PSN_NO" required />
 
-    <label for="Designation">Designation:</label>
-    <input [(ngModel)]="user.Designation" name="Designation" required />
+    <label for="designation">Designation:</label>
+    <input [(ngModel)]="user.designation" NAME="designation" required />
 
-    <label for="Contact_No">Contact No:</label>
-    <input [(ngModel)]="user.Contact_No" name="Contact_No" required />
+    <label for="contact_no">Contact No:</label>
+    <input [(ngModel)]="user.contact_no" NAME="contact_no" required />
 
-   <label for="Date_Of_Joining">Date_Of_Joining:</label>
-    <input [(ngModel)]="user.Date_Of_Joining" name="Date_Of_Joining" type="date" required />
+   <label for="date_of_joining">Date_of_joining:</label>
+    <input [(ngModel)]="user.date_of_joining" NAME="date_of_joining" type="date" required />
 
     <label for="Date_Of_Birth">Date_Of_Birth:</label>
-    <input [(ngModel)]="user.Date_Of_Birth" name="Date_Of_Birthdate" type="date" required />
+    <input [(ngModel)]="user.date_of_birth" NAME="Date_Of_Birthdate" type="date" required />
 
-    <label for="Department">Department</label>
-    <input [(ngModel)]="user.Department" name="Department" required />
-    <button type="submit"[disabled]="!userForm.valid">Update User</button>
+    <label for="Department">Department:</label>
+    <input [(ngModel)]="user.dept" NAME="Department" required />
+    <button type="submit"[disabled]="!userForm.valid" (click)="update_emp_data()">Update User</button>
     <button type="button" (click)="resetUser(); closeUserPopup1()">Cancel</button>
   </form>
 </div>
@@ -78,30 +80,32 @@
 <!-- Display Users in a Table -->
 <table>
   <tr>
-    <th>Name</th>
+    <th>NAME</th>
     <th>Email_id</th>
     <th>PSN_NO</th>
     <th>Designation</th>
-    <th>Contact_No</th>
-    <th>Date_Of_Joining</th>
+    <th>Contact_no</th>
+    <th>Date_of_joining</th>
     <th>Date_Of_Birth</th>
     <th>Department</th>
     <th>Action</th>
   </tr>
+
+  <!-- NAME,email_id,PSN_NO,designation,contact_no,date_of_joining,date_of_birth,dept -->
   <tr *ngFor="let user of users; let i = index" [ngClass]="{'green-row': i % 2 === 0, 'white-row': i % 2 !== 0}">
-    <td>{{ user.Name }}</td>
-    <td>{{ user.Email_id }}</td>
-    <td>{{ user.PSN_No }}</td>
-    <td>{{ user.Designation }}</td>
-    <td>{{ user.Contact_No }}</td>
-    <td>{{ user.Date_of_Joining | date }}</td>
-    <td>{{ user.Date_of_Birth  | date}}</td>
-    <td>{{ user.Department }}</td>
+    <td>{{ user.NAME }}</td>
+    <td>{{ user.email_id }}</td>
+    <td>{{ user.PSN_NO }}</td>
+    <td>{{ user.designation }}</td>
+    <td>{{ user.contact_no }}</td>
+    <td>{{ formatDate(user.date_of_joining)}}</td>
+    <td>{{ formatDate(user.date_of_birth) }}</td>
+    <td>{{ user.dept }}</td>
     
    
     <td>
-      <button (click)="editUser(user.id)" [ngClass]="'editbutton'">Edit</button>
-      <button (click)="deleteUser(user.id, user.Email)" [ngClass]="'deletebutton'">Delete</button>
+      <button (click)="editUser(user.email_id)" [ngClass]="'editbutton'">Edit</button>
+      <button (click)="deleteUser(user.email_id, user.email_id)" [ngClass]="'deletebutton'">Delete</button>
     </td>
   </tr>
 </table>

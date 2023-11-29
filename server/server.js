@@ -26,7 +26,7 @@ app.use(express.json());
 // Firebase Next Link
 const admin = require('firebase-admin');
 const serviceAccount = require('./paplapplication-firebase-adminsdk-dlrxg-4adbf847ee.json');
-const { error } = require('console');
+const { error, log } = require('console');
 const e = require('express');
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -47,6 +47,20 @@ const db = mysql.createConnection({
   user: 'root',
   password: '',
   database: 'paplworkspace',
+});
+const db1 = mysql.createConnection({
+  host: '127.0.0.1',
+  user: 'root',
+  password: '',
+  database: 'papl_inspection',
+});
+
+
+const db1 = mysql.createConnection({
+  host: '127.0.0.1',
+  user: 'root',
+  password: '',
+  database: 'papl_inspection',
 });
 
 
@@ -348,10 +362,12 @@ app.post('/api/login', (req, res) => {
         const mail_status=user.Emailverified;
 
         // This is get the Inspector name From insp_data Database
-        db1.query('SELECT  `inspector_name` FROM `insp_data` WHERE emailid=?  ',username,(err,result)=>{
+        db1.query('SELECT inspector_name FROM `insp_data` WHERE emailid= ?  ',username,(err,result)=>{
           if(result)
           {
-            user_name=result[0].inspector_name;
+            // user_name=result[0].inspector_name;
+            user_name=user.Username;
+
            
           }
           else{
@@ -371,6 +387,73 @@ app.post('/api/login', (req, res) => {
   });
 });
 
+
+
+// get emp Profile data
+
+app.get('/api/get_emp_data',(req,res)=>{
+  const query='SELECT NAME,email_id,PSN_NO,designation,contact_no,date_of_joining,date_of_birth,dept FROM emp_data';
+  db1.query(query,(err,results)=>{
+    if(err)
+    {
+      console.log("Error accoured",err);
+      return res.status(500).json({ error: err });
+    }
+    else{
+      
+      // console.log(results)
+      const arrayLength = results.length;
+       Logineddata =[];
+     
+      
+      // Iterate through the array
+      for (let i = 0; i < arrayLength; i++) {
+
+
+        // results[i].Password
+         Logineddata[i] = results[i];
+
+
+      
+       
+      }
+      console.log(Logineddata);
+      res.json(Logineddata);
+
+
+    }
+
+  });
+
+})
+
+// In your Node.js/Express server
+app.get('/api/update_emp_data/:id', (req, res) => {
+
+
+ 
+  const userId = req.params.id;
+  const updatedData = req.body;
+  console.log(userId,updatedData)
+
+  connection.query(
+    'UPDATE emp_data SET ? WHERE NAME = ?',
+    [updatedData, userId],
+    (err, results) => {
+      if (err) {
+        console.error('Error updating user in the database:', err);
+        res.status(500).json({ error: 'Error updating user in the database' });
+      } else {
+        console.log('User updated in the database.');
+        res.json({ message: 'User updated successfully' });
+      }
+    }
+  );
+});
+
+
+
+// software admin login Details update 
 app.put('/api/adminregister_login_update', (req, res) => {
   const {email,organization,role,lstatus,authenticator,username,emailverified,existingmail,department } = req.body;
 
@@ -605,6 +688,11 @@ app.get('/api/ResendVerificationLink', (req, res) => {
   });
 });
 
+//profiledetail code 
+// app.get('/api/get_email_data',(req,res)) => {
+//   const {}
+// }
+
 
 
 
@@ -732,12 +820,7 @@ function sendVerificationEmailboolean(email, token, callback) {
 
 
 
-const db1 = mysql.createConnection({
-  host: '127.0.0.1',
-  user: 'root',
-  password: '',
-  database: 'papl_inspection',
-});
+
 
 // Connect to the MySQL database
 db1.connect((err) => {
@@ -1665,8 +1748,7 @@ app.get('/api/region', (req, res) => {
     });
   });
 // Get Home USAGE FROM DB
-
-  app.get('/api/home_usages', (req, res) => {
+app.get('/api/home_usages', (req, res) => {
     const query = 'SELECT home_usage FROM home_usage';
   
     db1.query(query, (err, results) => {
@@ -1806,11 +1888,14 @@ app.get('/api/region', (req, res) => {
 //       const diffInDays = Math.floor((currentDate - doj) / (1000 * 60 * 60 * 24)); // Calculate the difference in days
 //       return diffInDays > 730;
 //     });
-
 //     const values = filteredResults.map(row => row.inspector_name);
 //     res.json(values);
 //   });
 //   });
+
+
+
+
 
 app.get('/api/inspector', (req, res) => {
   // const oem = req.query.oem;
@@ -2132,6 +2217,51 @@ app.get('/api/inspector', (req, res) => {
       }
     });
   });
+
+  //notification count
+  // app.get('/api/countRecords', (req, res) => {
+  //   // const name = req.params.name;  // Extract 'name' parameter from the request query
+  //   const { name } = req.query;
+
+  //   console.log(name);
+  
+  //   // Construct the SQL query using FIND_IN_SET() to check if 'name' is within 'inspector_name'
+  //   let sqlQuery = `SELECT COUNT(*) AS count FROM inf_26 WHERE FIND_IN_SET(${db1.escape(name)}, inspector_list) > 0;`;
+  //   // if (name) {
+  //   //   sqlQuery += ` WHERE CONCAT(',', inspector_list, ',') LIKE ${db1.escape(`%,${name},%`)}`;
+  //   // }
+  
+  //   db1.query(sqlQuery, (error, results) => {
+  //     if (error) {
+  //       res.status(500).json({ error: 'Error fetching record count' });
+  //     } else {
+  //       const count = results[0].count;
+  //       console.log(count);
+  //       res.status(200).json(count);
+  //     }
+  //   });
+  // });
+
+  app.get('/api/countRecords', (req, res) => {
+    const { name } = req.query;
+    console.log(name);
+  
+    // Construct the SQL query to check if 'name' exists within 'inspector_like' JSON array
+    let sqlQuery = `SELECT COUNT(*) AS count FROM inf_26 WHERE JSON_CONTAINS(inspector_list, ${db1.escape(`"${name}"`)})`;
+  
+    db1.query(sqlQuery, (error, results) => {
+      if (error) {
+        res.status(500).json({ error: 'Error fetching record count' });
+      } else {
+        const count = results[0].count;
+        console.log(count);
+        res.status(200).json(count);
+      }
+    });
+  });
+  
+  
+  
 
 
 

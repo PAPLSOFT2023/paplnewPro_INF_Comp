@@ -8,19 +8,30 @@
     border-radius: 4px;
     cursor: pointer;
   }
-  .editbutton{
+  /* YourComponent.css or styles.css */
+
+td button {
+  margin-left: 3px;
+  padding: 10px 20px;
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+  border-radius: 2+0px; /* Adjust the border-radius for your desired shape */
+}
+
+.editbutton {
   background-color: #003f87;
-  color: #ffffff;
-  padding: 10px 20px;
-  border-radius: 4px;border-color: #ffffff;
-  }
-  .deletebutton{
-  margin-left: 4px;
+}
+
+.deletebutton {
   background-color: #D2122E;
-  color: #ffffff;
-  padding: 10px 20px;
-  border-radius: 4px;border-color: #ffffff;
-  }
+}
+
+/* Add hover styles for better user feedback */
+td button:hover {
+  opacity: 0.8;
+}
+
   
   
   .Adduser{
@@ -137,11 +148,31 @@
     color: #ffffff;
   }
   
-  table td button {
-    padding: 5px 10px;
-    border-radius: 4px;
-    cursor: pointer;
-  }
+ /* YourComponent.css or styles.css */
+
+table td button {
+  margin-bottom: 6px; /* Add a small margin to create a gap between buttons */
+  padding: 10px 20px;
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+  border-radius: 4px;
+  width: 100px;
+}
+
+.editbutton {
+  background-color: #003f87;
+}
+
+.deletebutton {
+  background-color: #D2122E;
+}
+
+/* Add hover styles for better user feedback */
+table td button:hover {
+  opacity: 0.8;
+}
+
   
   
   
@@ -168,51 +199,7 @@
   border: none;
   }
   
-  /* Add a hover effect for both buttons */
-  button[type="submit1"]:hover {
-  background: linear-gradient(to bottom, #299be4, #1976c8);
-  transform: scale(1.05);
-  }
-  
-  button[type="button2"]:hover {
-  
-  background: linear-gradient(to bottom,#D2122E, #B11127);
-  transform: scale(1.05);
-  }
   
   
   
   
-  /* Style for the "Update User" button */
-  button[type="submit4"] {
-  background: linear-gradient(to bottom, #299be4, #1976c8);
-  color: #fff;
-  padding: 10px 20px;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background 0.3s, transform 0.2s;
-  border: none;
-  }
-  
-  /* Style for the "Cancel" button */
-  button[type="button5"] {
-  background: linear-gradient(to bottom, #D2122E, #B11127);
-  color: #fff;
-  margin-top: 2px;
-  padding: 10px 20px;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background 0.3s, transform 0.2s;
-  border: none;
-  }
-  
-  /* Add a hover effect for both buttons */
-  button[type="submit4"]:hover {
-  background: linear-gradient(to bottom, #1976c8, #0f59a3);
-  transform: scale(1.05);
-  }
-  
-  button[type="button5"]:hover {
-  background: linear-gradient(to bottom, #B11127, #8E0F23);
-  transform: scale(1.05);
-  }
