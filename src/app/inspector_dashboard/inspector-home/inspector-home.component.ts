@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApicallService } from 'src/app/apicall.service';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-inspector-home',
@@ -10,14 +11,25 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 export class InspectorHomeComponent implements OnInit {
   name: string = '';
   recordCount: number = 0;
+  scheduleBool:boolean=false;
 
-  constructor(private apicallservice: ApicallService, private http: HttpClient) {}
+  constructor(private apicallservice: ApicallService, private http: HttpClient,private router:Router) {}
 
   ngOnInit() {
+    this.scheduleBool=false
     this.name = sessionStorage.getItem('UserName') as string;
     console.log('------', this.name);
     this.getRecordCount(this.name);
     this.get_Insp_Name_List();
+  }
+
+
+
+
+  redirectSchedule(){
+    this.scheduleBool=true;
+    this.router.navigate(['/afterlogin/inspectorHome/schedule_page']);
+   
   }
 
   getRecordCount(name: string) {

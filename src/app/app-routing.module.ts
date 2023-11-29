@@ -24,6 +24,7 @@ import { MailComponent } from './mail/mail.component';
 import { InfPdfComponent } from './INF/inf-pdf/inf-pdf.component';
 import { InspectorHomeComponent } from './inspector_dashboard/inspector-home/inspector-home.component';
 import { ScheduledWorkComponent } from './scheduled-work/scheduled-work.component';
+//import { SchedulePageComponent } from './inspector_dashboard/schedule-page/schedule-page.component';
 import { MailAutomationInspComponent } from './inspector_dashboard/mail-automation-insp/mail-automation-insp.component';
 
 const routes: Routes = [
@@ -35,7 +36,7 @@ const routes: Routes = [
   {path:"login",component:LoginComponent},
   {path:"neworganization", component:NeworganizationComponent},
   {path:"forgotpassword",component:ForgotpasswordComponent},
-  
+  // '/afterlogin/software_admin_dashboard_user_manage/organization_admin_login_details'
   {path: 'afterlogin',component: AfterloginComponent,
     children: [
 
@@ -57,9 +58,13 @@ const routes: Routes = [
 
 
         // Inspector
-        {path:"inspectorHome",component:InspectorHomeComponent},
+        {path:"inspectorHome",component:InspectorHomeComponent,
+            children:[
+            {path:'schedule_page',component:ScheduledWorkComponent},
+            ]},
         {path:'scheduledWork', component:ScheduledWorkComponent},
         {path:"mail_automation",component:MailAutomationInspComponent},
+       
 
         
          {path:'inspection_home', component:InspectionInfComponent},
@@ -70,7 +75,6 @@ const routes: Routes = [
          {path:'plan_eg_home',component:PlanningEngHomeComponent },
          {path:'plan_eng_inf/:c_no',component:PlanningEngInfComponent},
          {path:'pdf/:c_no',component:InfPdfComponent}
-
          
     ],
   },

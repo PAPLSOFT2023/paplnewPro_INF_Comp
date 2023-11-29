@@ -5,6 +5,9 @@ import{Observable}from 'rxjs';
   providedIn: 'root'
 })
 export class ApicallService {
+
+
+  
   total_units:number=0;
 
   private apiURLCommon='http://localhost:3000/';
