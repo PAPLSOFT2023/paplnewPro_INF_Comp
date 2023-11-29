@@ -56,12 +56,6 @@ const db1 = mysql.createConnection({
 });
 
 
-const db1 = mysql.createConnection({
-  host: '127.0.0.1',
-  user: 'root',
-  password: '',
-  database: 'papl_inspection',
-});
 
 
 db.connect((err) => {
