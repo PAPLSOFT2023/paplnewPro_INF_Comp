@@ -99,6 +99,7 @@ import { InfPdfComponent } from './INF/inf-pdf/inf-pdf.component';
 import { DatePipe } from '@angular/common';
 import { InspectorHomeComponent } from './inspector_dashboard/inspector-home/inspector-home.component';
 import { ScheduledWorkComponent } from './scheduled-work/scheduled-work.component';
+import { SchedulePageComponent } from './inspector_dashboard/schedule-page/schedule-page.component';
 
 
 
@@ -163,6 +164,7 @@ import { ScheduledWorkComponent } from './scheduled-work/scheduled-work.componen
         InfPdfComponent,
         InspectorHomeComponent,
         ScheduledWorkComponent,
+        SchedulePageComponent,
         
 
         

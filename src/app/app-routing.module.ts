@@ -24,6 +24,7 @@ import { MailComponent } from './mail/mail.component';
 import { InfPdfComponent } from './INF/inf-pdf/inf-pdf.component';
 import { InspectorHomeComponent } from './inspector_dashboard/inspector-home/inspector-home.component';
 import { ScheduledWorkComponent } from './scheduled-work/scheduled-work.component';
+//import { SchedulePageComponent } from './inspector_dashboard/schedule-page/schedule-page.component';
 
 const routes: Routes = [
 
@@ -68,7 +69,6 @@ const routes: Routes = [
          {path:'plan_eg_home',component:PlanningEngHomeComponent },
          {path:'plan_eng_inf/:c_no',component:PlanningEngInfComponent},
          {path:'pdf/:c_no',component:InfPdfComponent}
-
          
     ],
   },
