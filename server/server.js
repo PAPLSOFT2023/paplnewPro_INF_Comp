@@ -359,7 +359,7 @@ app.post('/api/login', (req, res) => {
         db1.query('SELECT  `inspector_name` FROM `insp_data` WHERE emailid=?  ',username,(err,result)=>{
           if(result)
           {
-            user_name=result[0].inspector_name;
+            user_name=result.inspector_name;
            
           }
           else{
@@ -418,30 +418,91 @@ app.get('/api/get_emp_data',(req,res)=>{
   });
 
 })
+// update profiledata 
+app.put('/api/update_profile',(req,res)=>{
+  const {name ,email_id,PSN_NO,designation,contact_no,date_of_joining,date_of_birth,dept,existingemail}=req.body;
 
-// In your Node.js/Express server
-app.get('/api/update_emp_data/:id', (req, res) => {
+  db1.query('UPDATE emp_data SET NAME=? ,PSN_NO=?,designation=?,contact_no=?,email_id=?,date_of_joining=?,date_of_birth=?,dept=? WHERE email_id=? ',
+  [name ,PSN_NO,designation,contact_no,email_id,date_of_joining,date_of_birth,dept,existingemail],(err,result)=>{
+
+    if(err)
+    {
+      console.log("Error",err)
+res.status(500).json({error:'internal server error'})
+    }
+    else{
+      if(result.affectedRows===0)
+      {
+        console.log("Existing not found")
+        res.status(404).json({error:'Existing data nit found'})
+      }
+      else{
+        console.log("Update success")
+        res.json({message:'Updated success'})
+
+      }
+    }
+  })
 
 
  
-  const userId = req.params.id;
-  const updatedData = req.body;
-  console.log(userId,updatedData)
 
-  connection.query(
-    'UPDATE emp_data SET ? WHERE NAME = ?',
-    [updatedData, userId],
-    (err, results) => {
-      if (err) {
-        console.error('Error updating user in the database:', err);
-        res.status(500).json({ error: 'Error updating user in the database' });
-      } else {
-        console.log('User updated in the database.');
-        res.json({ message: 'User updated successfully' });
-      }
+// Add user in profiledata
+app.post('/api/add_profile_data', (req, res) => {
+  const userData = req.body;
+
+  // Insert data into the MySQL database
+  db.query('INSERT INTO emp_data SET ?', userData, (error, results) => {
+    if (error) {
+      console.error('MySQL insertion error:', error);
+      res.status(500).json({ error: 'Error adding user' });
+    } else {
+      console.log('User added to MySQL:', results);
+      res.status(200).json({ message: 'User added successfully' });
     }
-  );
+  });
 });
+
+
+
+ 
+
+
+
+
+
+  
+ })
+
+// Your delete route
+app.delete('/api/delete_emp_data', (req, res) => {
+  console.log("server called");
+
+  const { email_id } = req.body;
+
+  if (!email_id) {
+    return res.status(400).json({ error: 'Email ID is required' });
+  }
+
+  // Assuming 'db1' is your database connection object
+  db1.query('DELETE FROM emp_data WHERE email_id=?', [email_id], (deleteErr, deleteResult) => {
+    if (deleteErr) {
+      console.error(deleteErr);
+      return res.status(500).json({ error: 'Error deleting user' });
+    }
+
+    return res.status(200).json({ message: 'User deleted successfully++++' });
+  });
+});
+
+
+
+
+ 
+ 
+
+
+
 
 
 
