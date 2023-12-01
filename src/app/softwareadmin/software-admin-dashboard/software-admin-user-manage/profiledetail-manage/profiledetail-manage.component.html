@@ -5,13 +5,13 @@
 <!-- User Popup for Add and Update -->
 <!-- User Popup for Add and Update -->
 <div *ngIf="isUserPopupOpen" class="user-popup">
-  <form #userForm="ngForm" (ngSubmit)="onSubmit()">
+  <!-- <form> -->
     <!-- Your form fields -->
 <h2>Profile Register</h2>
-
+<form>
     <label for="NAME">Name:</label>
 
-    <input [(ngModel)]="user.NAME" NAME="NAME" [value]="user.NAME" required />
+    <input [(ngModel)]="NAME" NAME="NAME" [value]="user.NAME" [ngModelOptions]="{standalone: true}" required />
     <label for="email_id">Email_id:</label>
     <input [(ngModel)]="user.email_id" NAME="email_id" type="email" [value]="user.email_id" required />
     
@@ -34,7 +34,8 @@
     <input [(ngModel)]="user.dept" NAME="Department" [value]="user.dept" required />
     <button type="submit" (click)="onSubmit()">Add User</button>
     <button type="button" (click)="resetUser(); closeUserPopup()">Cancel</button>
-  </form>
+  <!-- </form> -->
+</form>
 </div>
 
   

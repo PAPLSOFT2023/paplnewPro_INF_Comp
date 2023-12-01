@@ -70,6 +70,12 @@ export const oragizationadmin: INavbarData[] = [
         icon: 'fal fa-edit',
         label: 'Setup Data'
     },
+    {
+        routeLink: '/afterlogin/mail',
+        icon: 'fal fa-edit',
+        label: 'mail'
+
+    },
    
     {
         routeLink: '/afterlogin/app-organization-user-management',
@@ -85,6 +91,7 @@ export const oragizationadmin: INavbarData[] = [
                 routeLink: '/afterlogin/profile-manage',
                 icon: 'fal fa-user',
                 label: 'Profile Details',
+
             },
         ]
     },

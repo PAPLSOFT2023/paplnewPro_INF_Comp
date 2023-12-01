@@ -128,24 +128,113 @@ const Mail_sent_Insp_to_Client= async (sender,receiver) => {
 
     // Add your improved mail design
     const mailBody = `
-      <p>Dear Sir,</p>
-
-      <p>Kind Attention:prasanna</p>
-
-      <p>Thank you for your order for the inspection of 89 Units at BRIGADE TECH GARDEN - BANGALORE</p>
-
-      <p>Please note the following:</p>
-
-      <ul>
-        <li>Item 1</li>
-        <li>Item 2</li>
-        <!-- Add more items as needed -->
-      </ul>
-
-      <p>Feel free to contact us if you have any questions or concerns.</p>
-
-      <p>Best regards,</p>
-      <p>Your Company Name</p>
+    <p>Dear Sir,</p>
+    <p>Kind Attention:<b> Mr. MADHUBABU</b> </p>
+    <p>Thank you for your order for the inspection of <b>89 Units</b> at <b> BRIGADE TECH GARDEN - BANGALORE</b></p>
+    <p>Please note the following:-</p>
+    <div style="padding-left: 20px;">
+    <table width="600" height="20" border="1" >
+        <tr>
+            <td style="padding: 4px;" >PAPL Order Reference</td> <td style="padding: 4px;" colspan="4">PAPL0245/B</td></tr>
+            <tr>
+            <td style="padding: 4px;" >Customer Order Reference</td>
+            <td style="padding: 4px;" colspan="4">8100002249,DATED 09/10/2023</td>
+        </tr>
+        <tr>
+           <td style="padding: 4px;" rowspan="2"> Proposed Inspection Dates</td>  <td style="padding: 4px;" rowspan="1" colspan="2">Inspection Start Date</td>
+          <td style="padding: 4px;">27/11/2023(Monday)</td></tr>
+          <tr>
+          <td style="padding: 4px;">Inspection End Date</td><td style="padding: 4px;" rowspan="1" colspan="2">02/12/2023 (Saturday)</td>
+        </tr>
+        <tr>
+            <td style="padding: 4px;">Total Number of Days</td > <td style="padding: 4px;" colspan="4">	06 Days</td>
+        </tr>
+        <tr>
+            <td style="padding: 4px;" >Inspection Type</td>
+            <td style="padding: 4px;" colspan="4">TPT3: CHECKLIST</td>
+        </tr>
+        <tr>
+            <td style="padding: 4px;" >Calibrated instruments carried by us</td>
+            <td style="padding: 4px;" colspan="4">Metal Scale, Taper Scale, Measuring Tape</td>
+        </tr>
+    </table>
+    </div>
+    <br>
+    <p ><b> The inspection will be carried out between 9:30 am & 6:00 pm.</b></p>
+    <p>The Inspection will be conducted by the following personnel (Credentials Attached) and request you kindly process the entry Pass accordingly.</p>
+    <div style="padding-left: 20px;">
+    <table border="1">
+        <tr>
+            <th>SL. NO</th>
+            <th>NAME</th>
+            <th>DESIGNATION</th>
+            <th>MOBILE</th>
+            <th>E-MAIL ID</th>
+        </tr>
+        <tr>
+            <td>1.</td>
+            <td>M.B.MAHADEVAN</td>
+            <td>ASSISTANT MANAGER</td>
+            <td>9886312327</td>
+            <td>mahadevan.mb@paplcorp.com</td>
+        </tr>
+        <tr>
+            <td>2.</td>
+            <td>ABDUL KAFFAR</td>
+            <td>ENGINEER</td>
+            <td>9790961647</td>
+            <td>Abdul.kaffar@paplcorp.com</td>
+        </tr>
+        <tr>
+            <td>3.</td>
+            <td>JINO CHAKO</td>
+            <td>INSPECTOR</td>
+            <td>8086165880</td>
+            <td>jino.chacko@paplcorp.com</td>
+        </tr>
+        
+    </table>
+    </div>
+    <br>
+    <p>Representatives of OEM/ Service providers at the supervisory level with adequate manpower <b>(One Technical Person per Inspector)</b> and tools as listed below should be made available throughout the inspection for coordination and support.</p>
+    <p>We need -: </p>
+    <div style="padding-left: 20px;">
+          <p>1. Permission to enter the premises</p>
+    
+        <p>2. Permission to travel on Equipment, enter the Pit, Car Top, and Machine Room. OEM/service provider or the building management should not object.</p>
+    
+        <p>3. Permission to carry Torch, Measuring tape, and other measuring instruments.</p>
+    
+        <p>4. Permission to record measurements and other findings as may be required.</p>
+    
+       <p>5. <u><b>Permission to carry a camera </b></u>and photograph the installation including the lobby, Elevator Pit, Elevator Machine fixing arrangements, Car top, floor landing fixtures, and any other space related to the equipment</p>
+    </div>
+    
+       <p>The Following Tools and measuring instruments with <u>Valid Calibration Certificates from NABL Accredited laboratories, traceable to national/international references </u>should be made available by the OEM/Service Provider throughout the inspection.</p>
+    <div style="padding-left: 20px;">
+       <table border="1" width="200" >
+        <tr >
+           <td style="padding-left: 50px; font-weight: bold;" >TOOLS</td>
+        </tr>
+        <tr>
+            <td style="padding-left: 10px;">HANDLAMP</td>
+        </tr>
+        <tr>
+            <td style="padding-left: 10px;">HAND TOOLS</td>
+        </tr>
+        <tr>
+            <td style="padding-left: 10px;">DOOR OPEN KEYS</td>
+        </tr>
+    </table>
+    </div>
+    <br>
+    <p>
+        <b>This inspection shall be independent & impartial,</b> irrespective of any other engagement that PAPL Corp shall have with you. Please refer to our policy <a href="">(https://paplcorp.com/policy.html)</a> on the same for more information.
+    
+    Please email your feedback/ concerns/ complaints if any on the constitution of the inspector/s or any other issue about our engagement to <a href="">info@paplcorp.com</a> the same shall be addressed on priority. Please refer to our policy on complaints and appeals <a href="">(https://paplcorp.com/policy-04.html)</a></p>
+    <div >
+    <p style="font-weight: bolder;">Note:- This is a system-generated email. For any clarification, please contact the PAPL team </p>
+    </div>
     `;
 
     const mailOptions = {
@@ -625,13 +714,9 @@ app.post('/api/login', (req, res) => {
         db1.query('SELECT inspector_name FROM `insp_data` WHERE emailid= ?  ',username,(err,result)=>{
           if(result)
           {
-<<<<<<< HEAD
-            user_name=result.inspector_name;
-=======
             // user_name=result[0].inspector_name;
             user_name=user.Username;
 
->>>>>>> 165497c221160167f4c487450f8b1e2519ff64cf
            
           }
           else{
@@ -694,7 +779,6 @@ app.get('/api/get_emp_data',(req,res)=>{
 app.put('/api/update_profile',(req,res)=>{
   const {name ,email_id,PSN_NO,designation,contact_no,date_of_joining,date_of_birth,dept,existingemail}=req.body;
 
-<<<<<<< HEAD
   db1.query('UPDATE emp_data SET NAME=? ,PSN_NO=?,designation=?,contact_no=?,email_id=?,date_of_joining=?,date_of_birth=?,dept=? WHERE email_id=? ',
   [name ,PSN_NO,designation,contact_no,email_id,date_of_joining,date_of_birth,dept,existingemail],(err,result)=>{
 
@@ -737,8 +821,6 @@ app.post('/api/add_profile_data', (req, res) => {
 });
 
 
-=======
->>>>>>> 165497c221160167f4c487450f8b1e2519ff64cf
 
  
 

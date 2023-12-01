@@ -14,6 +14,9 @@ import { response } from 'express';
 export class ProfiledetailManageComponent implements OnInit {
   users: { NAME: string, email_id: string, PSN_NO: string, designation: string, contact_no: number, date_of_joining: Date, date_of_birth: Date, dept: string }[] = [];
   user: { NAME: string, email_id: string, PSN_NO: string, designation: string, contact_no: number, date_of_joining: Date, date_of_birth: Date, dept: string } = { NAME: '', email_id: '', PSN_NO: '', designation: '', contact_no: 0, date_of_joining: new Date(), date_of_birth: new Date(), dept: '' };
+
+
+  NAME:string='';
   @ViewChild('userForm', { static: false }) userForm!: NgForm;
   
   existingemail: string= "";
@@ -57,41 +60,43 @@ export class ProfiledetailManageComponent implements OnInit {
 
   
   onSubmit() {
-    if (this.userForm.valid) {
-      const userData = this.userForm.value;
-  console.log(  this.user.NAME,
-    this.user.email_id,
-    this.user.PSN_NO,
-    this.user.designation,
-    this.user.contact_no,
-    this.user.date_of_joining,
-    this.user.date_of_birth,
-    this.user.dept,"++++")
-      // Call the service method to add the user
-      this.apicallservice.addProfileData(
-        userData.NAME,
-        userData.email_id,
-        userData.PSN_NO,
-        userData.designation,
-        userData.contact_no,
-        userData.date_of_joining,
-        userData.date_of_birth,
-        userData.dept
-      ).subscribe(
-        (response) => {
-          console.log('User added successfully:', response);
-          // Handle success (e.g., show a success message, reset the form)
-          this.toggleUserPopup();
-        },
-        (error) => {
-          console.error('Error adding user:', error);
-          // Handle error (e.g., show an error message)
-        }
-      );
-    } else {
-      console.error("not working");
-      // Form is invalid, show error messages or take appropriate action
-    }
+    console.log('name is',this.NAME);
+    
+  //   if (this.userForm.valid) {
+  //     const userData = this.userForm.value;
+  // console.log(  this.user.NAME,
+  //   this.user.email_id,
+  //   this.user.PSN_NO,
+  //   this.user.designation,
+  //   this.user.contact_no,
+  //   this.user.date_of_joining,
+  //   this.user.date_of_birth,
+  //   this.user.dept,"++++")
+  //     // Call the service method to add the user
+  //     this.apicallservice.addProfileData(
+  //       userData.NAME,
+  //       userData.email_id,
+  //       userData.PSN_NO,
+  //       userData.designation,
+  //       userData.contact_no,
+  //       userData.date_of_joining,
+  //       userData.date_of_birth,
+  //       userData.dept
+  //     ).subscribe(
+  //       (response) => {
+  //         console.log('User added successfully:', response);
+  //         // Handle success (e.g., show a success message, reset the form)
+  //         this.toggleUserPopup();
+  //       },
+  //       (error) => {
+  //         console.error('Error adding user:', error);
+  //         // Handle error (e.g., show an error message)
+  //       }
+  //     );
+  //   } else {
+  //     console.error("not working");
+  //     // Form is invalid, show error messages or take appropriate action
+  //   }
   }
   
 
