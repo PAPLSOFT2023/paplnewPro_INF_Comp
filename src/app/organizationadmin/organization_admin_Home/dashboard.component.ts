@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ApicallService } from '../apicall.service';
+import { ApicallService } from '../../apicall.service';
 import { response } from 'express';
 @Component({
   selector: 'app-dashboard',
@@ -42,9 +42,9 @@ dataArray: any[] = [];
    // Implement the logic to show service details, e.g., open a modal or navigate to a details page.
 
 
-   this.apicall.leaveData().subscribe((response: any) => {
+   this.apicall.send_mail_to_client("sabarinathan58796@gmail.com","prasanna.subramaniyan@paplcorp.com").subscribe((response: any) => {
     console.log(response); // Log the response to the console
-    this.dataArray = response;
+   
   });
    
   }

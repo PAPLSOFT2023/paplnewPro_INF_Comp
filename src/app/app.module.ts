@@ -7,7 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BodyComponent } from './body/body.component';
 import { SidenavComponent } from './sidenav/sidenav.component';
-import { DashboardComponent } from './organization_admin_Home/dashboard.component';
+import { DashboardComponent } from './organizationadmin/organization_admin_Home/dashboard.component';
 import { SublevelMenuComponent } from './sidenav/sublevel-menu.component';
 import { LoginComponent } from './login/login.component';
 import { NeworganizationComponent } from './neworganization/neworganization.component';
@@ -99,6 +99,7 @@ import { InfPdfComponent } from './INF/inf-pdf/inf-pdf.component';
 import { DatePipe } from '@angular/common';
 import { InspectorHomeComponent } from './inspector_dashboard/inspector-home/inspector-home.component';
 import { ScheduledWorkComponent } from './scheduled-work/scheduled-work.component';
+import { SchedulePageComponent } from './inspector_dashboard/schedule-page/schedule-page.component';
 
 
 
@@ -163,6 +164,7 @@ import { ScheduledWorkComponent } from './scheduled-work/scheduled-work.componen
         InfPdfComponent,
         InspectorHomeComponent,
         ScheduledWorkComponent,
+        SchedulePageComponent,
         
 
         

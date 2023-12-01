@@ -1,1 +1,43 @@
-<p>inspector-home works! {{name}}</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile Icon Example</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  
+</head>
+<body >
+<div *ngIf="!scheduleBool" >  <nav>
+    <!-- Menu Icon -->
+    <div class="menu-icon"><i class="fas fa-bars"></i>
+        <span class="menu-text">Inspector Schedule</span></div>
+    
+    <!-- Your existing menu icon code -->
+    <div></div>
+    <div></div>
+
+    <!-- Profile Icon and Text -->
+    <div class="profile-container">
+      <i class="fas fa-user-circle profile-icon"></i>
+      <span class="profile-text">{{name}}</span>
+    </div>
+  </nav>
+  <br>
+
+  <div style="padding-left: 10px;">
+    <button type="button" (click)="redirectSchedule()"  class="icon-button">
+    <span class="material-icons">notifications</span>
+      <span class="icon-button__badge">{{recordCount}}</span>
+    </button>
+      </div>
+<!-- <div><router-outlet></router-outlet></div> -->
+</div>
+<div *ngIf="scheduleBool">
+  <!-- <div > -->
+    <router-outlet name="scheduleOutlet"></router-outlet>
+</div>
+
+
+</body>
+</html>

@@ -103,6 +103,11 @@ export const inspector: INavbarData[] = [
         icon: 'fal fa-edit',
         label: 'Scheduled Work'
     },
+    {
+        routeLink: '/afterlogin/mail_automation',
+        icon: "fa fa-envelope",
+        label: 'Mail Automation'
+    },
    
    
 ];

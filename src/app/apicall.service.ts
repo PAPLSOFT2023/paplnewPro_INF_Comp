@@ -5,6 +5,9 @@ import{Observable}from 'rxjs';
   providedIn: 'root'
 })
 export class ApicallService {
+
+
+  
   total_units:number=0;
 
   private apiURLCommon='http://localhost:3000/';
@@ -388,7 +391,11 @@ delete_Type_Bul_Data1( Region: string): Observable<any> {
 
 
 
+send_mail_to_client(sender:string,receiver:string):Observable<any>{
+const body_sendmail={sender,receiver}
+  return this.httpClient.put(this.apiURL+"Mail_sent_Insp_to_Client",body_sendmail)
 
+}
 
 
 
