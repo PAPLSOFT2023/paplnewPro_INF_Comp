@@ -28,6 +28,7 @@ const admin = require('firebase-admin');
 const serviceAccount = require('./paplapplication-firebase-adminsdk-dlrxg-4adbf847ee.json');
 const { error, log } = require('console');
 const e = require('express');
+const { async } = require('rxjs');
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   databaseURL: 'https://paplapplication-default-rtdb.firebaseio.com',
@@ -68,13 +69,277 @@ db.connect((err) => {
   }
 });
 
-const transporter = nodemailer.createTransport({
-  service: 'Gmail',
-  auth: {
-    user: 'paplsoft.itservice@gmail.com',
-    pass: 'cicc tahd itrg guwd',
-  },
+
+// const transporter = nodemailer.createTransport({
+//   service: 'Gmail',
+//   auth: {
+//     user: 'paplsoft.itservice@gmail.com',
+//     pass: 'cicc tahd itrg guwd',
+//   },
+// });
+
+
+const TransporterData = (targetEmail) => {
+  return new Promise((resolve, reject) => {
+    db.execute('SELECT App_password, Email, Organization FROM mail_automation WHERE Email=?', [targetEmail], (error, result) => {
+      if (error) {
+        reject(error);
+      } else {
+        if (result.length === 0) {
+          reject(new Error('User not found'));
+        } else {
+          const myObject = {
+            user: result[0].Email,
+            pass: result[0].App_password
+          };
+  
+          resolve(myObject);
+        }
+      }
+    });
+  });
+};
+
+app.put('/api/Mail_sent_Insp_to_Client',(req,res)=>{
+const {sender,receiver}=req.body;
+console.log(sender,receiver)
+  Mail_sent_Insp_to_Client(sender,receiver)
+})
+
+const Mail_sent_Insp_to_Client= async (sender,receiver) => {
+  try {
+    
+    let transporter;
+    
+
+    // Use await to wait for TransporterData to resolve
+    const data = await TransporterData(sender);
+    console.log("^^",data.user,data.pass,sender,receiver)
+    transporter = nodemailer.createTransport({
+      service: 'Gmail',
+      auth: {
+        user: data.user,
+        pass: data.pass,
+        
+      },
+      
+    });
+    
+
+    // Add your improved mail design
+    const mailBody = `
+      <p>Dear Sir,</p>
+
+      <p>Kind Attention:prasanna</p>
+
+      <p>Thank you for your order for the inspection of 89 Units at BRIGADE TECH GARDEN - BANGALORE</p>
+
+      <p>Please note the following:</p>
+
+      <ul>
+        <li>Item 1</li>
+        <li>Item 2</li>
+        <!-- Add more items as needed -->
+      </ul>
+
+      <p>Feel free to contact us if you have any questions or concerns.</p>
+
+      <p>Best regards,</p>
+      <p>Your Company Name</p>
+    `;
+
+    const mailOptions = {
+      from:sender,
+      to: receiver, // Replace with the actual recipient email
+      subject: 'Order Confirmation - BRIGADE TECH GARDEN Inspection',
+      html: mailBody,
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.error('Email sending error:', error);
+      } else {
+        console.log('Email sent:', info.response);
+      }
+    });
+  } catch (error) {
+    console.error('Error sending email:', error.message);
+  }
+};
+
+
+
+
+
+
+
+
+
+
+const sendVerificationEmail= async (email, token) => {
+  try {
+    
+    let transporter;
+
+    // Use await to wait for TransporterData to resolve
+    const data = await TransporterData("paplsoft.itservice@gmail.com");
+
+    transporter = nodemailer.createTransport({
+      service: 'Gmail',
+      auth: {
+        user: data.user,
+        pass: data.pass,
+      },
+    });
+
+    const verificationLink = `http://localhost:3000/api/verify-email?email=${email}&token=${token}`;
+
+    const mailOptions = {
+      from: 'paplsoft.itservice@gmail.com',
+      to: email,
+      subject: 'Email Verification',
+      html: `Click the following link to verify your email: <a href="${verificationLink}">${verificationLink}</a>`,
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.error('Email sending error:', error);
+      } else {
+        console.log('Email sent:', info.response);
+      }
+    });
+  } catch (error) {
+    console.error('Error sending email:', error.message);
+  }
+};
+
+
+
+
+
+
+// Resend verify Link
+const sendVerificationEmailboolean= async (email, token, callback) => {
+  try {
+  
+    let transporter;
+
+    // Use await to wait for TransporterData to resolve
+    const data = await TransporterData("sabarinathan58796@gmail.com");
+
+    transporter = nodemailer.createTransport({
+      service: 'Gmail',
+      auth: {
+        user: data.user,
+        pass: data.pass,
+      },
+    });
+
+    const verificationLink = `http://localhost:3000/api/verify-email?email=${email}&token=${token}`;
+
+    const mailOptions = {
+      from: 'paplsoft.itservice@gmail.com',
+      to: email,
+      subject: 'Email Verification',
+      html: `Click the following link to verify your email: <a href="${verificationLink}">${verificationLink}</a>`,
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.error('Email sending error:', error);
+      } else {
+        console.log('Email sent:', info.response);
+      }
+    });
+  }
+   catch (error) {
+    console.error('Error sending email:', error.message);
+  }
+};
+
+
+//  check mail verified or not
+app.get('/api/verify-email', (req, res) => {
+  const { email, token } = req.query;
+
+
+  const query='SELECT Emailtoken FROM clientadmin WHERE Email= ?';
+  db.query(query, [email], (err, results) => {
+    if(err)
+    {
+      // console.log("Verification status",error)
+      return res.status(101).json("Email verification faild");
+
+    }
+    else{
+       const tokendetails=results[0]
+      if (tokendetails.Emailtoken === token) {
+        db.query('UPDATE `clientadmin` SET `Emailverified`=? WHERE Email=?',[1,email],(err,result)=>{
+          if(result)
+          {
+            return res.send(`
+            <html>
+            <body>
+              <h1>Email Verified Successfully</h1>
+              <p>All is set! You can now move to your dashboard.</p>
+              <!-- You can add a button or link to navigate to the dashboard -->
+              <a href="http://localhost:4200/">Go to Dashboard</a>
+            </body>
+            </html>
+          `);
+          }
+          if(err)
+          {
+            return res.status(401).json("Email verified Successfull");
+          }
+        }
+        );
+        
+      } 
+      else {
+        return res.status(401).json( 'Invalid verification token');
+      }
+      
+    }
+
+  });
+  
 });
+
+
+
+
+
+app.get('/api/ResendVerificationLink', (req, res) => {
+  const email = req.query.Email;
+  const verificationToken = uuidv4();
+
+  sendVerificationEmailboolean(email, verificationToken, (error) => {
+    if (error) {
+      res.json({ success: false, message: 'Failed to send verification email' });
+    } 
+    else {
+      db.query('UPDATE clientadmin SET Emailtoken= ? WHERE Email=?',[verificationToken,email],(error,result)=>{ 
+        if(result)
+        {
+          console.log("DB Updated")
+          res.json({ success: true, message: 'Verification link sent successfully' });
+        }
+       });
+    }
+  });
+});
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -315,6 +580,7 @@ app.post('/api/login', (req, res) => {
   db.query(query, [username], (err, results) => {
     if (err) {
       // console.log("+++", err);
+
       return res.status(500).json({ error: 'Internal server error' });
     }
     if (results.length === 0) {
@@ -421,44 +687,12 @@ app.get('/api/get_emp_data',(req,res)=>{
 
 })
 
-// In your Node.js/Express server
-app.get('/api/update_emp_data/:id', (req, res) => {
-
-
- 
-  const userId = req.params.id;
-  const updatedData = req.body;
-  console.log(userId,updatedData)
-
-  connection.query(
-    'UPDATE emp_data SET ? WHERE NAME = ?',
-    [updatedData, userId],
-    (err, results) => {
-      if (err) {
-        console.error('Error updating user in the database:', err);
-        res.status(500).json({ error: 'Error updating user in the database' });
-      } else {
-        console.log('User updated in the database.');
-        res.json({ message: 'User updated successfully' });
-      }
-    }
-  );
-});
-
-
 
 // software admin login Details update 
 app.put('/api/adminregister_login_update', (req, res) => {
   const {email,organization,role,lstatus,authenticator,username,emailverified,existingmail,department } = req.body;
-
-
-
-
   const verificationToken = uuidv4();
-  // console.log("UPDATE CALL",email, organization, role, lstatus,authenticator,username,emailverified,verificationToken,department,existingmail)
-
   const query = `UPDATE clientadmin SET Email = ?, Organization = ?, Role = ?, Status = ?, Authenticator = ?, Username = ?, Emailverified = ?, Emailtoken = ?, Department=? WHERE Email = ?`;
- 
     db.query(query, [email, organization, role, lstatus,authenticator,username,emailverified,verificationToken,department,existingmail], (error, result) => {
       if (error) {
         
@@ -595,9 +829,6 @@ app.post('/api/adminregister', (req, res) => {
         // console.log("Verification token",verificationToken,userid);
         }
       });
-     
-
-
     }
   });
 });
@@ -658,133 +889,6 @@ app.get('/api/getRoleData', (req, res) => {
 });
 
 
-
-
-
-
-app.get('/api/ResendVerificationLink', (req, res) => {
-  const email = req.query.Email;
-  const verificationToken = uuidv4();
-
-  sendVerificationEmailboolean(email, verificationToken, (error) => {
-    if (error) {
-      res.json({ success: false, message: 'Failed to send verification email' });
-    } 
-    else {
-      db.query('UPDATE clientadmin SET Emailtoken= ? WHERE Email=?',[verificationToken,email],(error,result)=>{ 
-        if(result)
-        {
-          console.log("DB Updated")
-          res.json({ success: true, message: 'Verification link sent successfully' });
-        }
-       });
-    }
-  });
-});
-
-//profiledetail code 
-// app.get('/api/get_email_data',(req,res)) => {
-//   const {}
-// }
-
-
-
-
-
-
-
-//  check mail verified or not
-app.get('/api/verify-email', (req, res) => {
-  const { email, token } = req.query;
-
-
-  const query='SELECT Emailtoken FROM clientadmin WHERE Email= ?';
-  db.query(query, [email], (err, results) => {
-    if(err)
-    {
-      // console.log("Verification status",error)
-      return res.status(101).json("Email verification faild");
-
-    }
-    else{
-       const tokendetails=results[0]
-      if (tokendetails.Emailtoken === token) {
-        // Update the user's status to mark their email as verified
-        // user.isEmailVerified = true;
-
-        db.query('UPDATE `clientadmin` SET `Emailverified`=? WHERE Email=?',[1,email],(err,result)=>{
-          if(result)
-          {
-            return res.send(`
-            <html>
-            <body>
-              <h1>Email Verified Successfully</h1>
-              <p>All is set! You can now move to your dashboard.</p>
-              <!-- You can add a button or link to navigate to the dashboard -->
-              <a href="http://localhost:4200/">Go to Dashboard</a>
-            </body>
-            </html>
-          `);
-          }
-          if(err)
-          {
-            return res.status(401).json("Email verified Successfull");
-          }
-        }
-        );
-        
-      } 
-      else {
-        return res.status(401).json( 'Invalid verification token');
-      }
-      
-    }
-
-  });
-  
-});
-
-
-function sendVerificationEmail(email, token) {
-  const verificationLink = `http://localhost:3000/api/verify-email?email=${email}&token=${token}`;
-
-  const mailOptions = {
-    from: 'paplsoft.itservice@gmail.com',
-    to: email,
-    subject: 'Email Verification',
-    html: `Click the following link to verify your email: <a href="${verificationLink}">${verificationLink}</a>`,
-  };
-
-  transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      console.error('Email sending error:', error);
-    }
-     else {
-      console.log('Email sent:', info.response);
-    }
-  });
-}
-
-function sendVerificationEmailboolean(email, token, callback) {
-  const verificationLink = `http://localhost:3000/api/verify-email?email=${email}&token=${token}`;
-
-  const mailOptions = {
-    from: 'paplsoft.itservice@gmail.com',
-    to: email,
-    subject: 'Email Verification',
-    html: `Click the following link to verify your email: <a href="${verificationLink}">${verificationLink}</a>`,
-  };
-
-  transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      console.error('Email sending error:', error);
-      callback(error);
-    } else {
-      console.log('Email sent:', info.response);
-      callback(null);
-    }
-  });
-}
 
 
 
@@ -1790,137 +1894,8 @@ app.get('/api/home_usages', (req, res) => {
     });
   });
 
-
-  //select inspector
-
-  // app.get('/api/inspector', (req, res) => {
-  //   const parsedUrl = url.parse(req.url);
-  // const queryParams = querystring.parse(parsedUrl.query);
-
-  // const oem = queryParams.oem;
-  // const oemLocation = queryParams.oem_location;
-  //   const query = 'SELECT inspector_name FROM insp_data';
-  
-  //   db.query(query, (err, results) => {
-  //     if (err) {
-  //       console.error('Error fetching values from MySQL:', err);
-  //       res.status(500).json({ error: 'Internal Server Error' });
-  //       return;
-  //     }
-  
-  //     const values = results.map((row) => row.inspector_name);
-  //     res.json(values);
-  //   });
-
-
-//   const parsedUrl = url.parse(req.url);
-//   const queryParams = querystring.parse(parsedUrl.query);
-
-//   const oem = queryParams.oem;
-//   const oemLocation = queryParams.oem_location;
-//   const papl_doj = queryParams.papl_doj; // Get the papl_doj parameter from the query parameters
-
-//   const query = `
-//     SELECT inspector_name 
-//     FROM insp_data 
-//     WHERE location_previousemp = 'MUMBAI' 
-//     AND previous_employment = 'HITACHI' 
-//     AND DATEDIFF(NOW(), STR_TO_DATE(papl_doj, '%Y-%m-%d')) > 730
-//   `;
-
-//   db.query(query, (err, results) => {
-//     if (err) {
-//       console.error('Error fetching values from MySQL:', err);
-//       res.status(500).json({ error: 'Internal Server Error' });
-//       return;
-//     }
-
-//     const values = results.map((row) => row.inspector_name);
-//     res.json(values);
-//   });
-// });
-// In this modified code, the papl_doj parameter is extracted from the queryParams object. Ensure that the parameter papl_doj is being sent in the query string from the client side when making the GET request to this endpoint. Also, make sure that the papl_doj parameter is properly formatted in the 'YYYY-MM-DD' format in the query string.
-
-
-
-
-// User
-  // const papl_doj = queryParams.papl_doj; // Get the papl_doj parameter from the query parameters
-// , i dont have a value for this, that value comes from mysql table
-
-// const url = require('url');
-// const querystring = require('querystring');
-
-// app.get('/api/inspector', (req, res) => {
-//   const parsedUrl = url.parse(req.url);
-//   const queryParams = querystring.parse(parsedUrl.query);
-
-//   const oem = queryParams.oem;
-//   const oemLocation = queryParams.oem_location;
-
-//   // Modify the SQL query to include papl_doj from the database table
-//   const query = `
-//   SELECT inspector_name, PAPL_DOJ 
-//   FROM insp_data 
-//   WHERE 
-//       (location_previousemp = ? AND previous_employment = ?)
-//       OR 
-//       (location_previousemp <> ? OR previous_employment <> ?);
-// `;
-
-//   db.query(query, [oemLocation,oem,oemLocation,oem], (err, results) => {
-//     if (err) {
-//       console.error('Error fetching values from MySQL:', err);
-//       res.status(500).json({ error: 'Internal Server Error' });
-//       return;
-//     }
-
-//     // Filter the results based on the date condition
-//     const filteredResults = results.filter(row => {
-//       const doj = new Date(row.PAPL_DOJ);
-//       const currentDate = new Date();
-//       const diffInDays = Math.floor((currentDate - doj) / (1000 * 60 * 60 * 24)); // Calculate the difference in days
-//       return diffInDays > 730;
-//     });
-//     const values = filteredResults.map(row => row.inspector_name);
-//     res.json(values);
-//   });
-//   });
-
-
-
-
-
 app.get('/api/inspector', (req, res) => {
-  // const oem = req.query.oem;
-  // const oemLocation = req.query.oem_location;
 
-  // const encodedValue = req.query.encodedValue;
-
- 
-  // const query = `SELECT location, oem_details FROM inf_26 WHERE contract_number = '${encodedValue}'`;
-
-  //   // Execute the database query
-  //   db.query(query, (err, result) => {
-  //       if (err) {
-  //           // Handle database query error
-  //           console.error(err);
-  //           res.status(500).json({ error: 'Internal Server Error' });
-  //       } else {
-  //           // Extract location and oem from the database query result
-  //           const location = result[0].location;
-  //           const oem = result[0].oem_details;
-
-  //           // Send the extracted data back to the client
-  //           const responseObject = {
-  //               encodedValue: encodedValue,
-  //               location: location,
-  //               oem: oem,
-  //               message: 'Received data successfully'
-  //           };
-  //           res.json(responseObject);
-  //       }
-  //   });
 
 
 
@@ -2212,29 +2187,7 @@ app.get('/api/inspector', (req, res) => {
     });
   });
 
-  //notification count
-  // app.get('/api/countRecords', (req, res) => {
-  //   // const name = req.params.name;  // Extract 'name' parameter from the request query
-  //   const { name } = req.query;
-
-  //   console.log(name);
-  
-  //   // Construct the SQL query using FIND_IN_SET() to check if 'name' is within 'inspector_name'
-  //   let sqlQuery = `SELECT COUNT(*) AS count FROM inf_26 WHERE FIND_IN_SET(${db1.escape(name)}, inspector_list) > 0;`;
-  //   // if (name) {
-  //   //   sqlQuery += ` WHERE CONCAT(',', inspector_list, ',') LIKE ${db1.escape(`%,${name},%`)}`;
-  //   // }
-  
-  //   db1.query(sqlQuery, (error, results) => {
-  //     if (error) {
-  //       res.status(500).json({ error: 'Error fetching record count' });
-  //     } else {
-  //       const count = results[0].count;
-  //       console.log(count);
-  //       res.status(200).json(count);
-  //     }
-  //   });
-  // });
+ 
 
   app.get('/api/countRecords', (req, res) => {
     const { name } = req.query;

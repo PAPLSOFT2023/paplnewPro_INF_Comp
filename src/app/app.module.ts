@@ -7,7 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BodyComponent } from './body/body.component';
 import { SidenavComponent } from './sidenav/sidenav.component';
-import { DashboardComponent } from './organization_admin_Home/dashboard.component';
+import { DashboardComponent } from './organizationadmin/organization_admin_Home/dashboard.component';
 import { SublevelMenuComponent } from './sidenav/sublevel-menu.component';
 import { LoginComponent } from './login/login.component';
 import { NeworganizationComponent } from './neworganization/neworganization.component';

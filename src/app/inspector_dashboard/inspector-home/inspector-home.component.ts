@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApicallService } from 'src/app/apicall.service';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { ActivatedRoute,Router } from '@angular/router';
 
 @Component({
   selector: 'app-inspector-home',
@@ -13,9 +13,14 @@ export class InspectorHomeComponent implements OnInit {
   recordCount: number = 0;
   scheduleBool:boolean=false;
 
-  constructor(private apicallservice: ApicallService, private http: HttpClient,private router:Router) {}
-
+  constructor(private apicallservice: ApicallService, private http: HttpClient,private router:Router,private route: ActivatedRoute) {}
+  routeParam: string="";
   ngOnInit() {
+    this.route.url.subscribe(segments => {
+      console.log('Current URL segments:', segments);
+    });
+
+   
     this.scheduleBool=false
     this.name = sessionStorage.getItem('UserName') as string;
     console.log('------', this.name);
@@ -28,7 +33,11 @@ export class InspectorHomeComponent implements OnInit {
 
   redirectSchedule(){
     this.scheduleBool=true;
-    this.router.navigate(['/afterlogin/inspectorHome/schedule_page']);
+    // this.router.navigate(['/afterlogin/inspectorHome/schedule_page']);
+    // this.router.navigate( [{ outlets: { scheduleOutlet: ['inspectorHome', 'schedule_page'] } }],{ relativeTo: this.route.parent } );
+    this.router.navigate(['/afterlogin', { outlets: { scheduleOutlet: ['schedule_page'] } }]);
+
+    // this.router.navigate([{ outlets: { scheduleOutlet: ['schedule_page'] } }]);
    
   }
 

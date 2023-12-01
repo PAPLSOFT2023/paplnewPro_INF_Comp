@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./schedule-page.component.scss']
 })
 export class SchedulePageComponent {
-
+  
 }
