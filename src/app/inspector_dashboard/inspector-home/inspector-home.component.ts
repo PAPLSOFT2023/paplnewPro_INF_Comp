@@ -14,19 +14,12 @@ export class InspectorHomeComponent implements OnInit {
   records:any[]=[];
   scheduleBool:boolean=false;
 
-<<<<<<< HEAD
   location:string='/assets/logo1.png'
 
   constructor(private apicallservice: ApicallService, private http: HttpClient,private router:Router) {}
 
-=======
-  constructor(private apicallservice: ApicallService, private http: HttpClient,private router:Router,private route: ActivatedRoute) {}
-  routeParam: string="";
->>>>>>> df67cbfe1975b913dd6c68a9d9141d14f3d5deed
   ngOnInit() {
-    this.route.url.subscribe(segments => {
-      console.log('Current URL segments:', segments);
-    });
+    
 
    
     this.scheduleBool=false

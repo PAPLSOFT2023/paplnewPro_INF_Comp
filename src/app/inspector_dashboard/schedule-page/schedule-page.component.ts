@@ -9,7 +9,6 @@ import { Router } from '@angular/router';
   styleUrls: ['./schedule-page.component.scss']
 })
 export class SchedulePageComponent {
-<<<<<<< HEAD
   name: string = '';
   records:any[]=[];
   scheduleBool:boolean=false;
@@ -95,7 +94,4 @@ export class SchedulePageComponent {
     );
   }
 
-=======
-  
->>>>>>> df67cbfe1975b913dd6c68a9d9141d14f3d5deed
 }
