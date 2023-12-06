@@ -26,11 +26,11 @@ export class SchedulePageComponent {
 
 
 
-  // redirectSchedule(){
-  //   this.scheduleBool=true;
-  //   this.router.navigate(['/afterlogin/inspectorHome/schedule_page']);
+  redirectSchedule(){
+    this.scheduleBool=true;
+    this.router.navigate(['/afterlogin/inspectorHome/schedule_page']);
    
-  // }
+  }
 
   getRecordCount(name: string) {
     const params = new HttpParams().set('name', name);

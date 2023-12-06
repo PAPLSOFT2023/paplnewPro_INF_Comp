@@ -35,9 +35,9 @@ export class InspectorHomeComponent implements OnInit {
 
   redirectSchedule(){
     this.scheduleBool=true;
-    // this.router.navigate(['/afterlogin/inspectorHome/schedule_page']);
+    this.router.navigate(['/afterlogin/inspectorHome/schedule_page']);
     // this.router.navigate( [{ outlets: { scheduleOutlet: ['inspectorHome', 'schedule_page'] } }],{ relativeTo: this.route.parent } );
-    this.router.navigate(['/afterlogin', { outlets: { scheduleOutlet: ['schedule_page'] } }]);
+    // this.router.navigate(['/afterlogin', { outlets: { scheduleOutlet: ['schedule_page'] } }]);
 
     // this.router.navigate([{ outlets: { scheduleOutlet: ['schedule_page'] } }]);
    

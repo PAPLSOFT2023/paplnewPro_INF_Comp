@@ -60,18 +60,10 @@ const routes: Routes = [
 
 
         // Inspector
-<<<<<<< HEAD
         {path:"inspectorHome",component:InspectorHomeComponent,
             children:[
             {path:'schedule_page',component:SchedulePageComponent},
             ]},
-=======
-        {path:"inspectorHome",component:InspectorHomeComponent},
-        {path:'schedule_page',component:ScheduledWorkComponent,outlet: 'scheduleOutlet'},
-        
-
-          
->>>>>>> df67cbfe1975b913dd6c68a9d9141d14f3d5deed
         {path:'scheduledWork', component:ScheduledWorkComponent},
         {path:"mail_automation",component:MailAutomationInspComponent},
        
