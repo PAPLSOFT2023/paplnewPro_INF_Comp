@@ -4,7 +4,7 @@ import { LoginComponent } from './login/login.component';
 import { NeworganizationComponent } from './neworganization/neworganization.component';
 import { AfterloginComponent } from './afterlogin/afterlogin.component';
 import { OrganizationUserManagementComponent } from './organizationadmin/organization-user-management/organization-user-management.component';
-import { DashboardComponent } from './organization_admin_Home/dashboard.component';
+import { DashboardComponent } from './organizationadmin/organization_admin_Home/dashboard.component';
 import { SoftwareAdminDashboardComponent } from './softwareadmin/software-admin-dashboard/software-admin-dashboard.component';
 import { UiElementsComponent } from './organizationadmin/ui-elements/ui-elements.component';
 import { AppHomeComponent } from './app-home/app-home.component';
@@ -40,6 +40,7 @@ const routes: Routes = [
   // '/afterlogin/software_admin_dashboard_user_manage/organization_admin_login_details'
   {path: 'afterlogin',component: AfterloginComponent,
     children: [
+      
 
         {path:'mail',component:MailComponent},
         {path:'software_admin_dashboard', component:SoftwareAdminDashboardComponent},
@@ -59,10 +60,18 @@ const routes: Routes = [
 
 
         // Inspector
+<<<<<<< HEAD
         {path:"inspectorHome",component:InspectorHomeComponent,
             children:[
             {path:'schedule_page',component:SchedulePageComponent},
             ]},
+=======
+        {path:"inspectorHome",component:InspectorHomeComponent},
+        {path:'schedule_page',component:ScheduledWorkComponent,outlet: 'scheduleOutlet'},
+        
+
+          
+>>>>>>> df67cbfe1975b913dd6c68a9d9141d14f3d5deed
         {path:'scheduledWork', component:ScheduledWorkComponent},
         {path:"mail_automation",component:MailAutomationInspComponent},
        

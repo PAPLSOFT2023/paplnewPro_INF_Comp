@@ -36,12 +36,41 @@ Resend_mail_verification(email:string):Observable<any>{
  
   return this.httpClient.get(url,options) ;
 }
-
+// NAME: string, email_id: string, PSN_NO: string, designation: string, contact_no: number, date_of_joining: Date, date_of_birth: Date, dept: string 
 // In ApicallService
-update_emp_data(userId: string, updatedData: any): Observable<any> {
-  console.log("api called")
-  return this.http.put<any>(`${this.apiURL}/update_emp_data/${userId}`, updatedData);
+updateprofiledata(name:string ,email_id:string,PSN_NO:string,designation:string,contact_no:number,date_of_joining:Date,date_of_birth:Date,dept:string, existingemail: any): Observable<any> {
+  console.log(name ,email_id,PSN_NO,designation,contact_no,date_of_joining,date_of_birth,dept,existingemail)
+  const databody={name ,email_id,PSN_NO,designation,contact_no,date_of_joining,date_of_birth,dept,existingemail}
+  return this.httpClient.put(this.apiURL+'update_profile',databody);
 }
+
+
+
+
+// profiledata deleteform 
+deleteProfileData(emailId: string): Observable<any> {
+  const headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+  });
+
+  console.log("api called", emailId);
+
+  return this.httpClient.delete(`${this.apiURL}delete_emp_data`, { headers, body: { email_id: emailId } });
+}
+
+
+
+
+//profiledata add user form
+addProfileData(NAME:string ,email_id:string,PSN_NO:string,designation:string,contact_no:number,date_of_joining:Date,date_of_birth:Date,dept:string): Observable<any> {
+  const body={NAME,email_id,PSN_NO,designation,contact_no,date_of_joining,date_of_birth,dept}
+  console.log("api Called",NAME,email_id,PSN_NO,designation,contact_no,date_of_joining,date_of_birth,dept)
+  
+  
+  return this.httpClient.post(this.apiURL+"add_profile_data", body);
+}
+
+
 
 
 
@@ -362,7 +391,11 @@ delete_Type_Bul_Data1( Region: string): Observable<any> {
 
 
 
+send_mail_to_client(sender:string,receiver:string):Observable<any>{
+const body_sendmail={sender,receiver}
+  return this.httpClient.put(this.apiURL+"Mail_sent_Insp_to_Client",body_sendmail)
 
+}
 
 
 

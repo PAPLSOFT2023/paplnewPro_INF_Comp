@@ -28,6 +28,7 @@ const admin = require('firebase-admin');
 const serviceAccount = require('./paplapplication-firebase-adminsdk-dlrxg-4adbf847ee.json');
 const { error, log } = require('console');
 const e = require('express');
+const { async } = require('rxjs');
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   databaseURL: 'https://paplapplication-default-rtdb.firebaseio.com',
@@ -68,13 +69,366 @@ db.connect((err) => {
   }
 });
 
-const transporter = nodemailer.createTransport({
-  service: 'Gmail',
-  auth: {
-    user: 'paplsoft.itservice@gmail.com',
-    pass: 'cicc tahd itrg guwd',
-  },
+
+// const transporter = nodemailer.createTransport({
+//   service: 'Gmail',
+//   auth: {
+//     user: 'paplsoft.itservice@gmail.com',
+//     pass: 'cicc tahd itrg guwd',
+//   },
+// });
+
+
+const TransporterData = (targetEmail) => {
+  return new Promise((resolve, reject) => {
+    db.execute('SELECT App_password, Email, Organization FROM mail_automation WHERE Email=?', [targetEmail], (error, result) => {
+      if (error) {
+        reject(error);
+      } else {
+        if (result.length === 0) {
+          reject(new Error('User not found'));
+        } else {
+          const myObject = {
+            user: result[0].Email,
+            pass: result[0].App_password
+          };
+  
+          resolve(myObject);
+        }
+      }
+    });
+  });
+};
+
+app.put('/api/Mail_sent_Insp_to_Client',(req,res)=>{
+const {sender,receiver}=req.body;
+console.log(sender,receiver)
+  Mail_sent_Insp_to_Client(sender,receiver)
+})
+
+const Mail_sent_Insp_to_Client= async (sender,receiver) => {
+  try {
+    
+    let transporter;
+    
+
+    // Use await to wait for TransporterData to resolve
+    const data = await TransporterData(sender);
+    console.log("^^",data.user,data.pass,sender,receiver)
+    transporter = nodemailer.createTransport({
+      service: 'Gmail',
+      auth: {
+        user: data.user,
+        pass: data.pass,
+        
+      },
+      
+    });
+    
+
+    // Add your improved mail design
+    const mailBody = `
+    <p>Dear Sir,</p>
+    <p>Kind Attention:<b> Mr. MADHUBABU</b> </p>
+    <p>Thank you for your order for the inspection of <b>89 Units</b> at <b> BRIGADE TECH GARDEN - BANGALORE</b></p>
+    <p>Please note the following:-</p>
+    <div style="padding-left: 20px;">
+    <table width="600" height="20" border="1" >
+        <tr>
+            <td style="padding: 4px;" >PAPL Order Reference</td> <td style="padding: 4px;" colspan="4">PAPL0245/B</td></tr>
+            <tr>
+            <td style="padding: 4px;" >Customer Order Reference</td>
+            <td style="padding: 4px;" colspan="4">8100002249,DATED 09/10/2023</td>
+        </tr>
+        <tr>
+           <td style="padding: 4px;" rowspan="2"> Proposed Inspection Dates</td>  <td style="padding: 4px;" rowspan="1" colspan="2">Inspection Start Date</td>
+          <td style="padding: 4px;">27/11/2023(Monday)</td></tr>
+          <tr>
+          <td style="padding: 4px;">Inspection End Date</td><td style="padding: 4px;" rowspan="1" colspan="2">02/12/2023 (Saturday)</td>
+        </tr>
+        <tr>
+            <td style="padding: 4px;">Total Number of Days</td > <td style="padding: 4px;" colspan="4">	06 Days</td>
+        </tr>
+        <tr>
+            <td style="padding: 4px;" >Inspection Type</td>
+            <td style="padding: 4px;" colspan="4">TPT3: CHECKLIST</td>
+        </tr>
+        <tr>
+            <td style="padding: 4px;" >Calibrated instruments carried by us</td>
+            <td style="padding: 4px;" colspan="4">Metal Scale, Taper Scale, Measuring Tape</td>
+        </tr>
+    </table>
+    </div>
+    <br>
+    <p ><b> The inspection will be carried out between 9:30 am & 6:00 pm.</b></p>
+    <p>The Inspection will be conducted by the following personnel (Credentials Attached) and request you kindly process the entry Pass accordingly.</p>
+    <div style="padding-left: 20px;">
+    <table border="1">
+        <tr>
+            <th>SL. NO</th>
+            <th>NAME</th>
+            <th>DESIGNATION</th>
+            <th>MOBILE</th>
+            <th>E-MAIL ID</th>
+        </tr>
+        <tr>
+            <td>1.</td>
+            <td>M.B.MAHADEVAN</td>
+            <td>ASSISTANT MANAGER</td>
+            <td>9886312327</td>
+            <td>mahadevan.mb@paplcorp.com</td>
+        </tr>
+        <tr>
+            <td>2.</td>
+            <td>ABDUL KAFFAR</td>
+            <td>ENGINEER</td>
+            <td>9790961647</td>
+            <td>Abdul.kaffar@paplcorp.com</td>
+        </tr>
+        <tr>
+            <td>3.</td>
+            <td>JINO CHAKO</td>
+            <td>INSPECTOR</td>
+            <td>8086165880</td>
+            <td>jino.chacko@paplcorp.com</td>
+        </tr>
+        
+    </table>
+    </div>
+    <br>
+    <p>Representatives of OEM/ Service providers at the supervisory level with adequate manpower <b>(One Technical Person per Inspector)</b> and tools as listed below should be made available throughout the inspection for coordination and support.</p>
+    <p>We need -: </p>
+    <div style="padding-left: 20px;">
+          <p>1. Permission to enter the premises</p>
+    
+        <p>2. Permission to travel on Equipment, enter the Pit, Car Top, and Machine Room. OEM/service provider or the building management should not object.</p>
+    
+        <p>3. Permission to carry Torch, Measuring tape, and other measuring instruments.</p>
+    
+        <p>4. Permission to record measurements and other findings as may be required.</p>
+    
+       <p>5. <u><b>Permission to carry a camera </b></u>and photograph the installation including the lobby, Elevator Pit, Elevator Machine fixing arrangements, Car top, floor landing fixtures, and any other space related to the equipment</p>
+    </div>
+    
+       <p>The Following Tools and measuring instruments with <u>Valid Calibration Certificates from NABL Accredited laboratories, traceable to national/international references </u>should be made available by the OEM/Service Provider throughout the inspection.</p>
+    <div style="padding-left: 20px;">
+       <table border="1" width="200" >
+        <tr >
+           <td style="padding-left: 50px; font-weight: bold;" >TOOLS</td>
+        </tr>
+        <tr>
+            <td style="padding-left: 10px;">HANDLAMP</td>
+        </tr>
+        <tr>
+            <td style="padding-left: 10px;">HAND TOOLS</td>
+        </tr>
+        <tr>
+            <td style="padding-left: 10px;">DOOR OPEN KEYS</td>
+        </tr>
+    </table>
+    </div>
+    <br>
+    <p>
+        <b>This inspection shall be independent & impartial,</b> irrespective of any other engagement that PAPL Corp shall have with you. Please refer to our policy <a href="">(https://paplcorp.com/policy.html)</a> on the same for more information.
+    
+    Please email your feedback/ concerns/ complaints if any on the constitution of the inspector/s or any other issue about our engagement to <a href="">info@paplcorp.com</a> the same shall be addressed on priority. Please refer to our policy on complaints and appeals <a href="">(https://paplcorp.com/policy-04.html)</a></p>
+    <div >
+    <p style="font-weight: bolder;">Note:- This is a system-generated email. For any clarification, please contact the PAPL team </p>
+    </div>
+    `;
+
+    const mailOptions = {
+      from:sender,
+      to: receiver, // Replace with the actual recipient email
+      subject: 'Order Confirmation - BRIGADE TECH GARDEN Inspection',
+      html: mailBody,
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.error('Email sending error:', error);
+      } else {
+        console.log('Email sent:', info.response);
+      }
+    });
+  } catch (error) {
+    console.error('Error sending email:', error.message);
+  }
+};
+
+
+
+
+
+
+
+
+
+
+const sendVerificationEmail= async (email, token) => {
+  try {
+    
+    let transporter;
+
+    // Use await to wait for TransporterData to resolve
+    const data = await TransporterData("paplsoft.itservice@gmail.com");
+
+    transporter = nodemailer.createTransport({
+      service: 'Gmail',
+      auth: {
+        user: data.user,
+        pass: data.pass,
+      },
+    });
+
+    const verificationLink = `http://localhost:3000/api/verify-email?email=${email}&token=${token}`;
+
+    const mailOptions = {
+      from: 'paplsoft.itservice@gmail.com',
+      to: email,
+      subject: 'Email Verification',
+      html: `Click the following link to verify your email: <a href="${verificationLink}">${verificationLink}</a>`,
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.error('Email sending error:', error);
+      } else {
+        console.log('Email sent:', info.response);
+      }
+    });
+  } catch (error) {
+    console.error('Error sending email:', error.message);
+  }
+};
+
+
+
+
+
+
+// Resend verify Link
+const sendVerificationEmailboolean= async (email, token, callback) => {
+  try {
+  
+    let transporter;
+
+    // Use await to wait for TransporterData to resolve
+    const data = await TransporterData("sabarinathan58796@gmail.com");
+
+    transporter = nodemailer.createTransport({
+      service: 'Gmail',
+      auth: {
+        user: data.user,
+        pass: data.pass,
+      },
+    });
+
+    const verificationLink = `http://localhost:3000/api/verify-email?email=${email}&token=${token}`;
+
+    const mailOptions = {
+      from: 'paplsoft.itservice@gmail.com',
+      to: email,
+      subject: 'Email Verification',
+      html: `Click the following link to verify your email: <a href="${verificationLink}">${verificationLink}</a>`,
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.error('Email sending error:', error);
+      } else {
+        console.log('Email sent:', info.response);
+      }
+    });
+  }
+   catch (error) {
+    console.error('Error sending email:', error.message);
+  }
+};
+
+
+//  check mail verified or not
+app.get('/api/verify-email', (req, res) => {
+  const { email, token } = req.query;
+
+
+  const query='SELECT Emailtoken FROM clientadmin WHERE Email= ?';
+  db.query(query, [email], (err, results) => {
+    if(err)
+    {
+      // console.log("Verification status",error)
+      return res.status(101).json("Email verification faild");
+
+    }
+    else{
+       const tokendetails=results[0]
+      if (tokendetails.Emailtoken === token) {
+        db.query('UPDATE `clientadmin` SET `Emailverified`=? WHERE Email=?',[1,email],(err,result)=>{
+          if(result)
+          {
+            return res.send(`
+            <html>
+            <body>
+              <h1>Email Verified Successfully</h1>
+              <p>All is set! You can now move to your dashboard.</p>
+              <!-- You can add a button or link to navigate to the dashboard -->
+              <a href="http://localhost:4200/">Go to Dashboard</a>
+            </body>
+            </html>
+          `);
+          }
+          if(err)
+          {
+            return res.status(401).json("Email verified Successfull");
+          }
+        }
+        );
+        
+      } 
+      else {
+        return res.status(401).json( 'Invalid verification token');
+      }
+      
+    }
+
+  });
+  
 });
+
+
+
+
+
+app.get('/api/ResendVerificationLink', (req, res) => {
+  const email = req.query.Email;
+  const verificationToken = uuidv4();
+
+  sendVerificationEmailboolean(email, verificationToken, (error) => {
+    if (error) {
+      res.json({ success: false, message: 'Failed to send verification email' });
+    } 
+    else {
+      db.query('UPDATE clientadmin SET Emailtoken= ? WHERE Email=?',[verificationToken,email],(error,result)=>{ 
+        if(result)
+        {
+          console.log("DB Updated")
+          res.json({ success: true, message: 'Verification link sent successfully' });
+        }
+       });
+    }
+  });
+});
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -315,6 +669,7 @@ app.post('/api/login', (req, res) => {
   db.query(query, [username], (err, results) => {
     if (err) {
       // console.log("+++", err);
+
       return res.status(500).json({ error: 'Internal server error' });
     }
     if (results.length === 0) {
@@ -420,45 +775,99 @@ app.get('/api/get_emp_data',(req,res)=>{
   });
 
 })
+// update profiledata 
+app.put('/api/update_profile',(req,res)=>{
+  const {name ,email_id,PSN_NO,designation,contact_no,date_of_joining,date_of_birth,dept,existingemail}=req.body;
 
-// In your Node.js/Express server
-app.get('/api/update_emp_data/:id', (req, res) => {
+  db1.query('UPDATE emp_data SET NAME=? ,PSN_NO=?,designation=?,contact_no=?,email_id=?,date_of_joining=?,date_of_birth=?,dept=? WHERE email_id=? ',
+  [name ,PSN_NO,designation,contact_no,email_id,date_of_joining,date_of_birth,dept,existingemail],(err,result)=>{
+
+    if(err)
+    {
+      console.log("Error",err)
+res.status(500).json({error:'internal server error'})
+    }
+    else{
+      if(result.affectedRows===0)
+      {
+        console.log("Existing not found")
+        res.status(404).json({error:'Existing data nit found'})
+      }
+      else{
+        console.log("Update success")
+        res.json({message:'Updated success'})
+
+      }
+    }
+  })
 
 
  
-  const userId = req.params.id;
-  const updatedData = req.body;
-  console.log(userId,updatedData)
 
-  connection.query(
-    'UPDATE emp_data SET ? WHERE NAME = ?',
-    [updatedData, userId],
-    (err, results) => {
-      if (err) {
-        console.error('Error updating user in the database:', err);
-        res.status(500).json({ error: 'Error updating user in the database' });
-      } else {
-        console.log('User updated in the database.');
-        res.json({ message: 'User updated successfully' });
-      }
+// Add user in profiledata
+app.post('/api/add_profile_data', (req, res) => {
+  const userData = req.body;
+
+  // Insert data into the MySQL database
+  db.query('INSERT INTO emp_data SET ?', userData, (error, results) => {
+    if (error) {
+      console.error('MySQL insertion error:', error);
+      res.status(500).json({ error: 'Error adding user' });
+    } else {
+      console.log('User added to MySQL:', results);
+      res.status(200).json({ message: 'User added successfully' });
     }
-  );
+  });
 });
+
+
+
+ 
+
+
+
+
+
+  
+ })
+
+// Your delete route
+app.delete('/api/delete_emp_data', (req, res) => {
+  console.log("server called");
+
+  const { email_id } = req.body;
+
+  if (!email_id) {
+    return res.status(400).json({ error: 'Email ID is required' });
+  }
+
+  // Assuming 'db1' is your database connection object
+  db1.query('DELETE FROM emp_data WHERE email_id=?', [email_id], (deleteErr, deleteResult) => {
+    if (deleteErr) {
+      console.error(deleteErr);
+      return res.status(500).json({ error: 'Error deleting user' });
+    }
+
+    return res.status(200).json({ message: 'User deleted successfully++++' });
+  });
+});
+
+
+
+
+ 
+ 
+
+
+
 
 
 
 // software admin login Details update 
 app.put('/api/adminregister_login_update', (req, res) => {
   const {email,organization,role,lstatus,authenticator,username,emailverified,existingmail,department } = req.body;
-
-
-
-
   const verificationToken = uuidv4();
-  // console.log("UPDATE CALL",email, organization, role, lstatus,authenticator,username,emailverified,verificationToken,department,existingmail)
-
   const query = `UPDATE clientadmin SET Email = ?, Organization = ?, Role = ?, Status = ?, Authenticator = ?, Username = ?, Emailverified = ?, Emailtoken = ?, Department=? WHERE Email = ?`;
- 
     db.query(query, [email, organization, role, lstatus,authenticator,username,emailverified,verificationToken,department,existingmail], (error, result) => {
       if (error) {
         
@@ -595,9 +1004,6 @@ app.post('/api/adminregister', (req, res) => {
         // console.log("Verification token",verificationToken,userid);
         }
       });
-     
-
-
     }
   });
 });
@@ -658,133 +1064,6 @@ app.get('/api/getRoleData', (req, res) => {
 });
 
 
-
-
-
-
-app.get('/api/ResendVerificationLink', (req, res) => {
-  const email = req.query.Email;
-  const verificationToken = uuidv4();
-
-  sendVerificationEmailboolean(email, verificationToken, (error) => {
-    if (error) {
-      res.json({ success: false, message: 'Failed to send verification email' });
-    } 
-    else {
-      db.query('UPDATE clientadmin SET Emailtoken= ? WHERE Email=?',[verificationToken,email],(error,result)=>{ 
-        if(result)
-        {
-          console.log("DB Updated")
-          res.json({ success: true, message: 'Verification link sent successfully' });
-        }
-       });
-    }
-  });
-});
-
-//profiledetail code 
-// app.get('/api/get_email_data',(req,res)) => {
-//   const {}
-// }
-
-
-
-
-
-
-
-//  check mail verified or not
-app.get('/api/verify-email', (req, res) => {
-  const { email, token } = req.query;
-
-
-  const query='SELECT Emailtoken FROM clientadmin WHERE Email= ?';
-  db.query(query, [email], (err, results) => {
-    if(err)
-    {
-      // console.log("Verification status",error)
-      return res.status(101).json("Email verification faild");
-
-    }
-    else{
-       const tokendetails=results[0]
-      if (tokendetails.Emailtoken === token) {
-        // Update the user's status to mark their email as verified
-        // user.isEmailVerified = true;
-
-        db.query('UPDATE `clientadmin` SET `Emailverified`=? WHERE Email=?',[1,email],(err,result)=>{
-          if(result)
-          {
-            return res.send(`
-            <html>
-            <body>
-              <h1>Email Verified Successfully</h1>
-              <p>All is set! You can now move to your dashboard.</p>
-              <!-- You can add a button or link to navigate to the dashboard -->
-              <a href="http://localhost:4200/">Go to Dashboard</a>
-            </body>
-            </html>
-          `);
-          }
-          if(err)
-          {
-            return res.status(401).json("Email verified Successfull");
-          }
-        }
-        );
-        
-      } 
-      else {
-        return res.status(401).json( 'Invalid verification token');
-      }
-      
-    }
-
-  });
-  
-});
-
-
-function sendVerificationEmail(email, token) {
-  const verificationLink = `http://localhost:3000/api/verify-email?email=${email}&token=${token}`;
-
-  const mailOptions = {
-    from: 'paplsoft.itservice@gmail.com',
-    to: email,
-    subject: 'Email Verification',
-    html: `Click the following link to verify your email: <a href="${verificationLink}">${verificationLink}</a>`,
-  };
-
-  transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      console.error('Email sending error:', error);
-    }
-     else {
-      console.log('Email sent:', info.response);
-    }
-  });
-}
-
-function sendVerificationEmailboolean(email, token, callback) {
-  const verificationLink = `http://localhost:3000/api/verify-email?email=${email}&token=${token}`;
-
-  const mailOptions = {
-    from: 'paplsoft.itservice@gmail.com',
-    to: email,
-    subject: 'Email Verification',
-    html: `Click the following link to verify your email: <a href="${verificationLink}">${verificationLink}</a>`,
-  };
-
-  transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      console.error('Email sending error:', error);
-      callback(error);
-    } else {
-      console.log('Email sent:', info.response);
-      callback(null);
-    }
-  });
-}
 
 
 
@@ -1790,137 +2069,8 @@ app.get('/api/home_usages', (req, res) => {
     });
   });
 
-
-  //select inspector
-
-  // app.get('/api/inspector', (req, res) => {
-  //   const parsedUrl = url.parse(req.url);
-  // const queryParams = querystring.parse(parsedUrl.query);
-
-  // const oem = queryParams.oem;
-  // const oemLocation = queryParams.oem_location;
-  //   const query = 'SELECT inspector_name FROM insp_data';
-  
-  //   db.query(query, (err, results) => {
-  //     if (err) {
-  //       console.error('Error fetching values from MySQL:', err);
-  //       res.status(500).json({ error: 'Internal Server Error' });
-  //       return;
-  //     }
-  
-  //     const values = results.map((row) => row.inspector_name);
-  //     res.json(values);
-  //   });
-
-
-//   const parsedUrl = url.parse(req.url);
-//   const queryParams = querystring.parse(parsedUrl.query);
-
-//   const oem = queryParams.oem;
-//   const oemLocation = queryParams.oem_location;
-//   const papl_doj = queryParams.papl_doj; // Get the papl_doj parameter from the query parameters
-
-//   const query = `
-//     SELECT inspector_name 
-//     FROM insp_data 
-//     WHERE location_previousemp = 'MUMBAI' 
-//     AND previous_employment = 'HITACHI' 
-//     AND DATEDIFF(NOW(), STR_TO_DATE(papl_doj, '%Y-%m-%d')) > 730
-//   `;
-
-//   db.query(query, (err, results) => {
-//     if (err) {
-//       console.error('Error fetching values from MySQL:', err);
-//       res.status(500).json({ error: 'Internal Server Error' });
-//       return;
-//     }
-
-//     const values = results.map((row) => row.inspector_name);
-//     res.json(values);
-//   });
-// });
-// In this modified code, the papl_doj parameter is extracted from the queryParams object. Ensure that the parameter papl_doj is being sent in the query string from the client side when making the GET request to this endpoint. Also, make sure that the papl_doj parameter is properly formatted in the 'YYYY-MM-DD' format in the query string.
-
-
-
-
-// User
-  // const papl_doj = queryParams.papl_doj; // Get the papl_doj parameter from the query parameters
-// , i dont have a value for this, that value comes from mysql table
-
-// const url = require('url');
-// const querystring = require('querystring');
-
-// app.get('/api/inspector', (req, res) => {
-//   const parsedUrl = url.parse(req.url);
-//   const queryParams = querystring.parse(parsedUrl.query);
-
-//   const oem = queryParams.oem;
-//   const oemLocation = queryParams.oem_location;
-
-//   // Modify the SQL query to include papl_doj from the database table
-//   const query = `
-//   SELECT inspector_name, PAPL_DOJ 
-//   FROM insp_data 
-//   WHERE 
-//       (location_previousemp = ? AND previous_employment = ?)
-//       OR 
-//       (location_previousemp <> ? OR previous_employment <> ?);
-// `;
-
-//   db.query(query, [oemLocation,oem,oemLocation,oem], (err, results) => {
-//     if (err) {
-//       console.error('Error fetching values from MySQL:', err);
-//       res.status(500).json({ error: 'Internal Server Error' });
-//       return;
-//     }
-
-//     // Filter the results based on the date condition
-//     const filteredResults = results.filter(row => {
-//       const doj = new Date(row.PAPL_DOJ);
-//       const currentDate = new Date();
-//       const diffInDays = Math.floor((currentDate - doj) / (1000 * 60 * 60 * 24)); // Calculate the difference in days
-//       return diffInDays > 730;
-//     });
-//     const values = filteredResults.map(row => row.inspector_name);
-//     res.json(values);
-//   });
-//   });
-
-
-
-
-
 app.get('/api/inspector', (req, res) => {
-  // const oem = req.query.oem;
-  // const oemLocation = req.query.oem_location;
 
-  // const encodedValue = req.query.encodedValue;
-
- 
-  // const query = `SELECT location, oem_details FROM inf_26 WHERE contract_number = '${encodedValue}'`;
-
-  //   // Execute the database query
-  //   db.query(query, (err, result) => {
-  //       if (err) {
-  //           // Handle database query error
-  //           console.error(err);
-  //           res.status(500).json({ error: 'Internal Server Error' });
-  //       } else {
-  //           // Extract location and oem from the database query result
-  //           const location = result[0].location;
-  //           const oem = result[0].oem_details;
-
-  //           // Send the extracted data back to the client
-  //           const responseObject = {
-  //               encodedValue: encodedValue,
-  //               location: location,
-  //               oem: oem,
-  //               message: 'Received data successfully'
-  //           };
-  //           res.json(responseObject);
-  //       }
-  //   });
 
 
 
@@ -2212,29 +2362,7 @@ app.get('/api/inspector', (req, res) => {
     });
   });
 
-  //notification count
-  // app.get('/api/countRecords', (req, res) => {
-  //   // const name = req.params.name;  // Extract 'name' parameter from the request query
-  //   const { name } = req.query;
-
-  //   console.log(name);
-  
-  //   // Construct the SQL query using FIND_IN_SET() to check if 'name' is within 'inspector_name'
-  //   let sqlQuery = `SELECT COUNT(*) AS count FROM inf_26 WHERE FIND_IN_SET(${db1.escape(name)}, inspector_list) > 0;`;
-  //   // if (name) {
-  //   //   sqlQuery += ` WHERE CONCAT(',', inspector_list, ',') LIKE ${db1.escape(`%,${name},%`)}`;
-  //   // }
-  
-  //   db1.query(sqlQuery, (error, results) => {
-  //     if (error) {
-  //       res.status(500).json({ error: 'Error fetching record count' });
-  //     } else {
-  //       const count = results[0].count;
-  //       console.log(count);
-  //       res.status(200).json(count);
-  //     }
-  //   });
-  // });
+ 
 
   app.get('/api/countRecords', (req, res) => {
     const { name } = req.query;

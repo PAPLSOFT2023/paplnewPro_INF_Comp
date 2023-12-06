@@ -102,6 +102,8 @@ this.resetUser();
     this.isUserPopupOpen = true;
    
   }
+
+    
   openUserPopup1() {
     this.isUserPopupOpen1 = true;
   }
