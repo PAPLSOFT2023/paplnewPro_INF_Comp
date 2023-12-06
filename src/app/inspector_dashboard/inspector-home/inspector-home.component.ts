@@ -11,7 +11,10 @@ import { Router } from '@angular/router';
 export class InspectorHomeComponent implements OnInit {
   name: string = '';
   recordCount: number = 0;
+  records:any[]=[];
   scheduleBool:boolean=false;
+
+  location:string='/assets/logo1.png'
 
   constructor(private apicallservice: ApicallService, private http: HttpClient,private router:Router) {}
 
@@ -20,6 +23,7 @@ export class InspectorHomeComponent implements OnInit {
     this.name = sessionStorage.getItem('UserName') as string;
     console.log('------', this.name);
     this.getRecordCount(this.name);
+    this.getRecordCount1(this.name);
     this.get_Insp_Name_List();
   }
 
@@ -44,6 +48,33 @@ export class InspectorHomeComponent implements OnInit {
           console.error('Error fetching record count:', error);
         }
       );
+  }
+
+  getRecordCount1(name: string) {
+    const params = new HttpParams().set('name', name);
+
+    this.http.get<any>('http://localhost:3000/api/countRecords2', { params })
+      .subscribe(
+        count => {
+            this.records = count;
+        },
+        error => {
+          console.error('Error fetching record count:', error);
+        }
+      );
+  }
+
+  pdf(no:string){
+    
+    // const successMessage = 'Click ok to view the document';
+    // const userConfirmation = window.confirm(successMessage);
+    // if(userConfirmation){
+    //   console.log("Called..*******",no)
+      this.router.navigate(['pdf',no]);
+    // }
+    // this.router.navigate(['pdf',no]);
+
+
   }
 
   get_Insp_Name_List() {
