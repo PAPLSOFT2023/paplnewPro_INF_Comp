@@ -16,19 +16,18 @@
   
         <div class="buttons">
           <button class="approve-btn" (click)="approveRequest(request.id)">Accept</button>
-          <button class="reject-btn" >Reject</button>
+          <button class="reject-btn" (click)="openRejectDialog(request.id)" >Reject</button>
         </div>
       </div>
     </div>
   
     <p *ngIf="records.length === 0">No more requests</p>
     
-    <!-- <a routerLink="/inspectorHome"><button>Back</button></a> -->
   </div>
 
 </body>  
 
-<!-- <h1>{{records | json}}</h1> -->
+
 
 
   

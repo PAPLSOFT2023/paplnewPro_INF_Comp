@@ -100,6 +100,8 @@ import { DatePipe } from '@angular/common';
 import { InspectorHomeComponent } from './inspector_dashboard/inspector-home/inspector-home.component';
 import { ScheduledWorkComponent } from './scheduled-work/scheduled-work.component';
 import { SchedulePageComponent } from './inspector_dashboard/schedule-page/schedule-page.component';
+import { RejectionComponent } from './inspector_dashboard/rejection/rejection.component';
+// import { RejectionComponent } from './inspector_dashboard/rejection/rejection.component';
 
 
 
@@ -165,6 +167,8 @@ import { SchedulePageComponent } from './inspector_dashboard/schedule-page/sched
         InspectorHomeComponent,
         ScheduledWorkComponent,
         SchedulePageComponent,
+        RejectionComponent,
+        // RejectionComponent,
         
 
         

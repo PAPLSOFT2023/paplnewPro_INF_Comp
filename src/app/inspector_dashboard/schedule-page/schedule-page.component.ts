@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { ApicallService } from 'src/app/apicall.service';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogComponent } from 'src/app/INF/dialog/dialog.component';
+import { RejectionComponent } from '../rejection/rejection.component';
 
 @Component({
   selector: 'app-schedule-page',
@@ -13,7 +16,7 @@ export class SchedulePageComponent {
   records:any[]=[];
   scheduleBool:boolean=false;
 
-  constructor(private apicallservice: ApicallService, private http: HttpClient,private router:Router) {}
+  constructor(private apicallservice: ApicallService, private http: HttpClient,private router:Router, private dialog:MatDialog) {}
 
   ngOnInit() {
     this.scheduleBool=false
@@ -22,6 +25,23 @@ export class SchedulePageComponent {
     this.getRecordCount(this.name);
     this.get_Insp_Name_List();
   }
+  openRejectDialog(request: any){
+    const dialogRef = this.dialog.open(RejectionComponent, {
+      width: '300px',
+      data: { request }, // Pass data to the dialog if needed
+    });
+
+    dialogRef.afterClosed().subscribe((result: string) => {
+      if (result) {
+        // Handle the rejected request with the reason selected (result)
+        console.log('Rejected with reason:', result);
+        // Call your rejectRequest() function passing the reason or handle accordingly
+      }
+    });
+  
+ 
+    
+    }
 
 
 
