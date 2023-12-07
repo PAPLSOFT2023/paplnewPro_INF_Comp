@@ -362,9 +362,10 @@ delete_Type_Bul_Data1( Region: string): Observable<any> {
 
 
 
-send_mail_to_client(sender:string,receiver:string):Observable<any>{
-const body_sendmail={sender,receiver}
-  return this.httpClient.put(this.apiURL+"Mail_sent_Insp_to_Client",body_sendmail)
+send_mail_to_client(sender:string,receiver:string,Subject:string,Attention:string, Total_units:string,Client_Name:string,Order_Ref:string,Customer_Order_Ref:string,Inspection_Start_Date:string,Inspection_End_Date:string,Total_days:string,Inspectin_Type:string,Inspection_Time:string,Inspector_Array:string):Observable<any>{
+const body_sendmail={sender,receiver,Subject,Attention, Total_units,Client_Name,Order_Ref,Customer_Order_Ref,Inspection_Start_Date,Inspection_End_Date,Total_days,Inspectin_Type,Inspection_Time,Inspector_Array}
+
+return this.httpClient.put(this.apiURL+"Mail_sent_Insp_to_Client",body_sendmail)
 
 }
 

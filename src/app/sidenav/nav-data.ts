@@ -106,7 +106,7 @@ export const inspector: INavbarData[] = [
     {
         routeLink: '/afterlogin/mail_automation',
         icon: "fa fa-envelope",
-        label: 'Mail Automation'
+        label: 'Mail'
     },
    
    

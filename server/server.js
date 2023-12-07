@@ -100,13 +100,28 @@ const TransporterData = (targetEmail) => {
   });
 };
 
-app.put('/api/Mail_sent_Insp_to_Client',(req,res)=>{
-const {sender,receiver}=req.body;
-console.log(sender,receiver)
-  Mail_sent_Insp_to_Client(sender,receiver)
-})
+app.put('/api/Mail_sent_Insp_to_Client', async (req, res) => {
+  const { sender, receiver,Subject,Attention, Total_units,Client_Name,Order_Ref,Customer_Order_Ref,Inspection_Start_Date,Inspection_End_Date,Total_days,Inspectin_Type,Inspection_Time,Inspector_Array } = req.body;
+  console.log(sender, receiver,Subject,Attention, Total_units,Client_Name,Order_Ref,Customer_Order_Ref,Inspection_Start_Date,Inspection_End_Date,Total_days,Inspectin_Type,Inspection_Time,Inspector_Array);
 
-const Mail_sent_Insp_to_Client= async (sender,receiver) => {
+  try {
+    // Call the Mail_sent_Insp_to_Client function and wait for the result
+    const mailStatus = await Mail_sent_Insp_to_Client(sender, receiver,Subject,Attention, Total_units,Client_Name,Order_Ref,Customer_Order_Ref,Inspection_Start_Date,Inspection_End_Date,Total_days,Inspectin_Type,Inspection_Time,Inspector_Array);
+
+    // Check the result and send the appropriate response
+    if (mailStatus) {
+      console.log("------&&&& mail send")
+      res.json({ success: true, message: 'Email sent successfully!' });
+    } else {
+      res.json({ success: false, message: 'Failed to send email.' });
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({ success: false, message: 'Internal server error.' });
+  }
+});
+
+const Mail_sent_Insp_to_Client= async (sender,receiver,Subject,Attention, Total_units,Client_Name,Order_Ref,Customer_Order_Ref,Inspection_Start_Date,Inspection_End_Date,Total_days,Inspectin_Type,Inspection_Time,Inspector_Array) => {
   try {
     
     let transporter;
@@ -124,46 +139,158 @@ const Mail_sent_Insp_to_Client= async (sender,receiver) => {
       },
       
     });
-    
+    const generatePersonnelRows = (personnelArray) => {
+      let slNo = 1;
+      return personnelArray.map(person => `
+        <tr>
+          <td  style="padding-left: 10px;">${slNo++}</td>
+          <td  style="padding-left: 10px;">${person.name}</td>
+          <td  style="padding-left: 10px;">${person.designation}</td>
+          <td  style="padding-left: 10px;">${person.mobile}</td>
+          <td  style="padding-left: 10px;">${person.email}</td>
+        </tr>
+      `).join('');
+    };
 
+
+     Inspector_Array = [
+      {  name: 'sabari', designation: 'ASSISTANT MANAGER', mobile: '9886312327', email: 'mahadevan.mb@paplcorp.com' },
+      {  name: 'ABDUL KAFFAR', designation: 'ENGINEER', mobile: '9790961647', email: 'Abdul.kaffar@paplcorp.com' },
+      {  name: 'JINO CHAKO', designation: 'INSPECTOR', mobile: '8086165880', email: 'jino.chacko@paplcorp.com' },
+     
+    ];
     // Add your improved mail design
     const mailBody = `
-      <p>Dear Sir,</p>
-
-      <p>Kind Attention:prasanna</p>
-
-      <p>Thank you for your order for the inspection of 89 Units at BRIGADE TECH GARDEN - BANGALORE</p>
-
-      <p>Please note the following:</p>
-
-      <ul>
-        <li>Item 1</li>
-        <li>Item 2</li>
-        <!-- Add more items as needed -->
-      </ul>
-
-      <p>Feel free to contact us if you have any questions or concerns.</p>
-
-      <p>Best regards,</p>
-      <p>Your Company Name</p>
+    
+    <p style="color: black;">Dear Sir/Madam,</p>
+    <p style="color: black;">Kind Attention:<b> ${Attention}</b> </p>
+    <p style="color: black;">Thank you for your order for the inspection of <b>${Total_units} Units</b> at <b> ${Client_Name}</b></p>
+    <p style="color: black;">Please note the following:-</p>
+    <div style="padding-left: 20px;">
+    <table width="600" height="20" border="1" >
+        <tr>
+            <td style="padding: 4px;" >PAPL Order Reference</td> <td style="padding: 4px;  font-weight:bold" colspan="4">${Order_Ref}</td></tr>
+            <tr>
+            <td style="padding: 4px;" >Customer Order Reference</td>
+            <td style="padding: 4px;" colspan="4">${Customer_Order_Ref}</td>
+        </tr>
+        <tr>
+           <td style="padding: 4px;" rowspan="2"> Proposed Inspection Dates</td>  <td style="padding: 4px;" rowspan="1" colspan="2">Inspection Start Date</td>
+          <td style="padding: 4px;">${Inspection_Start_Date}</td></tr>
+          <tr>
+          <td style="padding: 4px;">Inspection End Date</td><td style="padding: 4px;" rowspan="1" colspan="2">${Inspection_End_Date}</td>
+        </tr>
+        <tr>
+            <td style="padding: 4px;">Total Number of Days</td > <td style="padding: 4px;" colspan="4">	${Total_days} Days</td>
+        </tr> 
+        <tr>
+            <td style="padding: 4px;" >Inspection Type</td>
+            <td style="padding: 4px;" colspan="4">${Inspectin_Type}</td>
+        </tr>
+        <tr>
+            <td style="padding: 4px;" >Calibrated instruments carried by us</td>
+            <td style="padding: 4px;" colspan="4">Metal Scale, Taper Scale, Measuring Tape</td>
+        </tr>
+    </table>
+    </div>
+    <br>
+    <p style="color: black;"><b> The inspection will be carried out between ${Inspection_Time}.</b></p>
+    <p style="color: black;">The Inspection will be conducted by the following personnel (Credentials Attached) and request you kindly process the entry Pass accordingly.</p>
+    <div style="padding-left: 20px;">
+    <table border="1">
+        <tr>
+            <th>SL. NO</th>
+            <th>NAME</th>
+            <th>DESIGNATION</th>
+            <th>MOBILE</th>
+            <th>E-MAIL ID</th>
+        </tr>
+        
+        
+        ${generatePersonnelRows(Inspector_Array)}
+        
+    </table>
+    </div>
+    <br>
+    <p style="color: black;">Representatives of OEM/ Service providers at the supervisory level with adequate manpower <b>(One Technical Person per Inspector)</b> and tools as listed below should be made available throughout the inspection for coordination and support.</p>
+    <p style="color: black;">We need -: </p>
+    <div style="padding-left: 20px;">
+          <p style="color: black;">1. Permission to enter the premises</p>
+    
+        <p style="color: black;">2. Permission to travel on Equipment, enter the Pit, Car Top, and Machine Room. OEM/service provider or the building management should not object.</p>
+    
+        <p style="color: black;">3. Permission to carry Torch, Measuring tape, and other measuring instruments.</p>
+    
+        <p style="color: black;">4. Permission to record measurements and other findings as may be required.</p>
+    
+       <p style="color: black;">5. <u><b>Permission to carry a camera </b></u>and photograph the installation including the lobby, Elevator Pit, Elevator Machine fixing arrangements, Car top, floor landing fixtures, and any other space related to the equipment</p>
+    </div>
+    
+       <p style="color: black;">The Following Tools and measuring instruments with <u>Valid Calibration Certificates from NABL Accredited laboratories, traceable to national/international references </u>should be made available by the OEM/Service Provider throughout the inspection.</p>
+    <div style="padding-left: 20px;">
+       <table border="1" width="200" >
+        <tr >
+           <td style="text-align: center; font-weight:bold" >TOOLS</td>
+        </tr>
+        <tr>
+            <td style="text-align: center;">HANDLAMP</td>
+        </tr>
+        <tr>
+            <td style="text-align: center;">HAND TOOLS</td>
+        </tr>
+        <tr>
+            <td style="text-align: center;">DOOR OPEN KEYS</td>
+        </tr>
+    </table>
+    </div>
+    <br>
+    <p style="color: black;">
+        <b>This inspection shall be independent & impartial,</b> irrespective of any other engagement that PAPL Corp shall have with you. Please refer to our policy <a href="https://paplcorp.com/policy.html">(https://paplcorp.com/policy.html)</a> on the same for more information.
+    
+    Please email your feedback/ concerns/ complaints if any on the constitution of the inspector/s or any other issue about our engagement to <a href="info@paplcorp.com">info@paplcorp.com</a> the same shall be addressed on priority. Please refer to our policy on complaints and appeals <a href="https://paplcorp.com/policy-04.html">(https://paplcorp.com/policy-04.html)</a></p>
+    <div >
+    <p style="font-weight: bolder; color: black;">Note: This email is system-generated. For any clarifications, please feel free to contact the PAPL team. </p>
+    </div>
     `;
+
+
+
+
+    const path="C:/Users/sabar/Downloads/Resume.pdf"
 
     const mailOptions = {
       from:sender,
       to: receiver, // Replace with the actual recipient email
-      subject: 'Order Confirmation - BRIGADE TECH GARDEN Inspection',
+      subject: Subject,
       html: mailBody,
+      attachments: [
+        {
+          filename: 'Resume.pdf',  // Specify the name you want for the attached file
+          path: path,         // Path to the PDF file
+        },
+      ],
     };
+   
+      // Execute the SELECT query
+     
 
-    transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        console.error('Email sending error:', error);
-      } else {
-        console.log('Email sent:', info.response);
-      }
-    });
-  } catch (error) {
+      // Process the fetched data
+      // console.log('Fetched data:', db1.query('SELECT * FROM `pdf_cv` WHERE `name` = ?', ['sabari']));
+    
+    const info = await transporter.sendMail(mailOptions);
+   
+
+    console.log('Email sent:', info.response);
+
+    // Return true for success
+    return true;
+  } 
+  catch (error) {
     console.error('Error sending email:', error.message);
+    console.error('Error sending email:', error);
+
+    // Return false for failure
+    return false;
   }
 };
 
@@ -281,7 +408,7 @@ app.get('/api/verify-email', (req, res) => {
             <html>
             <body>
               <h1>Email Verified Successfully</h1>
-              <p>All is set! You can now move to your dashboard.</p>
+              <p style="color: black;">All is set! You can now move to your dashboard.</p>
               <!-- You can add a button or link to navigate to the dashboard -->
               <a href="http://localhost:4200/">Go to Dashboard</a>
             </body>
