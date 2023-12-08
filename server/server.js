@@ -48,13 +48,13 @@ const db = mysql.createConnection({
   user: 'root',
   password: '',
   database: 'paplworkspace',
-});
+  });
 const db1 = mysql.createConnection({
   host: '127.0.0.1',
   user: 'root',
   password: '',
   database: 'papl_inspection',
-});
+ });
 
 
 
@@ -70,13 +70,7 @@ db.connect((err) => {
 });
 
 
-// const transporter = nodemailer.createTransport({
-//   service: 'Gmail',
-//   auth: {
-//     user: 'paplsoft.itservice@gmail.com',
-//     pass: 'cicc tahd itrg guwd',
-//   },
-// });
+
 
 
 const TransporterData = (targetEmail) => {
@@ -154,7 +148,7 @@ const Mail_sent_Insp_to_Client= async (sender,receiver,Subject,Attention, Total_
 
 
      Inspector_Array = [
-      {  name: 'sabari', designation: 'ASSISTANT MANAGER', mobile: '9886312327', email: 'mahadevan.mb@paplcorp.com' },
+      {  name: 'M.B.MAHADEVAN', designation: 'ASSISTANT MANAGER', mobile: '9886312327', email: 'mahadevan.mb@paplcorp.com' },
       {  name: 'ABDUL KAFFAR', designation: 'ENGINEER', mobile: '9790961647', email: 'Abdul.kaffar@paplcorp.com' },
       {  name: 'JINO CHAKO', designation: 'INSPECTOR', mobile: '8086165880', email: 'jino.chacko@paplcorp.com' },
      
@@ -255,8 +249,23 @@ const Mail_sent_Insp_to_Client= async (sender,receiver,Subject,Attention, Total_
 
 
 
+    const attachments = [];
 
     const path="C:/Users/sabar/Downloads/Resume.pdf"
+const targetNames=["sabari","sabari"];
+    for (const targetName of targetNames) {
+      // Execute the SELECT query to retrieve PDF file from the database for a specific name
+      const queryResult = await db1.query('SELECT * FROM `pdf_cv` WHERE `name` = ?', [targetName]);
+
+      // Assuming the result contains the file content, update the mailOptions accordingly
+      const pdfContent = queryResult[0].pdf_content; // Replace 'pdf_content' with the actual column name
+
+      attachments.push({
+        filename: `${targetName}_Resume.pdf`, // Adjust the filename to include the targetName
+        content: pdfContent, // Use the content retrieved from the database
+        encoding: 'base64', // Specify encoding if needed
+      });
+    }
 
     const mailOptions = {
       from:sender,
