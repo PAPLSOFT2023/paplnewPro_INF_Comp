@@ -822,6 +822,92 @@ app.get('/api/get_emp_data',(req,res)=>{
   });
 
 })
+// update profiledata 
+app.put('/api/update_profile',(req,res)=>{
+  const {name ,email_id,PSN_NO,designation,contact_no,date_of_joining,date_of_birth,dept,existingemail}=req.body;
+
+  db1.query('UPDATE emp_data SET NAME=? ,PSN_NO=?,designation=?,contact_no=?,email_id=?,date_of_joining=?,date_of_birth=?,dept=? WHERE email_id=? ',
+  [name ,PSN_NO,designation,contact_no,email_id,date_of_joining,date_of_birth,dept,existingemail],(err,result)=>{
+
+    if(err)
+    {
+      console.log("Error",err)
+res.status(500).json({error:'internal server error'})
+    }
+    else{
+      if(result.affectedRows===0)
+      {
+        console.log("Existing not found")
+        res.status(404).json({error:'Existing data nit found'})
+      }
+      else{
+        console.log("Update success")
+        res.json({message:'Updated success'})
+
+      }
+    }
+  })
+
+
+ 
+
+// Add user in profiledata
+app.post('/api/add_profile_data', (req, res) => {
+  const userData = req.body;
+
+  // Insert data into the MySQL database
+  db.query('INSERT INTO emp_data SET ?', userData, (error, results) => {
+    if (error) {
+      console.error('MySQL insertion error:', error);
+      res.status(500).json({ error: 'Error adding user' });
+    } else {
+      console.log('User added to MySQL:', results);
+      res.status(200).json({ message: 'User added successfully' });
+    }
+  });
+});
+
+
+
+ 
+
+
+
+
+
+  
+ })
+
+// Your delete route
+app.delete('/api/delete_emp_data', (req, res) => {
+  console.log("server called");
+
+  const { email_id } = req.body;
+
+  if (!email_id) {
+    return res.status(400).json({ error: 'Email ID is required' });
+  }
+
+  // Assuming 'db1' is your database connection object
+  db1.query('DELETE FROM emp_data WHERE email_id=?', [email_id], (deleteErr, deleteResult) => {
+    if (deleteErr) {
+      console.error(deleteErr);
+      return res.status(500).json({ error: 'Error deleting user' });
+    }
+
+    return res.status(200).json({ message: 'User deleted successfully++++' });
+  });
+});
+
+
+
+
+ 
+ 
+
+
+
+
 
 
 // software admin login Details update 
@@ -2014,6 +2100,22 @@ app.get('/api/home_usages', (req, res) => {
     });
   });
 
+  //rejection reason api
+  app.get('/api/rejection', (req, res) => {
+    const query = 'SELECT reject FROM rejects';
+  
+    db1.query(query, (err, results) => {
+      if (err) {
+        console.error('Error fetching values from MySQL:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+        return;
+      }
+  
+      const values = results.map((row) => row.reject);
+      res.json(values);
+    });
+  });
+
 // Get Dumb Usage from DB
   app.get('/api/dumb_usages', (req, res) => {
     const query = 'SELECT usage_dumb FROM dumb_usage';
@@ -2330,7 +2432,7 @@ app.get('/api/inspector', (req, res) => {
     console.log(name);
   
     // Construct the SQL query to check if 'name' exists within 'inspector_like' JSON array
-    let sqlQuery = `SELECT COUNT(*) AS count FROM inf_26 WHERE JSON_CONTAINS(inspector_list, ${db1.escape(`"${name}"`)})`;
+    let sqlQuery = `SELECT COUNT(*) AS count FROM inf_26 WHERE JSON_CONTAINS(inspector_list, ${db1.escape(`"${name}"`)}) and i_approved=0 and i_rejected=0`;
   
     db1.query(sqlQuery, (error, results) => {
       if (error) {
@@ -2339,6 +2441,98 @@ app.get('/api/inspector', (req, res) => {
         const count = results[0].count;
         console.log(count);
         res.status(200).json(count);
+      }
+    });
+  });
+
+  app.get('/api/countRecords1', (req, res) => {
+    const { name } = req.query;
+    console.log(name);
+  
+    // Construct the SQL query to check if 'name' exists within 'inspector_like' JSON array
+    let sqlQuery = `SELECT * FROM inf_26 WHERE JSON_CONTAINS(inspector_list, ${db1.escape(`"${name}"`)}) and i_approved=0 and i_rejected=0`;
+  
+    db1.query(sqlQuery, (error, results) => {
+      if (error) {
+        res.status(500).json({ error: 'Error fetching record count' });
+      } else {
+       
+        res.status(200).json(results);
+      }
+    });
+  });
+
+  app.get('/api/countRecords2', (req, res) => {
+    const { name } = req.query;
+    console.log(name);
+  
+    // Construct the SQL query to check if 'name' exists within 'inspector_like' JSON array
+    let sqlQuery = `SELECT * FROM inf_26 WHERE JSON_CONTAINS(inspector_list, ${db1.escape(`"${name}"`)}) and i_approved=1`;
+  
+    db1.query(sqlQuery, (error, results) => {
+      if (error) {
+        res.status(500).json({ error: 'Error fetching record count' });
+      } else {
+       
+        res.status(200).json(results);
+      }
+    });
+  });
+
+  
+
+
+  // app.get('/api/approveRecords', (req, res) => {
+  //   const { id } = req.query;
+  //   console.log('id is ',id);
+  
+  //   // Construct the SQL query to check if 'name' exists within 'inspector_like' JSON array
+  //   let sqlQuery = `UPDATE inf_26 SET i_approved = ? where id=?`;
+  
+  //   db1.query(sqlQuery,[1,id] ,(error, results) => {
+  //     if (error) {
+  //       res.status(500).json({ error: 'Error fetching record count' });
+  //     } else {
+       
+  //       res.status(200).json(results);
+  //     }
+  //   });
+  // });
+
+  app.put('/api/approveRecords', (req, res) => {
+    const { id } = req.query;
+    console.log('id is ', id);
+  
+    // Construct the SQL query with parameter placeholders
+    let sqlQuery = 'UPDATE inf_26 SET i_approved = ? WHERE id = ?';
+  
+    // Use parameterized queries to prevent SQL injection
+    db1.query(sqlQuery, [1, id], (error, results) => {
+      if (error) {
+        console.error('Error updating record:', error);
+        res.status(500).json({ error: 'Error updating record' });
+      } else {
+        res.status(200).json({ message: 'Record approved successfully' });
+      }
+    });
+  });
+  
+
+  app.put('/api/approveRecords3', (req, res) => {
+    const { id,reason } = req.query;
+  
+    console.log('id is ', id);
+  
+    // Construct the SQL query with parameter placeholders
+    let sqlQuery = 'UPDATE inf_26 SET i_rejected = ?,reason=? WHERE id = ?';
+  
+    // Use parameterized queries to prevent SQL injection
+    db1.query(sqlQuery, [1, reason,id], (error, results) => {
+      if (error) {
+        console.error('Error updating record:', error);
+        res.status(500).json({ error: 'Error updating record' });
+      } else {
+        res.status(200).json({ message: 'Record approved successfully' });
       }
     });
   });

@@ -46,11 +46,39 @@ export class InfPdfComponent {
 get_UNITNAME_STOPS(){
 
 
- this.elevator_json =JSON.parse(this.dataService.selectedDetails.elevator_values);
- this.home_json =JSON.parse(this.dataService.selectedDetails.home_elevator_values);
- this.dumb_json =JSON.parse(this.dataService.selectedDetails.dump_values);
+//  this.elevator_json =JSON.parse(this.dataService.selectedDetails.elevator_values);
+//  this.home_json =JSON.parse(this.dataService.selectedDetails.home_elevator_values);
+//  this.dumb_json =JSON.parse(this.dataService.selectedDetails.dump_values);
 
-let elevatorNames: string[] = this.elevator_json.elevator_names;
+// let elevatorNames: string[] = this.elevator_json.elevator_names;
+// let homeNames: string[] = this.home_json.home_names;
+// let dumbNames: string[] = this.dumb_json.dump_names;
+
+// // Concatenate the arrays
+//  this.combinedNames = elevatorNames.concat(homeNames, dumbNames);
+
+// // Assuming elevatorStops, homeStops, dumbStops are already defined
+// let elevatorStops: number[] = this.elevator_json.elevator_stops;
+// let homeStops: number[] = this.home_json.home_stops;
+// let dumbStops: number[] = this.dumb_json.dump_stops;
+
+// // Concatenate the stops arrays
+// this.combinedStops = elevatorStops.concat(homeStops, dumbStops);
+
+if (this.dataService.selectedDetails && 
+  this.dataService.selectedDetails.elevator_values && 
+  this.dataService.selectedDetails.home_elevator_values && 
+  this.dataService.selectedDetails.dump_values) {
+
+try {
+  this.elevator_json = JSON.parse(this.dataService.selectedDetails.elevator_values);
+  this.home_json = JSON.parse(this.dataService.selectedDetails.home_elevator_values);
+  this.dumb_json = JSON.parse(this.dataService.selectedDetails.dump_values);
+
+  // Rest of your code to handle the parsed JSON data
+  // ...
+
+  let elevatorNames: string[] = this.elevator_json.elevator_names;
 let homeNames: string[] = this.home_json.home_names;
 let dumbNames: string[] = this.dumb_json.dump_names;
 
@@ -64,13 +92,20 @@ let dumbStops: number[] = this.dumb_json.dump_stops;
 
 // Concatenate the stops arrays
 this.combinedStops = elevatorStops.concat(homeStops, dumbStops);
+} catch (error) {
+  console.error('Error parsing JSON:', error);
+}
+
+} else {
+console.error('Some values are undefined or missing in selectedDetails');
+}
 
 }
   
 
   
   
-   currentDate = new Date();
+  currentDate = new Date();
 
   formattedDate:string|null='';
   s_from:string|null='';
@@ -87,6 +122,7 @@ this.combinedStops = elevatorStops.concat(homeStops, dumbStops);
     const paddedNumber = this.lastGeneratedNumber.toString().padStart(4, '0');
     return `PAPL/${formattedDate}${paddedNumber}`;
   }
+
   ngOnInit(){
     
     
@@ -109,9 +145,13 @@ this.combinedStops = elevatorStops.concat(homeStops, dumbStops);
 
      //api call
      this.dataService.getDetailsForContractName(this.selectContract).subscribe((details: any) => {
+      console.log('inf api is called');
+      
        this.inf_26 = details;
       //  console.log("*****",details.id)
       this.selectedDetails=details;
+      console.log(this.inf_26);
+      
 
       // this.concatenatedInspectors=this.inf_26.inspector_list.join(', ');
       //  const dateObj = new Date(this.selectedDetails.customer_workorder_date);
@@ -155,6 +195,7 @@ const se_to1 = datePipe.transform(se_to,'yyyy-MM-dd')
       if(this.inf_26.balance){
         this.balance="BalanceLifeAssessment"
       }
+
 
 
 

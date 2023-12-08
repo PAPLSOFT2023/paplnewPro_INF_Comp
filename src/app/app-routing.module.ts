@@ -26,6 +26,7 @@ import { InspectorHomeComponent } from './inspector_dashboard/inspector-home/ins
 import { ScheduledWorkComponent } from './scheduled-work/scheduled-work.component';
 //import { SchedulePageComponent } from './inspector_dashboard/schedule-page/schedule-page.component';
 import { MailAutomationInspComponent } from './inspector_dashboard/mail-automation-insp/mail-automation-insp.component';
+import { SchedulePageComponent } from './inspector_dashboard/schedule-page/schedule-page.component';
 
 const routes: Routes = [
 
@@ -59,11 +60,10 @@ const routes: Routes = [
 
 
         // Inspector
-        {path:"inspectorHome",component:InspectorHomeComponent},
-        {path:'schedule_page',component:ScheduledWorkComponent,outlet: 'scheduleOutlet'},
-        
-
-          
+        {path:"inspectorHome",component:InspectorHomeComponent,
+            children:[
+            {path:'schedule_page',component:SchedulePageComponent},
+            ]},
         {path:'scheduledWork', component:ScheduledWorkComponent},
         {path:"mail_automation",component:MailAutomationInspComponent},
        
