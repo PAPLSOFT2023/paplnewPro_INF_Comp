@@ -100,7 +100,12 @@ import { DatePipe } from '@angular/common';
 import { InspectorHomeComponent } from './inspector_dashboard/inspector-home/inspector-home.component';
 import { ScheduledWorkComponent } from './scheduled-work/scheduled-work.component';
 import { SchedulePageComponent } from './inspector_dashboard/schedule-page/schedule-page.component';
+<<<<<<< HEAD
 import { ConfirmPageComponent } from './confirm-page/confirm-page.component';
+=======
+import { RejectionComponent } from './inspector_dashboard/rejection/rejection.component';
+// import { RejectionComponent } from './inspector_dashboard/rejection/rejection.component';
+>>>>>>> d1e1ea4e4ca84302e7b9b09bfd5aa71783941f52
 
 
 
@@ -166,7 +171,12 @@ import { ConfirmPageComponent } from './confirm-page/confirm-page.component';
         InspectorHomeComponent,
         ScheduledWorkComponent,
         SchedulePageComponent,
+<<<<<<< HEAD
         ConfirmPageComponent,
+=======
+        RejectionComponent,
+        // RejectionComponent,
+>>>>>>> d1e1ea4e4ca84302e7b9b09bfd5aa71783941f52
         
 
         

@@ -2066,6 +2066,22 @@ app.get('/api/home_usages', (req, res) => {
     });
   });
 
+  //rejection reason api
+  app.get('/api/rejection', (req, res) => {
+    const query = 'SELECT reject FROM rejects';
+  
+    db1.query(query, (err, results) => {
+      if (err) {
+        console.error('Error fetching values from MySQL:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+        return;
+      }
+  
+      const values = results.map((row) => row.reject);
+      res.json(values);
+    });
+  });
+
 // Get Dumb Usage from DB
   app.get('/api/dumb_usages', (req, res) => {
     const query = 'SELECT usage_dumb FROM dumb_usage';
@@ -2382,7 +2398,7 @@ app.get('/api/inspector', (req, res) => {
     console.log(name);
   
     // Construct the SQL query to check if 'name' exists within 'inspector_like' JSON array
-    let sqlQuery = `SELECT COUNT(*) AS count FROM inf_26 WHERE JSON_CONTAINS(inspector_list, ${db1.escape(`"${name}"`)})`;
+    let sqlQuery = `SELECT COUNT(*) AS count FROM inf_26 WHERE JSON_CONTAINS(inspector_list, ${db1.escape(`"${name}"`)}) and i_approved=0 and i_rejected=0`;
   
     db1.query(sqlQuery, (error, results) => {
       if (error) {
@@ -2391,6 +2407,98 @@ app.get('/api/inspector', (req, res) => {
         const count = results[0].count;
         console.log(count);
         res.status(200).json(count);
+      }
+    });
+  });
+
+  app.get('/api/countRecords1', (req, res) => {
+    const { name } = req.query;
+    console.log(name);
+  
+    // Construct the SQL query to check if 'name' exists within 'inspector_like' JSON array
+    let sqlQuery = `SELECT * FROM inf_26 WHERE JSON_CONTAINS(inspector_list, ${db1.escape(`"${name}"`)}) and i_approved=0 and i_rejected=0`;
+  
+    db1.query(sqlQuery, (error, results) => {
+      if (error) {
+        res.status(500).json({ error: 'Error fetching record count' });
+      } else {
+       
+        res.status(200).json(results);
+      }
+    });
+  });
+
+  app.get('/api/countRecords2', (req, res) => {
+    const { name } = req.query;
+    console.log(name);
+  
+    // Construct the SQL query to check if 'name' exists within 'inspector_like' JSON array
+    let sqlQuery = `SELECT * FROM inf_26 WHERE JSON_CONTAINS(inspector_list, ${db1.escape(`"${name}"`)}) and i_approved=1`;
+  
+    db1.query(sqlQuery, (error, results) => {
+      if (error) {
+        res.status(500).json({ error: 'Error fetching record count' });
+      } else {
+       
+        res.status(200).json(results);
+      }
+    });
+  });
+
+  
+
+
+  // app.get('/api/approveRecords', (req, res) => {
+  //   const { id } = req.query;
+  //   console.log('id is ',id);
+  
+  //   // Construct the SQL query to check if 'name' exists within 'inspector_like' JSON array
+  //   let sqlQuery = `UPDATE inf_26 SET i_approved = ? where id=?`;
+  
+  //   db1.query(sqlQuery,[1,id] ,(error, results) => {
+  //     if (error) {
+  //       res.status(500).json({ error: 'Error fetching record count' });
+  //     } else {
+       
+  //       res.status(200).json(results);
+  //     }
+  //   });
+  // });
+
+  app.put('/api/approveRecords', (req, res) => {
+    const { id } = req.query;
+    console.log('id is ', id);
+  
+    // Construct the SQL query with parameter placeholders
+    let sqlQuery = 'UPDATE inf_26 SET i_approved = ? WHERE id = ?';
+  
+    // Use parameterized queries to prevent SQL injection
+    db1.query(sqlQuery, [1, id], (error, results) => {
+      if (error) {
+        console.error('Error updating record:', error);
+        res.status(500).json({ error: 'Error updating record' });
+      } else {
+        res.status(200).json({ message: 'Record approved successfully' });
+      }
+    });
+  });
+  
+
+  app.put('/api/approveRecords3', (req, res) => {
+    const { id,reason } = req.query;
+  
+    console.log('id is ', id);
+  
+    // Construct the SQL query with parameter placeholders
+    let sqlQuery = 'UPDATE inf_26 SET i_rejected = ?,reason=? WHERE id = ?';
+  
+    // Use parameterized queries to prevent SQL injection
+    db1.query(sqlQuery, [1, reason,id], (error, results) => {
+      if (error) {
+        console.error('Error updating record:', error);
+        res.status(500).json({ error: 'Error updating record' });
+      } else {
+        res.status(200).json({ message: 'Record approved successfully' });
       }
     });
   });
