@@ -10,7 +10,11 @@ import { response } from 'express';
 export class UiElementsComponent  {
 
   constructor(private http: HttpClient, private apicallservice: ApicallService) {}
-// this is profile data 
+
+  
+
+
+  // this is profile data 
   organization_name: string = '';
   address: string = '';
   pincode: string = '';
@@ -87,6 +91,7 @@ export class UiElementsComponent  {
   isPopupVisible_Travel_Acc:boolean=false;
   isPopupVisible_Type_Ele:boolean=false;
   isPopupVisible_Type_Bul:boolean=false;
+  ispopupvisible_insp_cv : boolean = false;
 
 
 
@@ -96,12 +101,38 @@ export class UiElementsComponent  {
   field2: string = '';
   field3: string = '';
   field4: string = '';
+  // Add the following property to your UiElementsComponent class
+inspectorCvData: any = {
+  pdf: null, // You might want to initialize this based on your data structure
+};
+
+// Uncomment the following line in your onFileChange method
+onFileChange(event: any) {
+  this.inspectorCvData.pdf = event.target.files[0];
+}
+
 
   // Reference to the popup form element in the template
   @ViewChild('popupForm') popupForm!: ElementRef;
 
+
+  ngOnInit() {
+    this.apicallservice.getInspectorCv().subscribe(
+      (data:any) => {
+        this.inspectorCvData = data;
+      },
+      (error:any) => {
+        console.error('Error fetching inspectorCv data:', error);
+      }
+    );
+    // Other initialization code if needed
+  }
+
   onEmailChange() {
     this.tooltipText = "";
+  }
+  uploadInspectorCv(){
+
   }
 
   // Method to open the data entry form
@@ -247,6 +278,7 @@ export class UiElementsComponent  {
     this.isPopupVisible_Travel_Acc=false;
     this.isPopupVisible_Type_Ele=false;
     this.isPopupVisible_Type_Bul=false;
+    this.ispopupvisible_insp_cv = false;
 
     
 
@@ -1098,6 +1130,7 @@ delete_Type_Bul_Data1  (): void {
     this.isPopupVisible_Region=false;
     this.isPopupVisible_Type_Ele=false;
     this.isPopupVisible_Type_Bul=false;
+    this.ispopupvisible_insp_cv = false ;
   }
 
   // Define the openPopupForm methods
@@ -1233,6 +1266,17 @@ openPopupForm_Type_Bul():void
   this.isPopupVisible_Type_Bul= true;
 }
 
+// openPopupForm_Type_Bul
+
+openPopupForm_insp():void
+{
+
+
+  this.closePopupForm();
+  this.ispopupvisible_insp_cv= true;
+}
+
+
 
 
 
@@ -1259,4 +1303,8 @@ openPopupForm_Type_Bul():void
     this.closePopupForm();
     this.isPopupVisible4 = true;
   }
-}
+  
+    togglePopupVisibility() {
+      this.ispopupvisible_insp_cv = !this.ispopupvisible_insp_cv;
+    }
+  }

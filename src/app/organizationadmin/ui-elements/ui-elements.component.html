@@ -75,6 +75,8 @@
   </div>
 </div>
 
+
+
 <!-- Department Form -->
 <div>
   <!-- Modal Overlay -->
@@ -112,7 +114,10 @@
 
 
 
-   
+ <!-- Department Form -->
+<div>
+  <!-- Modal Overlay -->
+  <div class="modal-overlay" *ngIf="isPopupVisible_dumpusage"></div>
 
 <!-- Data Entry Container -->
 <div class="data-entry-container" *ngIf="isPopupVisible_dumpusage">
@@ -122,7 +127,7 @@
     <label for="dataInput">Enter Dumb Usage:</label>
     <input type="text" id="dataInput"  class="form-control"[(ngModel)]="Dump_Usage_INSERT" placeholder="Enter Dump Usage">
     <button (click)="add_Dump_Usage()" class="btn btn-primary">Add</button>
-    <button (click)="cancelData()" class="btn btn-danger">Cancel</button>
+    
   </div>
 
   <div class="form-group">
@@ -136,6 +141,7 @@
     <!-- Add a delete button -->
     <div class="form-group">
     <button (click)="delete_Dump_Usage_Data1()" class="btn btn-danger">Delete</button>
+    <button (click)="cancelData()" class="btn btn-danger">Cancel</button>
     
     
     </div>
@@ -145,6 +151,11 @@
     
     
   </div>
+   <!-- Department Form -->
+<div>
+  <!-- Modal Overlay -->
+  <div class="modal-overlay" *ngIf="isPopupVisible_dumptype"></div>
+
 
   <div class="data-entry-container" *ngIf="isPopupVisible_dumptype">
     <h2>Dumb Type</h2>
@@ -153,7 +164,7 @@
       <label for="dataInput">Enter Dumb Type:</label>
       <input type="text" id="dataInput"  class="form-control"[(ngModel)]="Dump_Type_INSERT" placeholder="Enter Dump Usage">
       <button (click)="addToDropdownDump_Type()" class="btn btn-primary">Add</button>
-      <button (click)="cancelData()" class="btn btn-danger">Cancel</button>
+      
     </div>
   
     <div class="form-group">
@@ -167,6 +178,7 @@
       <!-- Add a delete button -->
       <div class="form-group">
       <button (click)="delete_Dump_Type_Data1()" class="btn btn-danger">Delete</button>
+      <button (click)="cancelData()" class="btn btn-danger">Cancel</button>
       
       
       </div>
@@ -177,6 +189,9 @@
       
   </div>
 
+  <div>
+    <!-- Modal Overlay -->
+    <div class="modal-overlay" *ngIf="isPopupVisible_hometype"></div>
   <div class="data-entry-container" *ngIf="isPopupVisible_hometype">
     <h2>Home Type</h2>
     <div class="form-group">
@@ -184,7 +199,7 @@
       <label for="dataInput">Enter Home Type:</label>
       <input type="text" id="dataInput"  class="form-control"[(ngModel)]="Home_Type_INSERT" placeholder="Enter Dump Usage">
       <button (click)="addToDropdownHome_Type()" class="btn btn-primary">Add</button>
-      <button (click)="cancelData()" class="btn btn-danger">Cancel</button>
+
     </div>
   
     <div class="form-group">
@@ -198,6 +213,7 @@
       <!-- Add a delete button -->
       <div class="form-group">
       <button (click)="delete_Home_Type_Data1()" class="btn btn-danger">Delete</button>
+      <button (click)="cancelData()" class="btn btn-danger">Cancel</button>
       
       
       </div>
@@ -207,6 +223,9 @@
       
       
   </div>
+  <div>
+    <!-- Modal Overlay -->
+    <div class="modal-overlay" *ngIf="isPopupVisible_homeusage"></div>
 
   <div class="data-entry-container" *ngIf="isPopupVisible_homeusage">
     <h2>Home Usages</h2>
@@ -215,7 +234,7 @@
       <label for="dataInput">Enter Home Usage:</label>
       <input type="text" id="dataInput"  class="form-control"[(ngModel)]="Home_Usage_INSERT" placeholder="Enter Home Usage">
       <button (click)="addToDropdownHome_Usage()" class="btn btn-primary">Add</button>
-      <button (click)="cancelData()" class="btn btn-danger">Cancel</button>
+     
     </div>
   
     <div class="form-group">
@@ -229,6 +248,7 @@
       <!-- Add a delete button -->
       <div class="form-group">
       <button (click)="delete_Home_Usage_Data1()" class="btn btn-danger">Delete</button>
+      <button (click)="cancelData()" class="btn btn-danger">Cancel</button>
       
       
       </div>
@@ -241,7 +261,9 @@
 
 
 
-
+  <div>
+    <!-- Modal Overlay -->
+    <div class="modal-overlay" *ngIf="isPopupVisible_ins_time"></div>
   
   <div class="data-entry-container" *ngIf="isPopupVisible_ins_time">
     <h2>Inspection Time</h2>
@@ -250,7 +272,7 @@
       <label for="dataInput">Enter Inspection time:</label>
       <input type="text" id="dataInput"  class="form-control"[(ngModel)]="Ins_Time_INSERT" placeholder="Enter Home Usage">
       <button (click)="addToDropdownIns_time()" class="btn btn-primary">Add</button>
-      <button (click)="cancelData()" class="btn btn-danger">Cancel</button>
+     
     </div>
   
     <div class="form-group">
@@ -264,6 +286,7 @@
       <!-- Add a delete button -->
       <div class="form-group">
       <button (click)="delete_Ins_time_Data1()" class="btn btn-danger">Delete</button>
+      <button (click)="cancelData()" class="btn btn-danger">Cancel</button>
       
       
       </div>
@@ -275,7 +298,9 @@
   </div>
   
 
-
+  <div>
+    <!-- Modal Overlay -->
+    <div class="modal-overlay" *ngIf="isPopupVisible_ins_time_insp"></div>
   <div class="data-entry-container" *ngIf="isPopupVisible_ins_time_insp">
     <h2>Inspection Time For Inspector</h2>
     <div class="form-group">
@@ -283,7 +308,7 @@
       <label for="dataInput">Enter Inspection Time Inspector:</label>
       <input type="text" id="dataInput"  class="form-control"[(ngModel)]="Ins_time_Insp_INSERT" placeholder="Enter Home Usage">
       <button (click)="addToDropdownIns_time_insp()" class="btn btn-primary">Add</button>
-      <button (click)="cancelData()" class="btn btn-danger">Cancel</button>
+     
     </div>
   
     <div class="form-group">
@@ -297,6 +322,7 @@
       <!-- Add a delete button -->
       <div class="form-group">
       <button (click)="delete_Ins_time_insp_Data1()" class="btn btn-danger">Delete</button>
+      <button (click)="cancelData()" class="btn btn-danger">Cancel</button>
       
       
       </div>
@@ -307,7 +333,9 @@
       
   </div>
 
-
+  <div>
+    <!-- Modal Overlay -->
+    <div class="modal-overlay" *ngIf="isPopupVisible_OEM"></div>
 
   <div class="data-entry-container" *ngIf="isPopupVisible_OEM">
     <h2>OEM Details</h2>
@@ -316,7 +344,7 @@
       <label for="dataInput">Enter OEM Details:</label>
       <input type="text" id="dataInput"  class="form-control"[(ngModel)]="OEM_Details_INSERT" placeholder="Enter OEM">
       <button (click)="addToOEM_Details()" class="btn btn-primary">Add</button>
-      <button (click)="cancelData()" class="btn btn-danger">Cancel</button>
+     
     </div>
   
     <div class="form-group">
@@ -330,10 +358,16 @@
       <!-- Add a delete button -->
       <div class="form-group">
       <button (click)="delete_OEM_Data1()" class="btn btn-danger">Delete</button>
+      <button (click)="cancelData()" class="btn btn-danger">Cancel</button>
       
       
       </div> 
   </div>
+
+  
+  <div>
+    <!-- Modal Overlay -->
+    <div class="modal-overlay" *ngIf="isPopupVisible_Region"></div>
 
 
   <div class="data-entry-container" *ngIf="isPopupVisible_Region">
@@ -343,7 +377,7 @@
       <label for="dataInput">Enter Region Details:</label>
       <input type="text" id="dataInput"  class="form-control"[(ngModel)]="Region_Details_INSERT" placeholder="Enter Region">
       <button (click)="addToRegion_Details()" class="btn btn-primary">Add</button>
-      <button (click)="cancelData()" class="btn btn-danger">Cancel</button>
+      
     </div>
   
     <div class="form-group">
@@ -357,6 +391,7 @@
       <!-- Add a delete button -->
       <div class="form-group">
       <button (click)="delete_Region_Data1()" class="btn btn-danger">Delete</button>
+      <button (click)="cancelData()" class="btn btn-danger">Cancel</button>
       
       
       </div> 
@@ -364,6 +399,9 @@
 
 
 
+  <div>
+    <!-- Modal Overlay -->
+    <div class="modal-overlay" *ngIf="isPopupVisible_Travel_Acc"></div>
   
   <div class="data-entry-container" *ngIf="isPopupVisible_Travel_Acc">
     <h2>Travel Accomodation</h2>
@@ -372,7 +410,7 @@
       <label for="dataInput">Enter Travel Accomodation Details:</label>
       <input type="text" id="dataInput"  class="form-control"[(ngModel)]="Travel_Acc_Details_INSERT" placeholder="Enter Travel Accomodation">
       <button (click)="addToTravel_Acc_Details()" class="btn btn-primary">Add</button>
-      <button (click)="cancelData()" class="btn btn-danger">Cancel</button>
+   
     </div>
   
     <div class="form-group">
@@ -386,9 +424,15 @@
       <!-- Add a delete button -->
       <div class="form-group">
       <button (click)="delete_Travel_Acc_Data1()" class="btn btn-danger">Delete</button>
+      <button (click)="cancelData()" class="btn btn-danger">Cancel</button>
       </div> 
   </div>
 
+
+  <div>
+    <!-- Modal Overlay -->
+    <div class="modal-overlay" *ngIf="isPopupVisible_Type_Ele"></div>
+  
 
   <div class="data-entry-container" *ngIf="isPopupVisible_Type_Ele">
     <h2>Type of Elevators</h2>
@@ -397,7 +441,7 @@
       <label for="dataInput">Enter Type of Elevator Details:</label>
       <input type="text" id="dataInput"  class="form-control"[(ngModel)]="Type_ele_Details_INSERT" placeholder="Enter Type of Elevators">
       <button (click)="addToType_EleDetails()" class="btn btn-primary">Add</button>
-      <button (click)="cancelData()" class="btn btn-danger">Cancel</button>
+    
     </div>
   
     <div class="form-group">
@@ -411,11 +455,16 @@
       <!-- Add a delete button -->
       <div class="form-group">
       <button (click)="delete_Type_ele_Data1()" class="btn btn-danger">Delete</button>
+      <button (click)="cancelData()" class="btn btn-danger">Cancel</button>
       </div> 
   </div>
 
 
 
+  <div>
+    <!-- Modal Overlay -->
+    <div class="modal-overlay" *ngIf="isPopupVisible_Type_Bul"></div>
+  
   
   <div class="data-entry-container" *ngIf="isPopupVisible_Type_Bul">
     <h2>Type of Building</h2>
@@ -424,7 +473,7 @@
       <label for="dataInput">Enter Type of Building Details:</label>
       <input type="text" id="dataInput"  class="form-control"[(ngModel)]="Type_Bul_Details_INSERT" placeholder="Enter Type of Building">
       <button (click)="addToType_BulDetails()" class="btn btn-primary">Add</button>
-      <button (click)="cancelData()" class="btn btn-danger">Cancel</button>
+      
     </div>
   
     <div class="form-group">
@@ -438,6 +487,7 @@
       <!-- Add a delete button -->
       <div class="form-group">
       <button (click)="delete_Type_Bul_Data1()" class="btn btn-danger">Delete</button>
+      <button (click)="cancelData()" class="btn btn-danger">Cancel</button>
       </div> 
   </div>
 
@@ -447,34 +497,7 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  <div>
+ <div>
     <!-- Modal Overlay -->
     <div class="modal-overlay" *ngIf="isPopupVisible3"></div>
   
@@ -502,6 +525,43 @@
     </div>
   </div>
   
+
+<!-- Inspector_cv.pop-form -->
+<div>
+  <!-- Modal Overlay -->
+  <div class="modal-overlay" *ngIf="ispopupvisible_insp_cv"></div>
+
+  <div class="data-entry-container" *ngIf="ispopupvisible_insp_cv">
+    <h2>INSPECTOR_CV</h2>
+    <table>
+      <tr>
+        <td>
+          <div class="form-group">
+            <!-- Add input field for email -->
+            <label for="email">Email:</label>
+            <input type="email" id="email" [(ngModel)]="inspectorCvData.email" class="form-control">
+          </div>
+        </td>
+        <td>
+          <div class="form-group">
+            <!-- Add input field for PDF -->
+            <label for="pdf">PDF:</label>
+            <input type="file" id="pdf" (change)="onFileChange($event)" class="form-control">
+          </div>
+        </td>
+      </tr>
+    </table>
+
+    <!-- Add a delete and upload button -->
+    <div class="form-group">
+      <button (click)="cancelData()" class="btn btn-danger">Cancel</button>
+      <button (click)="uploadInspectorCv()" class="btn btn-success">Upload</button>
+    </div>
+  </div>
+</div>
+
+
+
 
 
 
@@ -788,6 +848,23 @@
       <button class="card-button" (click)="openPopupForm_Type_Bul()">Update</button>
     </div>
   </div>
+
+
+
+ <!-- Inspector_cv card -->
+<div class="card">
+  <div class="card-header">
+    <h3 class="card-title">Inspector_cv</h3>
+    <img src="assets/department.png" alt="Department Logo" class="card-logo">
+  </div>
+  <div class="card-content">
+    This is the content of Inspector_cv.
+  </div>
+  <div class="card-actions">
+    <button class="card-button" (click)="togglePopupVisibility()">Open</button>
+  </div>
+</div>
+
 
   <!-- <div class="card">f
     <div class="card-header">

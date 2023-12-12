@@ -852,6 +852,19 @@ app.delete('/api/delete_emp_data', (req, res) => {
   });
 });
 
+//inspector cv database view //
+
+app.put('/api/inspectorCv', (req, res) => {
+  const query = 'SELECT email, pdf FROM pdf_cv'; 
+  db.query(query, (err, results) => {
+    if (err) {
+      console.log('Error executing MySQL query:', err);
+      res.status(500).send('Internal Server Error');
+    } else {
+      res.json(results);
+    }
+  });
+});
 
 
 
