@@ -391,12 +391,7 @@ delete_Type_Bul_Data1( Region: string): Observable<any> {
 
 
 
-send_mail_to_client(sender:string,receiver:string,Subject:string,Attention:string, Total_units:string,Client_Name:string,Order_Ref:string,Customer_Order_Ref:string,Inspection_Start_Date:string,Inspection_End_Date:string,Total_days:string,Inspectin_Type:string,Inspection_Time:string,Inspector_Array:string):Observable<any>{
-const body_sendmail={sender,receiver,Subject,Attention, Total_units,Client_Name,Order_Ref,Customer_Order_Ref,Inspection_Start_Date,Inspection_End_Date,Total_days,Inspectin_Type,Inspection_Time,Inspector_Array}
 
-return this.httpClient.put(this.apiURL+"Mail_sent_Insp_to_Client",body_sendmail)
-
-}
 
 
 
@@ -446,6 +441,137 @@ deleteLoginDetails(email: string): Observable<any> {
     return this.httpClient.delete(`${this.apiURL}Department_Data_Delete`, { headers, body: { organization, department } });
   }
   
+
+  // auto mail inspector to client
+
+  getinfdata_forMail(id:string):Observable<any>{
+    const url = `${this.apiURL}getinfdata_forMail`;
+    const params = new HttpParams().set('id', id);
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+
+    const options = {
+      headers: headers,
+      params: params
+    };
+
+    return this.httpClient.get(url, options);
+  }
+  getInspectorData(inspectors:any):Observable<any>{
+    
+    const url = `${this.apiURL}getInspectordata_forMail`;
+    const params = new HttpParams().set('inspectors', inspectors);
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+
+    const options = {
+      headers: headers,
+      params: params
+    };
+    return this.httpClient.get(url, options);
+
+  }
+  getMail_Setup(organization:string):Observable<any>{
+    // console.log("api called",organization)
+    const url = `${this.apiURL}getMailSetupdata_forMail`;
+    const params = new HttpParams().set('organization', organization);
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+
+    const options = {
+      headers: headers,
+      params: params
+    };
+    return this.httpClient.get(url, options);
+
+  }
+
+  // getInsp_CV(inspectors:any){
+  //   // console.log("CV get api called")
+  //   const url = `${this.apiURL}getInspector_CV_data_forMail`;
+  //   const params = new HttpParams().set('inspectors', inspectors);
+
+  //   const headers = new HttpHeaders({
+  //     'Content-Type': 'application/json'
+  //   });
+
+  //   const options = {
+  //     headers: headers,
+  //     params: params
+  //   };
+  //   return this.httpClient.get(url, options);
+  // }
+
+
+  
+send_mail_to_client(
+  customername: any,
+  totalunit: any,
+  projectname: any,
+  location: any,
+  contract_number:any,
+  customer_workorder_name:any,
+  from: any,
+  to: any,
+  noOfDays: any,
+  inspectionType: any,
+  inspectionTime: any,
+  customerMail: any,
+  emailIds_CC:any,
+  inspectorData: any,
+  appPassword: any,
+  senderEmail: any,
+  inspectors: any
+): Observable<any> {
+  // console.log("CV post api called Send mail", customername, totalunit, projectname, location, from, to, noOfDays, inspectionType, inspectionTime, customerMail, inspectorData, appPassword, senderEmail, inspectors);
+
+  const url = `${this.apiURL}sendmailtocli`;
+
+  const headers = new HttpHeaders({
+    'Content-Type': 'application/json'
+  });
+
+  const body = {
+    customername,
+    totalunit,
+    projectname,
+    location,
+    contract_number,
+    customer_workorder_name,
+    from,
+    to,
+    noOfDays,
+    inspectionType,
+    inspectionTime,
+    customerMail,
+    emailIds_CC,
+    inspectorData,
+    appPassword,
+    senderEmail,
+    inspectors
+  };
+
+  const options = {
+    headers: headers,
+    params: new HttpParams() // If you still need to include parameters in the URL, use HttpParams here
+  };
+
+  return this.httpClient.post(url, body, options);
+}
+  
+
+
+
+
+
+
+
   getLoginData():Observable<any>{
     
 

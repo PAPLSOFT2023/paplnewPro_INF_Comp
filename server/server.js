@@ -2,6 +2,7 @@ const bodyParser = require('body-parser');
 const express = require('express');
 const cors = require('cors');
 const mysql = require('mysql2');
+const mysql1=require('mysql2/promise');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
@@ -20,15 +21,17 @@ const app = express();
 
 
 app.use(cors());
-app.use(bodyParser.json());
 app.use(express.json()); 
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
+
 
 // Firebase Next Link
 const admin = require('firebase-admin');
 const serviceAccount = require('./paplapplication-firebase-adminsdk-dlrxg-4adbf847ee.json');
 const { error, log } = require('console');
 const e = require('express');
-const { async } = require('rxjs');
+// const { async } = require('rxjs');
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   databaseURL: 'https://paplapplication-default-rtdb.firebaseio.com',
@@ -36,7 +39,6 @@ admin.initializeApp({
 
 const Firebase_db = admin.database();
 const ref = Firebase_db.ref('/Leave/Leaveforleadknown/krishnannarayananpaplcorpcom');
-
 
 
 
@@ -55,7 +57,15 @@ const db1 = mysql.createConnection({
   password: '',
   database: 'papl_inspection',
  });
-
+const db_promise=mysql1.createPool({
+  host: '127.0.0.1',
+  user: 'root',
+  password: '',
+  database: 'papl_inspection',
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0,
+});
 
 
 
@@ -69,13 +79,22 @@ db.connect((err) => {
   }
 });
 
+// Connect to the MySQL database
+db1.connect((err) => {
+  if (err) {
+    console.error('Error connecting to MySQL:', err);
+    return;
+  }
+  console.log('Connected to MySQL Papl Inspection');
+});
 
 
 
 
-const TransporterData = (targetEmail) => {
+
+const TransporterData = () => {
   return new Promise((resolve, reject) => {
-    db.execute('SELECT App_password, Email, Organization FROM mail_automation WHERE Email=?', [targetEmail], (error, result) => {
+    db.execute('SELECT App_password, Email, Organization FROM mail_automation ', (error, result) => {
       if (error) {
         reject(error);
       } else {
@@ -94,92 +113,379 @@ const TransporterData = (targetEmail) => {
   });
 };
 
-app.put('/api/Mail_sent_Insp_to_Client', async (req, res) => {
-  const { sender, receiver,Subject,Attention, Total_units,Client_Name,Order_Ref,Customer_Order_Ref,Inspection_Start_Date,Inspection_End_Date,Total_days,Inspectin_Type,Inspection_Time,Inspector_Array } = req.body;
-  console.log(sender, receiver,Subject,Attention, Total_units,Client_Name,Order_Ref,Customer_Order_Ref,Inspection_Start_Date,Inspection_End_Date,Total_days,Inspectin_Type,Inspection_Time,Inspector_Array);
 
-  try {
-    // Call the Mail_sent_Insp_to_Client function and wait for the result
-    const mailStatus = await Mail_sent_Insp_to_Client(sender, receiver,Subject,Attention, Total_units,Client_Name,Order_Ref,Customer_Order_Ref,Inspection_Start_Date,Inspection_End_Date,Total_days,Inspectin_Type,Inspection_Time,Inspector_Array);
 
-    // Check the result and send the appropriate response
-    if (mailStatus) {
-      console.log("------&&&& mail send")
-      res.json({ success: true, message: 'Email sent successfully!' });
-    } else {
-      res.json({ success: false, message: 'Failed to send email.' });
-    }
-  } catch (error) {
-    console.error('Error:', error);
-    res.status(500).json({ success: false, message: 'Internal server error.' });
-  }
-});
 
-const Mail_sent_Insp_to_Client= async (sender,receiver,Subject,Attention, Total_units,Client_Name,Order_Ref,Customer_Order_Ref,Inspection_Start_Date,Inspection_End_Date,Total_days,Inspectin_Type,Inspection_Time,Inspector_Array) => {
+
+
+
+
+
+
+
+
+
+
+const sendVerificationEmail= async (email, token) => {
   try {
     
     let transporter;
-    
 
     // Use await to wait for TransporterData to resolve
-    const data = await TransporterData(sender);
-    console.log("^^",data.user,data.pass,sender,receiver)
+    const data = await TransporterData();
+
     transporter = nodemailer.createTransport({
       service: 'Gmail',
       auth: {
         user: data.user,
         pass: data.pass,
+      },
+    });
+
+    const verificationLink = `http://localhost:3000/api/verify-email?email=${email}&token=${token}`;
+
+    const mailOptions = {
+      from: 'paplsoft.itservice@gmail.com',
+      to: email,
+      subject: 'Email Verification',
+      html: `Click the following link to verify your email: <a href="${verificationLink}">${verificationLink}</a>`,
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.error('Email sending error:', error);
+      } else {
+        console.log('Email sent:', info.response);
+      }
+    });
+  } catch (error) {
+    console.error('Error sending email:', error.message);
+  }
+};
+
+
+
+
+
+
+// Resend verify Link
+const sendVerificationEmailboolean= async (email, token, callback) => {
+  try {
+  
+    let transporter;
+
+    // Use await to wait for TransporterData to resolve
+    const data = await TransporterData();
+
+    transporter = nodemailer.createTransport({
+      service: 'Gmail',
+      auth: {
+        user: data.user,
+        pass: data.pass,
+      },
+    });
+
+    const verificationLink = `http://localhost:3000/api/verify-email?email=${email}&token=${token}`;
+
+    const mailOptions = {
+      from: 'paplsoft.itservice@gmail.com',
+      to: email,
+      subject: 'Email Verification',
+      html: `Click the following link to verify your email: <a href="${verificationLink}">${verificationLink}</a>`,
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.error('Email sending error:', error);
+      } else {
+        console.log('Email sent:', info.response);
+      }
+    });
+  }
+   catch (error) {
+    console.error('Error sending email:', error.message);
+  }
+};
+
+
+
+
+app.get('/api/getinfdata_forMail', (req, res) => {
+  const { id } = req.query;
+
+  // Step 1: Retrieve data from inf_26 table
+  db1.query('SELECT  contract_number, location, master_customer_name, customer_workorder_name, customer_workorder_date, type_of_inspection, project_name, customer_contact_mailid, no_of_mandays_as_per_work_order, total_units_schedule, schedule_from, schedule_to, inspection_time_ins, inspector_list FROM inf_26 WHERE id=?',[id],(error,result)=>{
+
+    if (error) {
+      console.log("Error");
+      res.status(500).json({ success: false, message: 'Internal server error.' });
+    }
+     else {
+     
+       result[0].inspector_list = JSON.parse(result[0].inspector_list).filter(item => item.trim() !== '');
+        const originalDate = new Date(result[0].customer_workorder_date);
+
+         const options = {
+             year: 'numeric',
+            month: '2-digit',
+              day: '2-digit'
+              };
+
+        result[0].customer_workorder_date = new Intl.DateTimeFormat('en-US', options).format(originalDate);
+
+        // result[0].schedule_from,
+        const originalDate_schedulefrom = new Date(result[0].schedule_from);
+
+        const options_schedulefrom = {
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric',
+          weekday: 'long'
+        };
+
+        result[0].schedule_from = new Intl.DateTimeFormat('en-GB', options_schedulefrom).format(originalDate_schedulefrom);
+
+
+        // To 
+        const originalDate_scheduleto= new Date(result[0].schedule_to);
+
+        const options_scheduleto = {
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric',
+          weekday: 'long'
+        };
+
+        result[0].schedule_to = new Intl.DateTimeFormat('en-GB', options_scheduleto).format(originalDate_scheduleto);
+       
+        const inputString = result[0].inspection_time_ins;
+        const regex = /\(([^)]+)\)/;
+        const match = inputString.match(regex);
+
+        if (match) {
+          result[0].inspection_time_ins=match[1];
+       } 
+
+
+
+       return res.json(result)
+
+      
+      
+      }
+  });
+}); 
+
+
+// get Inspector data for mail table 
+app.get('/api/getInspectordata_forMail', async (req, res) => {
+  try {
+    const { inspectors } = req.query;
+    const regex = /\b\d+\b/g;
+
+    const extractedNumbers_PSN = inspectors.match(regex);
+
+    // console.log("-->", extractedNumbers_PSN);
+
+    const resultsArray = await getinsp_Data_For_Inf(extractedNumbers_PSN);
+
+    console.log('Final Results:', resultsArray);
+    return res.json(resultsArray);
+  } catch (error) {
+    console.error('Error:', error.message);
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+
+async function getinsp_Data_For_Inf(extractedNumbers_PSN) {
+  const resultsArray = [];
+
+  for (const inspector_PSN of extractedNumbers_PSN) {
+    const query = 'SELECT `NAME`, `designation`, `contact_no`, `email_id` FROM `emp_data` WHERE `PSN_NO` = ?';
+
+    try {
+      const [rows, fields] = await db_promise.query(query, [inspector_PSN]);
+      // Access the row data and push it into the resultsArray
+      resultsArray.push(rows[0]);
+    } catch (error) {
+      console.error('Error fetching data:', error.message);
+      // You might want to handle the error accordingly, e.g., push an empty object or a placeholder value
+      resultsArray.push({});
+    }
+  }
+
+  // console.log("====>", resultsArray.length);
+  return resultsArray;
+}
+ 
+
+
+
+
+
+
+app.get('/api/getMailSetupdata_forMail', (req, res) => {
+  const { organization } = req.query;
+  console.log(organization);
+
+  db.query('SELECT App_password, Email FROM mail_automation WHERE Organization=?', [organization], (error, result) => {
+   
+    if (result.length > 0) {
+      // Send the result as a JSON response to the client
+      // console.log(result)
+      return res.json(result);
+    } else {
+      // Send a response indicating that no data was found
+      return res.status(404).json({ message: 'No data found for the organization' });
+    }
+  });
+});
+
+
+
+// getInspector_CV_data_forMail
+app.get('/api/getInspector_CV_data_forMail', async (req, res) => {
+  try {
+    const { inspectors } = req.query;
+    const regex = /\b\d+\b/g;
+
+    const extractedNumbers_PSN_For_CV = inspectors.match(regex);
+
+    // console.log("-->", extractedNumbers_PSN_For_CV);
+
+     resultsArray_CV= await getinsp_CV_Data_For_Inf(extractedNumbers_PSN_For_CV);
+
+    console.log('Final Results:', resultsArray_CV);
+    return res.json(resultsArray_CV);
+  } catch (error) {
+    console.error('Error:', error.message);
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+async function getinsp_CV_Data_For_Inf(extractedNumbers_PSN_For_CV) {
+  const resultsArray = [];
+
+  for (const inspector_PSN of extractedNumbers_PSN_For_CV) {
+    const query = 'SELECT `pdf` FROM `pdf_cv` WHERE `PSN_NO`= ?';
+
+    try {
+      const [rows, fields] = await db_promise.query(query, [inspector_PSN]);
+
+      // console.log(rows[0]);
+
+      // Check if rows[0] exists and is not null before pushing to resultsArray
+      if (rows[0] !== undefined && rows[0] !== null) {
+        resultsArray.push(rows[0]);
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error.message);
+    }
+  }
+
+  // console.log("====>", resultsArray.length);
+
+  return resultsArray;
+}
+
+
+
+
+
+// 
+app.post('/api/sendmailtocli', async (req, res) => {
+  const {
+    customername,
+    totalunit,
+    projectname,
+    location,
+    contract_number,
+    customer_workorder_name,
+    from,
+    to,
+    noOfDays,
+    inspectionType,
+    inspectionTime,
+    customerMail,
+    emailIds_CC,
+    inspectorData,
+    appPassword,
+    senderEmail,
+    inspectors
+  } = req.body;
+
+  console.log("customer name", customername);
+  
+  try {
+    // Handle the data from the request body
+    // console.log(">>>>", customername, totalunit, projectname, location, from, to, noOfDays, inspectionType, inspectionTime, customerMail,inspectorData, appPassword, senderEmail, inspectors); 
+    const extractedNumbers = [];
+    const numberRegex = /-\s(\d+)/;
+    inspectors.forEach((str) => {
+      // Use the regular expression to match and extract the number
+      const match = str.match(numberRegex);
+      // If a match is found, push the extracted number to the array
+      if (match && match[1]) {
+        extractedNumbers.push(match[1]);
+      }
+    });
+    const resultsArray_CV= await getinsp_CV_Data_For_Inf(extractedNumbers);
+    let transporter;
+    transporter = nodemailer.createTransport({
+      service: 'Gmail',
+      auth: {
+        user:  senderEmail,
+        pass: appPassword,
         
       },
       
     });
-    const generatePersonnelRows = (personnelArray) => {
-      let slNo = 1;
-      return personnelArray.map(person => `
-        <tr>
-          <td  style="padding-left: 10px;">${slNo++}</td>
-          <td  style="padding-left: 10px;">${person.name}</td>
-          <td  style="padding-left: 10px;">${person.designation}</td>
-          <td  style="padding-left: 10px;">${person.mobile}</td>
-          <td  style="padding-left: 10px;">${person.email}</td>
-        </tr>
-      `).join('');
-    };
+    
+const generatePersonnelRows = (personnelArray) => {
+  let slNo = 1;
+  return personnelArray.map(person => {
+   
+
+    return `
+      <tr>
+      <td style="padding-left: 10px;">${slNo++}</td>
+        <td style="padding-left: 10px;">${person[1]}</td>
+        <td style="padding-left: 10px;">${person[3]}</td>
+        <td style="padding-left: 10px;">${person[5]}</td>
+        <td style="padding-left: 10px;">${person[7]}</td>
+      </tr>
+    `;
+  }).join('');;
+};
 
 
-     Inspector_Array = [
-      {  name: 'M.B.MAHADEVAN', designation: 'ASSISTANT MANAGER', mobile: '9886312327', email: 'mahadevan.mb@paplcorp.com' },
-      {  name: 'ABDUL KAFFAR', designation: 'ENGINEER', mobile: '9790961647', email: 'Abdul.kaffar@paplcorp.com' },
-      {  name: 'JINO CHAKO', designation: 'INSPECTOR', mobile: '8086165880', email: 'jino.chacko@paplcorp.com' },
-     
-    ];
-    // Add your improved mail design
     const mailBody = `
     
     <p style="color: black;">Dear Sir/Madam,</p>
-    <p style="color: black;">Kind Attention:<b> ${Attention}</b> </p>
-    <p style="color: black;">Thank you for your order for the inspection of <b>${Total_units} Units</b> at <b> ${Client_Name}</b></p>
+    <p style="color: black;">Kind Attention:<b> ${customername}</b> </p>
+    <p style="color: black;">Thank you for your order for the inspection of <b>${totalunit} Units</b> at <b> ${projectname}-${location}</b></p>
     <p style="color: black;">Please note the following:-</p>
     <div style="padding-left: 20px;">
     <table width="600" height="20" border="1" >
         <tr>
-            <td style="padding: 4px;" >PAPL Order Reference</td> <td style="padding: 4px;  font-weight:bold" colspan="4">${Order_Ref}</td></tr>
+            <td style="padding: 4px;" >PAPL Order Reference</td> <td style="padding: 4px;  font-weight:bold" colspan="4">${contract_number}</td></tr>
             <tr>
             <td style="padding: 4px;" >Customer Order Reference</td>
-            <td style="padding: 4px;" colspan="4">${Customer_Order_Ref}</td>
+            <td style="padding: 4px;" colspan="4">${customer_workorder_name}</td>
         </tr>
         <tr>
            <td style="padding: 4px;" rowspan="2"> Proposed Inspection Dates</td>  <td style="padding: 4px;" rowspan="1" colspan="2">Inspection Start Date</td>
-          <td style="padding: 4px;">${Inspection_Start_Date}</td></tr>
+          <td style="padding: 4px;">${from}</td></tr>
           <tr>
-          <td style="padding: 4px;">Inspection End Date</td><td style="padding: 4px;" rowspan="1" colspan="2">${Inspection_End_Date}</td>
+          <td style="padding: 4px;">Inspection End Date</td><td style="padding: 4px;" rowspan="1" colspan="2">${to}</td>
         </tr>
         <tr>
-            <td style="padding: 4px;">Total Number of Days</td > <td style="padding: 4px;" colspan="4">	${Total_days} Days</td>
+            <td style="padding: 4px;">Total Number of Days</td > <td style="padding: 4px;" colspan="4">	${noOfDays} Days</td>
         </tr> 
         <tr>
             <td style="padding: 4px;" >Inspection Type</td>
-            <td style="padding: 4px;" colspan="4">${Inspectin_Type}</td>
+            <td style="padding: 4px;" colspan="4">${inspectionType}</td>
         </tr>
         <tr>
             <td style="padding: 4px;" >Calibrated instruments carried by us</td>
@@ -188,7 +494,7 @@ const Mail_sent_Insp_to_Client= async (sender,receiver,Subject,Attention, Total_
     </table>
     </div>
     <br>
-    <p style="color: black;"><b> The inspection will be carried out between ${Inspection_Time}.</b></p>
+    <p style="color: black;"><b> The inspection will be carried out between ${inspectionTime}.</b></p>
     <p style="color: black;">The Inspection will be conducted by the following personnel (Credentials Attached) and request you kindly process the entry Pass accordingly.</p>
     <div style="padding-left: 20px;">
     <table border="1">
@@ -201,7 +507,7 @@ const Mail_sent_Insp_to_Client= async (sender,receiver,Subject,Attention, Total_
         </tr>
         
         
-        ${generatePersonnelRows(Inspector_Array)}
+        ${generatePersonnelRows(inspectorData)}
         
     </table>
     </div>
@@ -246,155 +552,42 @@ const Mail_sent_Insp_to_Client= async (sender,receiver,Subject,Attention, Total_
     <p style="font-weight: bolder; color: black;">Note: This email is system-generated. For any clarifications, please feel free to contact the PAPL team. </p>
     </div>
     `;
+    const attachments = resultsArray_CV.map((pdf, index) => {
+      return {
+        filename: `CV-attachment${index + 1}.pdf`,
+        content: pdf.pdf.toString('base64')
+      };
+    });
+   
 
-
-
-    const attachments = [];
-
-    const path="C:/Users/sabar/Downloads/Resume.pdf"
-const targetNames=["sabari","sabari"];
-    for (const targetName of targetNames) {
-      // Execute the SELECT query to retrieve PDF file from the database for a specific name
-      const queryResult = await db1.query('SELECT * FROM `pdf_cv` WHERE `name` = ?', [targetName]);
-
-      // Assuming the result contains the file content, update the mailOptions accordingly
-      const pdfContent = queryResult[0].pdf_content; // Replace 'pdf_content' with the actual column name
-
-      attachments.push({
-        filename: `${targetName}_Resume.pdf`, // Adjust the filename to include the targetName
-        content: pdfContent, // Use the content retrieved from the database
-        encoding: 'base64', // Specify encoding if needed
-      });
-    }
-
+    // console.log("000000", emailIds_CC)
+    // console.log("attachment",attachments)
     const mailOptions = {
-      from:sender,
-      to: receiver, // Replace with the actual recipient email
-      subject: Subject,
+      from:senderEmail,
+      to: customerMail, // Replace with the actual recipient email
+      cc:emailIds_CC,
+      subject:  "Elevators & Escalators Inspection,"+projectname,
       html: mailBody,
-      attachments: [
-        {
-          filename: 'Resume.pdf',  // Specify the name you want for the attached file
-          path: path,         // Path to the PDF file
-        },
-      ],
+      attachments: attachments
     };
-   
-      // Execute the SELECT query
-     
 
-      // Process the fetched data
-      // console.log('Fetched data:', db1.query('SELECT * FROM `pdf_cv` WHERE `name` = ?', ['sabari']));
-    
+
     const info = await transporter.sendMail(mailOptions);
-   
-
-    console.log('Email sent:', info.response);
-
-    // Return true for success
-    return true;
-  } 
-  catch (error) {
-    console.error('Error sending email:', error.message);
-    console.error('Error sending email:', error);
-
-    // Return false for failure
-    return false;
-  }
-};
-
-
-
-
-
-
-
-
-
-
-const sendVerificationEmail= async (email, token) => {
-  try {
-    
-    let transporter;
-
-    // Use await to wait for TransporterData to resolve
-    const data = await TransporterData("paplsoft.itservice@gmail.com");
-
-    transporter = nodemailer.createTransport({
-      service: 'Gmail',
-      auth: {
-        user: data.user,
-        pass: data.pass,
-      },
-    });
-
-    const verificationLink = `http://localhost:3000/api/verify-email?email=${email}&token=${token}`;
-
-    const mailOptions = {
-      from: 'paplsoft.itservice@gmail.com',
-      to: email,
-      subject: 'Email Verification',
-      html: `Click the following link to verify your email: <a href="${verificationLink}">${verificationLink}</a>`,
-    };
-
-    transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        console.error('Email sending error:', error);
-      } else {
-        console.log('Email sent:', info.response);
-      }
-    });
+    console.log('Email sent:',info.response);
+    return res.json({ success: info.response });
   } catch (error) {
-    console.error('Error sending email:', error.message);
+    console.error('Error:', error.message);
+    return res.status(500).json({ error: 'Internal Server Error' });
   }
-};
+});
 
 
 
 
 
 
-// Resend verify Link
-const sendVerificationEmailboolean= async (email, token, callback) => {
-  try {
-  
-    let transporter;
-
-    // Use await to wait for TransporterData to resolve
-    const data = await TransporterData("sabarinathan58796@gmail.com");
-
-    transporter = nodemailer.createTransport({
-      service: 'Gmail',
-      auth: {
-        user: data.user,
-        pass: data.pass,
-      },
-    });
-
-    const verificationLink = `http://localhost:3000/api/verify-email?email=${email}&token=${token}`;
-
-    const mailOptions = {
-      from: 'paplsoft.itservice@gmail.com',
-      to: email,
-      subject: 'Email Verification',
-      html: `Click the following link to verify your email: <a href="${verificationLink}">${verificationLink}</a>`,
-    };
-
-    transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        console.error('Email sending error:', error);
-      } else {
-        console.log('Email sent:', info.response);
-      }
-    });
-  }
-   catch (error) {
-    console.error('Error sending email:', error.message);
-  }
-};
 
 
-//  check mail verified or not
 app.get('/api/verify-email', (req, res) => {
   const { email, token } = req.query;
 
@@ -724,14 +917,6 @@ app.post('/api/login', (req, res) => {
       return res.status(401).json({ error: 'Invalid username or password' });
     }
     else{
-
-      
-
-
-
-
-      
-
     const user = results[0];
 
     bcrypt.compare(password, user.Password, (bcryptErr, bcryptResult) => {
@@ -1142,14 +1327,7 @@ app.get('/api/getRoleData', (req, res) => {
 
 
 
-// Connect to the MySQL database
-db1.connect((err) => {
-  if (err) {
-    console.error('Error connecting to MySQL:', err);
-    return;
-  }
-  console.log('Connected to MySQL Papl Inspection');
-});
+
 
 
 

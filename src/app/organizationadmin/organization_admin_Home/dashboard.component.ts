@@ -42,11 +42,7 @@ dataArray: any[] = [];
    // Implement the logic to show service details, e.g., open a modal or navigate to a details page.
 
 //  Subject,Attention, Total_units,Client_Name,Order_Ref,Customer_Order_Ref,Inspection_Start_Date,Inspection_End_Date,Total_days,Inspectin_Type,Inspection_Time,Inspector_Array
-   this.apicall.send_mail_to_client("paplsoft.itservice@gmail.com","sabarivesal@gmail.com","Subject","Attention", "Total_units","Client_Name","Order_Ref","Customer_Order_Ref","Inspection_Start_Date","Inspection_End_Date","Total_days","Inspectin_Type","Inspection_Time","Inspector_Array").subscribe((response: any) => {
-    console.log(response.message); // Log the response to the console
-    alert(response.message)
-   
-  });
+  
    
   }
 }
