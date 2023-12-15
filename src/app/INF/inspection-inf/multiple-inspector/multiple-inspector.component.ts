@@ -32,15 +32,7 @@ export class MultipleInspectorComponent {
     this.dataService.setCheckedCount(this.checkedCount);
     this.dataService.unCheckedCount=this.uncheckedCount;
     this.dataService.total_items=this.itemNames;
-
-
-
-
-
-    this.checkedItems1 = this.items.filter(item => item.checked).map(item => ({ name: item.name, headChecked: item.headChecked, fromDate: item.fromDate, toDate: item.toDate }));
-
-
-    
+    this.checkedItems1 = this.items.filter(item => item.checked).map(item => ({ name: item.name, headChecked: item.headChecked, fromDate: item.fromDate, toDate: item.toDate, i_approved:0,i_rejected:0 }));
     this.checkedItems = this.items .filter(item => item.checked) // Filter items where checked is true
     .map(item => item.name); 
 

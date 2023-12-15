@@ -15,6 +15,10 @@ export const Inspection_Head_Nav: INavbarData[] = [
         routeLink: '/afterlogin/inspection_home',
         icon: 'fal fa-home',
         label: 'Home'
+    }, {
+        routeLink: '/afterlogin/RescheduleRequest',
+        icon: 'fal fa-home',
+        label:'Reschedule Request'
     },
    
     

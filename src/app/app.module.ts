@@ -101,6 +101,8 @@ import { InspectorHomeComponent } from './inspector_dashboard/inspector-home/ins
 import { ScheduledWorkComponent } from './scheduled-work/scheduled-work.component';
 import { SchedulePageComponent } from './inspector_dashboard/schedule-page/schedule-page.component';
 import { RejectionComponent } from './inspector_dashboard/rejection/rejection.component';
+import { RescheduleRequestComponent } from './INF/inspection-inf/reschedule-request/reschedule-request.component';
+import { ParseJsonPipe } from './parse-json.pipe';
 // import { RejectionComponent } from './inspector_dashboard/rejection/rejection.component';
 
 
@@ -168,6 +170,8 @@ import { RejectionComponent } from './inspector_dashboard/rejection/rejection.co
         ScheduledWorkComponent,
         SchedulePageComponent,
         RejectionComponent,
+        RescheduleRequestComponent,
+        ParseJsonPipe,
         // RejectionComponent,
         
 

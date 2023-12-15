@@ -27,6 +27,7 @@ import { ScheduledWorkComponent } from './scheduled-work/scheduled-work.componen
 //import { SchedulePageComponent } from './inspector_dashboard/schedule-page/schedule-page.component';
 import { MailAutomationInspComponent } from './inspector_dashboard/mail-automation-insp/mail-automation-insp.component';
 import { SchedulePageComponent } from './inspector_dashboard/schedule-page/schedule-page.component';
+import { RescheduleRequestComponent } from './INF/inspection-inf/reschedule-request/reschedule-request.component';
 
 const routes: Routes = [
 
@@ -70,6 +71,8 @@ const routes: Routes = [
 
         
          {path:'inspection_home', component:InspectionInfComponent},
+         {path:'RescheduleRequest',component:RescheduleRequestComponent},
+
          {path:'inspection_inf/:c_no',component:InspectionFormComponent},
          {path:'sales_home',component:SalesHomeComponent},
          {path:'sales_inf/:selectedOption', component:SalesFormComponent},

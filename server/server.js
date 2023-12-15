@@ -2432,6 +2432,24 @@ app.get('/api/inspector', (req, res) => {
     });
   });
 
+  //reschedule request 
+  app.get('/api/countRecords3', (req, res) => {
+    const { name } = req.query;
+    console.log(name);
+  
+    // Construct the SQL query to check if 'name' exists within 'inspector_like' JSON array
+    let sqlQuery = `SELECT * FROM inf_26 WHERE i_rejected=1`;
+  
+    db1.query(sqlQuery, (error, results) => {
+      if (error) {
+        res.status(500).json({ error: 'Error fetching record count' });
+      } else {
+       
+        res.status(200).json(results);
+      }
+    });
+  });
+
   
 
 
@@ -2471,36 +2489,68 @@ app.get('/api/inspector', (req, res) => {
   });
   
 
+  // app.put('/api/approveRecords3', (req, res) => {
+  //   const { id,reason,name } = req.query;
+  //   const combine = {name:name,reason:reason};
+  
+  //   console.log('id is ', id);
+  //   console.log('name is',combine);
+  
+  //   // Construct the SQL query with parameter placeholders
+  //   let sqlQuery = 'UPDATE inf_26 SET i_rejected = ?,reason=?,name_reason=? WHERE id = ?';
+  
+  //   // Use parameterized queries to prevent SQL injection
+  //   db1.query(sqlQuery, [1, reason,JSON.stringify(combine),id], (error, results) => {
+  //     if (error) {
+  //       console.error('Error updating record:', error);
+  //       res.status(500).json({ error: 'Error updating record' });
+  //     } else {
+  //       res.status(200).json({ message: 'Record approved successfully' });
+  //     }
+  //   });
+  // });
+
+
   app.put('/api/approveRecords3', (req, res) => {
-    const { id,reason } = req.query;
+    const { id, reason, name } = req.query;
   
-    console.log('id is ', id);
+    // Construct the SQL query to retrieve the existing JSON data
+    let selectQuery = 'SELECT name_reason FROM inf_26 WHERE id = ?';
   
-    // Construct the SQL query with parameter placeholders
-    let sqlQuery = 'UPDATE inf_26 SET i_rejected = ?,reason=? WHERE id = ?';
-  
-    // Use parameterized queries to prevent SQL injection
-    db1.query(sqlQuery, [1, reason,id], (error, results) => {
-      if (error) {
-        console.error('Error updating record:', error);
-        res.status(500).json({ error: 'Error updating record' });
+    db1.query(selectQuery, [id], (selectError, selectResults) => {
+      if (selectError) {
+        console.error('Error retrieving record:', selectError);
+        res.status(500).json({ error: 'Error retrieving record' });
       } else {
-        res.status(200).json({ message: 'Record approved successfully' });
+        let existingData = selectResults[0].name_reason || '{}'; // Get existing data or initialize an empty object if none
+  
+        // Parse the existing JSON string
+        let existingObject = JSON.parse(existingData);
+  
+        // Add a new key-value pair to the existing object
+        existingObject[name] = reason;
+  
+        // Convert the updated object back to a JSON string
+        let updatedData = JSON.stringify(existingObject);
+  
+        // Construct the SQL query to update the record with the modified JSON string
+        let updateQuery = 'UPDATE inf_26 SET i_rejected = ?, reason = ?, name_reason = ? WHERE id = ?';
+  
+        // Use parameterized queries to prevent SQL injection
+        db1.query(updateQuery, [1, reason, updatedData, id], (updateError, updateResults) => {
+          if (updateError) {
+            console.error('Error updating record:', updateError);
+            res.status(500).json({ error: 'Error updating record' });
+          } else {
+            res.status(200).json({ message: 'Record approved successfully' });
+          }
+        });
       }
     });
   });
   
   
   
-
-
-
-
-
-
-
-
-
 
 
 
