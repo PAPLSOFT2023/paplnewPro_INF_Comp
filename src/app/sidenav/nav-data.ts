@@ -76,6 +76,12 @@ export const oragizationadmin: INavbarData[] = [
         label: 'mail'
 
     },
+    {
+        routeLink: '/afterlogin/confirm-page',
+        icon: 'fal fa-edit',
+        label: 'confirm_page'
+
+    },
    
     {
         routeLink: '/afterlogin/app-organization-user-management',

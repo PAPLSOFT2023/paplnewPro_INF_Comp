@@ -70,6 +70,11 @@ addProfileData(NAME:string ,email_id:string,PSN_NO:string,designation:string,con
   return this.httpClient.post(this.apiURL+"add_profile_data", body);
 }
 
+//inspector_cv 
+getInspectorCv(): Observable<any> {
+  return this.http.get(`${this.apiURL}/inspectorCv`);
+}
+
 
 
 

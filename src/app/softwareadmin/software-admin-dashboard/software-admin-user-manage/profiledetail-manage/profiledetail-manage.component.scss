@@ -19,6 +19,31 @@ td button {
   border-radius: 2+0px; /* Adjust the border-radius for your desired shape */
 }
 
+.container1 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  
+  align-items: center;
+  padding: 20px;
+}
+
+.user {
+  text-align: center;
+}
+
+.title {
+  font-size: 2em;
+  font-weight: bold;
+}
+
+
+
+
+
 .editbutton {
   background-color: #003f87;
 }
