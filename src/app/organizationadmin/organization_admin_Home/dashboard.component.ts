@@ -41,11 +41,8 @@ dataArray: any[] = [];
   viewDetails() {
    // Implement the logic to show service details, e.g., open a modal or navigate to a details page.
 
-
-   this.apicall.send_mail_to_client("sabarinathan58796@gmail.com","prasanna.subramaniyan@paplcorp.com").subscribe((response: any) => {
-    console.log(response); // Log the response to the console
-   
-  });
+//  Subject,Attention, Total_units,Client_Name,Order_Ref,Customer_Order_Ref,Inspection_Start_Date,Inspection_End_Date,Total_days,Inspectin_Type,Inspection_Time,Inspector_Array
+  
    
   }
 }

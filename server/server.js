@@ -2,6 +2,7 @@ const bodyParser = require('body-parser');
 const express = require('express');
 const cors = require('cors');
 const mysql = require('mysql2');
+const mysql1=require('mysql2/promise');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
@@ -20,15 +21,17 @@ const app = express();
 
 
 app.use(cors());
-app.use(bodyParser.json());
 app.use(express.json()); 
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
+
 
 // Firebase Next Link
 const admin = require('firebase-admin');
 const serviceAccount = require('./paplapplication-firebase-adminsdk-dlrxg-4adbf847ee.json');
 const { error, log } = require('console');
 const e = require('express');
-const { async } = require('rxjs');
+// const { async } = require('rxjs');
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   databaseURL: 'https://paplapplication-default-rtdb.firebaseio.com',
@@ -42,20 +45,27 @@ const ref = Firebase_db.ref('/Leave/Leaveforleadknown/krishnannarayananpaplcorpc
 
 
 
-
 const db = mysql.createConnection({
   host: 'localhost',
   user: 'root',
   password: '',
   database: 'paplworkspace',
-});
+  });
 const db1 = mysql.createConnection({
   host: '127.0.0.1',
   user: 'root',
   password: '',
   database: 'papl_inspection',
+ });
+const db_promise=mysql1.createPool({
+  host: '127.0.0.1',
+  user: 'root',
+  password: '',
+  database: 'papl_inspection',
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0,
 });
-
 
 
 
@@ -69,19 +79,22 @@ db.connect((err) => {
   }
 });
 
+// Connect to the MySQL database
+db1.connect((err) => {
+  if (err) {
+    console.error('Error connecting to MySQL:', err);
+    return;
+  }
+  console.log('Connected to MySQL Papl Inspection');
+});
 
-// const transporter = nodemailer.createTransport({
-//   service: 'Gmail',
-//   auth: {
-//     user: 'paplsoft.itservice@gmail.com',
-//     pass: 'cicc tahd itrg guwd',
-//   },
-// });
 
 
-const TransporterData = (targetEmail) => {
+
+
+const TransporterData = () => {
   return new Promise((resolve, reject) => {
-    db.execute('SELECT App_password, Email, Organization FROM mail_automation WHERE Email=?', [targetEmail], (error, result) => {
+    db.execute('SELECT App_password, Email, Organization FROM mail_automation ', (error, result) => {
       if (error) {
         reject(error);
       } else {
@@ -100,161 +113,9 @@ const TransporterData = (targetEmail) => {
   });
 };
 
-app.put('/api/Mail_sent_Insp_to_Client',(req,res)=>{
-const {sender,receiver}=req.body;
-console.log(sender,receiver)
-  Mail_sent_Insp_to_Client(sender,receiver)
-})
 
-const Mail_sent_Insp_to_Client= async (sender,receiver) => {
-  try {
-    
-    let transporter;
-    
 
-    // Use await to wait for TransporterData to resolve
-    const data = await TransporterData(sender);
-    console.log("^^",data.user,data.pass,sender,receiver)
-    transporter = nodemailer.createTransport({
-      service: 'Gmail',
-      auth: {
-        user: data.user,
-        pass: data.pass,
-        
-      },
-      
-    });
-    
 
-    // Add your improved mail design
-    const mailBody = `
-    <p>Dear Sir,</p>
-    <p>Kind Attention:<b> Mr. MADHUBABU</b> </p>
-    <p>Thank you for your order for the inspection of <b>89 Units</b> at <b> BRIGADE TECH GARDEN - BANGALORE</b></p>
-    <p>Please note the following:-</p>
-    <div style="padding-left: 20px;">
-    <table width="600" height="20" border="1" >
-        <tr>
-            <td style="padding: 4px;" >PAPL Order Reference</td> <td style="padding: 4px;" colspan="4">PAPL0245/B</td></tr>
-            <tr>
-            <td style="padding: 4px;" >Customer Order Reference</td>
-            <td style="padding: 4px;" colspan="4">8100002249,DATED 09/10/2023</td>
-        </tr>
-        <tr>
-           <td style="padding: 4px;" rowspan="2"> Proposed Inspection Dates</td>  <td style="padding: 4px;" rowspan="1" colspan="2">Inspection Start Date</td>
-          <td style="padding: 4px;">27/11/2023(Monday)</td></tr>
-          <tr>
-          <td style="padding: 4px;">Inspection End Date</td><td style="padding: 4px;" rowspan="1" colspan="2">02/12/2023 (Saturday)</td>
-        </tr>
-        <tr>
-            <td style="padding: 4px;">Total Number of Days</td > <td style="padding: 4px;" colspan="4">	06 Days</td>
-        </tr>
-        <tr>
-            <td style="padding: 4px;" >Inspection Type</td>
-            <td style="padding: 4px;" colspan="4">TPT3: CHECKLIST</td>
-        </tr>
-        <tr>
-            <td style="padding: 4px;" >Calibrated instruments carried by us</td>
-            <td style="padding: 4px;" colspan="4">Metal Scale, Taper Scale, Measuring Tape</td>
-        </tr>
-    </table>
-    </div>
-    <br>
-    <p ><b> The inspection will be carried out between 9:30 am & 6:00 pm.</b></p>
-    <p>The Inspection will be conducted by the following personnel (Credentials Attached) and request you kindly process the entry Pass accordingly.</p>
-    <div style="padding-left: 20px;">
-    <table border="1">
-        <tr>
-            <th>SL. NO</th>
-            <th>NAME</th>
-            <th>DESIGNATION</th>
-            <th>MOBILE</th>
-            <th>E-MAIL ID</th>
-        </tr>
-        <tr>
-            <td>1.</td>
-            <td>M.B.MAHADEVAN</td>
-            <td>ASSISTANT MANAGER</td>
-            <td>9886312327</td>
-            <td>mahadevan.mb@paplcorp.com</td>
-        </tr>
-        <tr>
-            <td>2.</td>
-            <td>ABDUL KAFFAR</td>
-            <td>ENGINEER</td>
-            <td>9790961647</td>
-            <td>Abdul.kaffar@paplcorp.com</td>
-        </tr>
-        <tr>
-            <td>3.</td>
-            <td>JINO CHAKO</td>
-            <td>INSPECTOR</td>
-            <td>8086165880</td>
-            <td>jino.chacko@paplcorp.com</td>
-        </tr>
-        
-    </table>
-    </div>
-    <br>
-    <p>Representatives of OEM/ Service providers at the supervisory level with adequate manpower <b>(One Technical Person per Inspector)</b> and tools as listed below should be made available throughout the inspection for coordination and support.</p>
-    <p>We need -: </p>
-    <div style="padding-left: 20px;">
-          <p>1. Permission to enter the premises</p>
-    
-        <p>2. Permission to travel on Equipment, enter the Pit, Car Top, and Machine Room. OEM/service provider or the building management should not object.</p>
-    
-        <p>3. Permission to carry Torch, Measuring tape, and other measuring instruments.</p>
-    
-        <p>4. Permission to record measurements and other findings as may be required.</p>
-    
-       <p>5. <u><b>Permission to carry a camera </b></u>and photograph the installation including the lobby, Elevator Pit, Elevator Machine fixing arrangements, Car top, floor landing fixtures, and any other space related to the equipment</p>
-    </div>
-    
-       <p>The Following Tools and measuring instruments with <u>Valid Calibration Certificates from NABL Accredited laboratories, traceable to national/international references </u>should be made available by the OEM/Service Provider throughout the inspection.</p>
-    <div style="padding-left: 20px;">
-       <table border="1" width="200" >
-        <tr >
-           <td style="padding-left: 50px; font-weight: bold;" >TOOLS</td>
-        </tr>
-        <tr>
-            <td style="padding-left: 10px;">HANDLAMP</td>
-        </tr>
-        <tr>
-            <td style="padding-left: 10px;">HAND TOOLS</td>
-        </tr>
-        <tr>
-            <td style="padding-left: 10px;">DOOR OPEN KEYS</td>
-        </tr>
-    </table>
-    </div>
-    <br>
-    <p>
-        <b>This inspection shall be independent & impartial,</b> irrespective of any other engagement that PAPL Corp shall have with you. Please refer to our policy <a href="">(https://paplcorp.com/policy.html)</a> on the same for more information.
-    
-    Please email your feedback/ concerns/ complaints if any on the constitution of the inspector/s or any other issue about our engagement to <a href="">info@paplcorp.com</a> the same shall be addressed on priority. Please refer to our policy on complaints and appeals <a href="">(https://paplcorp.com/policy-04.html)</a></p>
-    <div >
-    <p style="font-weight: bolder;">Note:- This is a system-generated email. For any clarification, please contact the PAPL team </p>
-    </div>
-    `;
-
-    const mailOptions = {
-      from:sender,
-      to: receiver, // Replace with the actual recipient email
-      subject: 'Order Confirmation - BRIGADE TECH GARDEN Inspection',
-      html: mailBody,
-    };
-
-    transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        console.error('Email sending error:', error);
-      } else {
-        console.log('Email sent:', info.response);
-      }
-    });
-  } catch (error) {
-    console.error('Error sending email:', error.message);
-  }
-};
 
 
 
@@ -271,7 +132,7 @@ const sendVerificationEmail= async (email, token) => {
     let transporter;
 
     // Use await to wait for TransporterData to resolve
-    const data = await TransporterData("paplsoft.itservice@gmail.com");
+    const data = await TransporterData();
 
     transporter = nodemailer.createTransport({
       service: 'Gmail',
@@ -314,7 +175,7 @@ const sendVerificationEmailboolean= async (email, token, callback) => {
     let transporter;
 
     // Use await to wait for TransporterData to resolve
-    const data = await TransporterData("sabarinathan58796@gmail.com");
+    const data = await TransporterData();
 
     transporter = nodemailer.createTransport({
       service: 'Gmail',
@@ -347,7 +208,386 @@ const sendVerificationEmailboolean= async (email, token, callback) => {
 };
 
 
-//  check mail verified or not
+
+
+app.get('/api/getinfdata_forMail', (req, res) => {
+  const { id } = req.query;
+
+  // Step 1: Retrieve data from inf_26 table
+  db1.query('SELECT  contract_number, location, master_customer_name, customer_workorder_name, customer_workorder_date, type_of_inspection, project_name, customer_contact_mailid, no_of_mandays_as_per_work_order, total_units_schedule, schedule_from, schedule_to, inspection_time_ins, inspector_list FROM inf_26 WHERE id=?',[id],(error,result)=>{
+
+    if (error) {
+      console.log("Error");
+      res.status(500).json({ success: false, message: 'Internal server error.' });
+    }
+     else {
+     
+       result[0].inspector_list = JSON.parse(result[0].inspector_list).filter(item => item.trim() !== '');
+        const originalDate = new Date(result[0].customer_workorder_date);
+
+         const options = {
+             year: 'numeric',
+            month: '2-digit',
+              day: '2-digit'
+              };
+
+        result[0].customer_workorder_date = new Intl.DateTimeFormat('en-US', options).format(originalDate);
+
+        // result[0].schedule_from,
+        const originalDate_schedulefrom = new Date(result[0].schedule_from);
+
+        const options_schedulefrom = {
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric',
+          weekday: 'long'
+        };
+
+        result[0].schedule_from = new Intl.DateTimeFormat('en-GB', options_schedulefrom).format(originalDate_schedulefrom);
+
+
+        // To 
+        const originalDate_scheduleto= new Date(result[0].schedule_to);
+
+        const options_scheduleto = {
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric',
+          weekday: 'long'
+        };
+
+        result[0].schedule_to = new Intl.DateTimeFormat('en-GB', options_scheduleto).format(originalDate_scheduleto);
+       
+        const inputString = result[0].inspection_time_ins;
+        const regex = /\(([^)]+)\)/;
+        const match = inputString.match(regex);
+
+        if (match) {
+          result[0].inspection_time_ins=match[1];
+       } 
+
+
+
+       return res.json(result)
+
+      
+      
+      }
+  });
+}); 
+
+
+// get Inspector data for mail table 
+app.get('/api/getInspectordata_forMail', async (req, res) => {
+  try {
+    const { inspectors } = req.query;
+    const regex = /\b\d+\b/g;
+
+    const extractedNumbers_PSN = inspectors.match(regex);
+
+    // console.log("-->", extractedNumbers_PSN);
+
+    const resultsArray = await getinsp_Data_For_Inf(extractedNumbers_PSN);
+
+    console.log('Final Results:', resultsArray);
+    return res.json(resultsArray);
+  } catch (error) {
+    console.error('Error:', error.message);
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+
+async function getinsp_Data_For_Inf(extractedNumbers_PSN) {
+  const resultsArray = [];
+
+  for (const inspector_PSN of extractedNumbers_PSN) {
+    const query = 'SELECT `NAME`, `designation`, `contact_no`, `email_id` FROM `emp_data` WHERE `PSN_NO` = ?';
+
+    try {
+      const [rows, fields] = await db_promise.query(query, [inspector_PSN]);
+      // Access the row data and push it into the resultsArray
+      resultsArray.push(rows[0]);
+    } catch (error) {
+      console.error('Error fetching data:', error.message);
+      // You might want to handle the error accordingly, e.g., push an empty object or a placeholder value
+      resultsArray.push({});
+    }
+  }
+
+  // console.log("====>", resultsArray.length);
+  return resultsArray;
+}
+ 
+
+
+
+
+
+
+app.get('/api/getMailSetupdata_forMail', (req, res) => {
+  const { organization } = req.query;
+  console.log(organization);
+
+  db.query('SELECT App_password, Email FROM mail_automation WHERE Organization=?', [organization], (error, result) => {
+   
+    if (result.length > 0) {
+      // Send the result as a JSON response to the client
+      // console.log(result)
+      return res.json(result);
+    } else {
+      // Send a response indicating that no data was found
+      return res.status(404).json({ message: 'No data found for the organization' });
+    }
+  });
+});
+
+
+
+// getInspector_CV_data_forMail
+app.get('/api/getInspector_CV_data_forMail', async (req, res) => {
+  try {
+    const { inspectors } = req.query;
+    const regex = /\b\d+\b/g;
+
+    const extractedNumbers_PSN_For_CV = inspectors.match(regex);
+
+    // console.log("-->", extractedNumbers_PSN_For_CV);
+
+     resultsArray_CV= await getinsp_CV_Data_For_Inf(extractedNumbers_PSN_For_CV);
+
+    console.log('Final Results:', resultsArray_CV);
+    return res.json(resultsArray_CV);
+  } catch (error) {
+    console.error('Error:', error.message);
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+async function getinsp_CV_Data_For_Inf(extractedNumbers_PSN_For_CV) {
+  const resultsArray = [];
+
+  for (const inspector_PSN of extractedNumbers_PSN_For_CV) {
+    const query = 'SELECT `pdf` FROM `pdf_cv` WHERE `PSN_NO`= ?';
+
+    try {
+      const [rows, fields] = await db_promise.query(query, [inspector_PSN]);
+
+      // console.log(rows[0]);
+
+      // Check if rows[0] exists and is not null before pushing to resultsArray
+      if (rows[0] !== undefined && rows[0] !== null) {
+        resultsArray.push(rows[0]);
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error.message);
+    }
+  }
+
+  // console.log("====>", resultsArray.length);
+
+  return resultsArray;
+}
+
+
+
+
+
+// 
+app.post('/api/sendmailtocli', async (req, res) => {
+  const {
+    customername,
+    totalunit,
+    projectname,
+    location,
+    contract_number,
+    customer_workorder_name,
+    from,
+    to,
+    noOfDays,
+    inspectionType,
+    inspectionTime,
+    customerMail,
+    emailIds_CC,
+    inspectorData,
+    appPassword,
+    senderEmail,
+    inspectors
+  } = req.body;
+
+  console.log("customer name", customername);
+  
+  try {
+    // Handle the data from the request body
+    // console.log(">>>>", customername, totalunit, projectname, location, from, to, noOfDays, inspectionType, inspectionTime, customerMail,inspectorData, appPassword, senderEmail, inspectors); 
+    const extractedNumbers = [];
+    const numberRegex = /-\s(\d+)/;
+    inspectors.forEach((str) => {
+      // Use the regular expression to match and extract the number
+      const match = str.match(numberRegex);
+      // If a match is found, push the extracted number to the array
+      if (match && match[1]) {
+        extractedNumbers.push(match[1]);
+      }
+    });
+    const resultsArray_CV= await getinsp_CV_Data_For_Inf(extractedNumbers);
+    let transporter;
+    transporter = nodemailer.createTransport({
+      service: 'Gmail',
+      auth: {
+        user:  senderEmail,
+        pass: appPassword,
+        
+      },
+      
+    });
+    
+const generatePersonnelRows = (personnelArray) => {
+  let slNo = 1;
+  return personnelArray.map(person => {
+   
+
+    return `
+      <tr>
+      <td style="padding-left: 10px;">${slNo++}</td>
+        <td style="padding-left: 10px;">${person[1]}</td>
+        <td style="padding-left: 10px;">${person[3]}</td>
+        <td style="padding-left: 10px;">${person[5]}</td>
+        <td style="padding-left: 10px;">${person[7]}</td>
+      </tr>
+    `;
+  }).join('');;
+};
+
+
+    const mailBody = `
+    
+    <p style="color: black;">Dear Sir/Madam,</p>
+    <p style="color: black;">Kind Attention:<b> ${customername}</b> </p>
+    <p style="color: black;">Thank you for your order for the inspection of <b>${totalunit} Units</b> at <b> ${projectname}-${location}</b></p>
+    <p style="color: black;">Please note the following:-</p>
+    <div style="padding-left: 20px;">
+    <table width="600" height="20" border="1" >
+        <tr>
+            <td style="padding: 4px;" >PAPL Order Reference</td> <td style="padding: 4px;  font-weight:bold" colspan="4">${contract_number}</td></tr>
+            <tr>
+            <td style="padding: 4px;" >Customer Order Reference</td>
+            <td style="padding: 4px;" colspan="4">${customer_workorder_name}</td>
+        </tr>
+        <tr>
+           <td style="padding: 4px;" rowspan="2"> Proposed Inspection Dates</td>  <td style="padding: 4px;" rowspan="1" colspan="2">Inspection Start Date</td>
+          <td style="padding: 4px;">${from}</td></tr>
+          <tr>
+          <td style="padding: 4px;">Inspection End Date</td><td style="padding: 4px;" rowspan="1" colspan="2">${to}</td>
+        </tr>
+        <tr>
+            <td style="padding: 4px;">Total Number of Days</td > <td style="padding: 4px;" colspan="4">	${noOfDays} Days</td>
+        </tr> 
+        <tr>
+            <td style="padding: 4px;" >Inspection Type</td>
+            <td style="padding: 4px;" colspan="4">${inspectionType}</td>
+        </tr>
+        <tr>
+            <td style="padding: 4px;" >Calibrated instruments carried by us</td>
+            <td style="padding: 4px;" colspan="4">Metal Scale, Taper Scale, Measuring Tape</td>
+        </tr>
+    </table>
+    </div>
+    <br>
+    <p style="color: black;"><b> The inspection will be carried out between ${inspectionTime}.</b></p>
+    <p style="color: black;">The Inspection will be conducted by the following personnel (Credentials Attached) and request you kindly process the entry Pass accordingly.</p>
+    <div style="padding-left: 20px;">
+    <table border="1">
+        <tr>
+            <th>SL. NO</th>
+            <th>NAME</th>
+            <th>DESIGNATION</th>
+            <th>MOBILE</th>
+            <th>E-MAIL ID</th>
+        </tr>
+        
+        
+        ${generatePersonnelRows(inspectorData)}
+        
+    </table>
+    </div>
+    <br>
+    <p style="color: black;">Representatives of OEM/ Service providers at the supervisory level with adequate manpower <b>(One Technical Person per Inspector)</b> and tools as listed below should be made available throughout the inspection for coordination and support.</p>
+    <p style="color: black;">We need -: </p>
+    <div style="padding-left: 20px;">
+          <p style="color: black;">1. Permission to enter the premises</p>
+    
+        <p style="color: black;">2. Permission to travel on Equipment, enter the Pit, Car Top, and Machine Room. OEM/service provider or the building management should not object.</p>
+    
+        <p style="color: black;">3. Permission to carry Torch, Measuring tape, and other measuring instruments.</p>
+    
+        <p style="color: black;">4. Permission to record measurements and other findings as may be required.</p>
+    
+       <p style="color: black;">5. <u><b>Permission to carry a camera </b></u>and photograph the installation including the lobby, Elevator Pit, Elevator Machine fixing arrangements, Car top, floor landing fixtures, and any other space related to the equipment</p>
+    </div>
+    
+       <p style="color: black;">The Following Tools and measuring instruments with <u>Valid Calibration Certificates from NABL Accredited laboratories, traceable to national/international references </u>should be made available by the OEM/Service Provider throughout the inspection.</p>
+    <div style="padding-left: 20px;">
+       <table border="1" width="200" >
+        <tr >
+           <td style="text-align: center; font-weight:bold" >TOOLS</td>
+        </tr>
+        <tr>
+            <td style="text-align: center;">HANDLAMP</td>
+        </tr>
+        <tr>
+            <td style="text-align: center;">HAND TOOLS</td>
+        </tr>
+        <tr>
+            <td style="text-align: center;">DOOR OPEN KEYS</td>
+        </tr>
+    </table>
+    </div>
+    <br>
+    <p style="color: black;">
+        <b>This inspection shall be independent & impartial,</b> irrespective of any other engagement that PAPL Corp shall have with you. Please refer to our policy <a href="https://paplcorp.com/policy.html">(https://paplcorp.com/policy.html)</a> on the same for more information.
+    
+    Please email your feedback/ concerns/ complaints if any on the constitution of the inspector/s or any other issue about our engagement to <a href="info@paplcorp.com">info@paplcorp.com</a> the same shall be addressed on priority. Please refer to our policy on complaints and appeals <a href="https://paplcorp.com/policy-04.html">(https://paplcorp.com/policy-04.html)</a></p>
+    <div >
+    <p style="font-weight: bolder; color: black;">Note: This email is system-generated. For any clarifications, please feel free to contact the PAPL team. </p>
+    </div>
+    `;
+    const attachments = resultsArray_CV.map((pdf, index) => {
+      return {
+        filename: `CV-attachment${index + 1}.pdf`,
+        content: pdf.pdf.toString('base64')
+      };
+    });
+   
+
+    // console.log("000000", emailIds_CC)
+    // console.log("attachment",attachments)
+    const mailOptions = {
+      from:senderEmail,
+      to: customerMail, // Replace with the actual recipient email
+      cc:emailIds_CC,
+      subject:  "Elevators & Escalators Inspection,"+projectname,
+      html: mailBody,
+      attachments: attachments
+    };
+
+
+    const info = await transporter.sendMail(mailOptions);
+    console.log('Email sent:',info.response);
+    return res.json({ success: info.response });
+  } catch (error) {
+    console.error('Error:', error.message);
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+
+
+
+
+
+
+
 app.get('/api/verify-email', (req, res) => {
   const { email, token } = req.query;
 
@@ -370,7 +610,7 @@ app.get('/api/verify-email', (req, res) => {
             <html>
             <body>
               <h1>Email Verified Successfully</h1>
-              <p>All is set! You can now move to your dashboard.</p>
+              <p style="color: black;">All is set! You can now move to your dashboard.</p>
               <!-- You can add a button or link to navigate to the dashboard -->
               <a href="http://localhost:4200/">Go to Dashboard</a>
             </body>
@@ -677,14 +917,6 @@ app.post('/api/login', (req, res) => {
       return res.status(401).json({ error: 'Invalid username or password' });
     }
     else{
-
-      
-
-
-
-
-      
-
     const user = results[0];
 
     bcrypt.compare(password, user.Password, (bcryptErr, bcryptResult) => {
@@ -852,6 +1084,19 @@ app.delete('/api/delete_emp_data', (req, res) => {
   });
 });
 
+//inspector cv database view //
+
+app.put('/api/inspectorCv', (req, res) => {
+  const query = 'SELECT email, pdf FROM pdf_cv'; 
+  db.query(query, (err, results) => {
+    if (err) {
+      console.log('Error executing MySQL query:', err);
+      res.status(500).send('Internal Server Error');
+    } else {
+      res.json(results);
+    }
+  });
+});
 
 
 
@@ -1095,14 +1340,7 @@ app.get('/api/getRoleData', (req, res) => {
 
 
 
-// Connect to the MySQL database
-db1.connect((err) => {
-  if (err) {
-    console.error('Error connecting to MySQL:', err);
-    return;
-  }
-  console.log('Connected to MySQL Papl Inspection');
-});
+
 
 
 

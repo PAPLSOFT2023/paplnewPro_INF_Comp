@@ -76,6 +76,7 @@ export class LoginComponent implements OnInit {
           // Redirect to another page or perform desired actions
           if (status === 1) {
             if(mail_status==1){
+              sessionStorage.setItem('Email', this.username);
             console.log(role1, organization, userName);
             this.router.navigate(['/afterlogin', { role: role1 }]);
             }
