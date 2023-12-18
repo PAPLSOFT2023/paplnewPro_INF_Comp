@@ -449,11 +449,11 @@ const generatePersonnelRows = (personnelArray) => {
 
     return `
       <tr>
-      <td style="padding-left: 10px;">${slNo++}</td>
-        <td style="padding-left: 10px;">${person[1]}</td>
-        <td style="padding-left: 10px;">${person[3]}</td>
-        <td style="padding-left: 10px;">${person[5]}</td>
-        <td style="padding-left: 10px;">${person[7]}</td>
+      <td style="padding-left: 10px; color: black;">${slNo++}</td>
+        <td style="padding-left: 10px; color: black;">${person[1]}</td>
+        <td style="padding-left: 10px; color: black;">${person[3]}</td>
+        <td style="padding-left: 10px; color: black;">${person[5]}</td>
+        <td style="padding-left: 10px; color: black;">${person[7]}</td>
       </tr>
     `;
   }).join('');;
@@ -469,27 +469,27 @@ const generatePersonnelRows = (personnelArray) => {
     <div style="padding-left: 20px;">
     <table width="600" height="20" border="1" >
         <tr>
-            <td style="padding: 4px;" >PAPL Order Reference</td> <td style="padding: 4px;  font-weight:bold" colspan="4">${contract_number}</td></tr>
+            <td style="padding: 4px; color: black;" >PAPL Order Reference</td> <td style="padding: 4px; color: black; font-weight:bold" colspan="4">${contract_number}</td></tr>
             <tr>
-            <td style="padding: 4px;" >Customer Order Reference</td>
-            <td style="padding: 4px;" colspan="4">${customer_workorder_name}</td>
+            <td style="padding: 4px; color: black;" >Customer Order Reference</td>
+            <td style="padding: 4px; color: black;" colspan="4">${customer_workorder_name}</td>
         </tr>
         <tr>
-           <td style="padding: 4px;" rowspan="2"> Proposed Inspection Dates</td>  <td style="padding: 4px;" rowspan="1" colspan="2">Inspection Start Date</td>
-          <td style="padding: 4px;">${from}</td></tr>
+           <td style="padding: 4px; color: black;" rowspan="2"> Proposed Inspection Dates</td>  <td style="padding: 4px;  color: black; " rowspan="1" colspan="2">Inspection Start Date</td>
+          <td style="padding: 4px; color: black;">${from}</td></tr>
           <tr>
-          <td style="padding: 4px;">Inspection End Date</td><td style="padding: 4px;" rowspan="1" colspan="2">${to}</td>
+          <td style="padding: 4px; color: black;">Inspection End Date</td><td style="padding: 4px; color: black;"  rowspan="1" colspan="2">${to}</td>
         </tr>
         <tr>
-            <td style="padding: 4px;">Total Number of Days</td > <td style="padding: 4px;" colspan="4">	${noOfDays} Days</td>
+            <td style="padding: 4px; color: black;">Total Number of Days</td > <td style="padding: 4px;  color: black; " colspan="4">	${noOfDays} Days</td>
         </tr> 
         <tr>
-            <td style="padding: 4px;" >Inspection Type</td>
-            <td style="padding: 4px;" colspan="4">${inspectionType}</td>
+            <td style="padding: 4px; color: black;" >Inspection Type</td>
+            <td style="padding: 4px; color: black;" colspan="4">${inspectionType}</td>
         </tr>
         <tr>
-            <td style="padding: 4px;" >Calibrated instruments carried by us</td>
-            <td style="padding: 4px;" colspan="4">Metal Scale, Taper Scale, Measuring Tape</td>
+            <td style="padding: 4px; color: black;" >Calibrated instruments carried by us</td>
+            <td style="padding: 4px; color: black;" colspan="4">Metal Scale, Taper Scale, Measuring Tape</td>
         </tr>
     </table>
     </div>
@@ -499,11 +499,11 @@ const generatePersonnelRows = (personnelArray) => {
     <div style="padding-left: 20px;">
     <table border="1">
         <tr>
-            <th>SL. NO</th>
-            <th>NAME</th>
-            <th>DESIGNATION</th>
-            <th>MOBILE</th>
-            <th>E-MAIL ID</th>
+            <th style="color: black;">SL. NO</th>
+            <th style="color: black;">NAME</th>
+            <th style="color: black;">DESIGNATION</th>
+            <th style="color: black;">MOBILE</th>
+            <th style="color: black;">E-MAIL ID</th>
         </tr>
         
         
@@ -528,18 +528,18 @@ const generatePersonnelRows = (personnelArray) => {
     
        <p style="color: black;">The Following Tools and measuring instruments with <u>Valid Calibration Certificates from NABL Accredited laboratories, traceable to national/international references </u>should be made available by the OEM/Service Provider throughout the inspection.</p>
     <div style="padding-left: 20px;">
-       <table border="1" width="200" >
+       <table border="1" width="200"  >
         <tr >
-           <td style="text-align: center; font-weight:bold" >TOOLS</td>
+           <td style="text-align: center; font-weight:bold; color: black;" >TOOLS</td>
         </tr>
         <tr>
-            <td style="text-align: center;">HANDLAMP</td>
+            <td style="text-align: center; color: black;">HANDLAMP</td>
         </tr>
         <tr>
-            <td style="text-align: center;">HAND TOOLS</td>
+            <td style="text-align: center; color: black;">HAND TOOLS</td>
         </tr>
         <tr>
-            <td style="text-align: center;">DOOR OPEN KEYS</td>
+            <td style="text-align: center; color: black;">DOOR OPEN KEYS</td>
         </tr>
     </table>
     </div>
@@ -549,13 +549,26 @@ const generatePersonnelRows = (personnelArray) => {
     
     Please email your feedback/ concerns/ complaints if any on the constitution of the inspector/s or any other issue about our engagement to <a href="info@paplcorp.com">info@paplcorp.com</a> the same shall be addressed on priority. Please refer to our policy on complaints and appeals <a href="https://paplcorp.com/policy-04.html">(https://paplcorp.com/policy-04.html)</a></p>
     <div >
-    <p style="font-weight: bolder; color: black;">Note: This email is system-generated. For any clarifications, please feel free to contact the PAPL team. </p>
+    <p style="font-weight: bolder; color: black;">Note: This email is system-generated. For any clarifications, please feel free to contact the PAPL team. Kindly confirm your availability by clicking the 'Response' button. </p>
     </div>
+    
+    <br>
+    <br>
+    <div style="padding-left: 45%;"  >
+    
+    <br>
+      <button style="background-color: #3559E0; color: white; padding: 10px 20px; border-radius: 5px; "  >Response</button>
+    
+    </div>
+    <br>
+    <br>
     `;
     const attachments = resultsArray_CV.map((pdf, index) => {
       return {
         filename: `CV-attachment${index + 1}.pdf`,
-        content: pdf.pdf.toString('base64')
+        content: pdf.pdf.toString('base64'),
+        encoding: 'base64', // Specify base64 encoding
+        contentType: 'application/pdf', // Specify PDF content type
       };
     });
    
