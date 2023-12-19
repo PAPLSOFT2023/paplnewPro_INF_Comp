@@ -10,31 +10,35 @@
   
 </head>
 <body >
+  <div *ngIf="open_popUp" class="popup-container">
+  <div class="popup-content">
+    <span class="close-button" (click)="closeDialog()">X</span>
 
-<div *ngIf="open_pupUp">
-<!-- app.component.html -->
+    <div [ngClass]="{'rotating-element': !isGetInfDataEnabled}">
+      <p class="mail_status" [ngStyle]="{'color': isGetInfDataEnabled ? 'green' : 'red'}" [(ngModel)]="isGetInfDataEnabled">Get INF Data</p>
+    </div>
 
-<div>
-  <button [ngStyle]="{'color': isGetInfDataEnabled ? 'green' : 'gray'}" [(ngModel)]="isGetInfDataEnabled">Get INF Data</button>
+    <div [ngClass]="{'rotating-element': !isGetInspectorDataEnabled}">
+      <p class="mail_status" [ngStyle]="{'color': isGetInspectorDataEnabled ? 'green' : 'red'}" [(ngModel)]="isGetInspectorDataEnabled">Get Inspector Data</p>
+    </div>
+
+    <div [ngClass]="{'rotating-element': !isGetMailSetupEnabled}">
+      <p class="mail_status" [ngStyle]="{'color': isGetMailSetupEnabled ? 'green' : 'red'}" [(ngModel)]="isGetMailSetupEnabled">Get Mail Setup</p>
+    </div>
+
+    <div [ngClass]="{'rotating-element': !isSendingMailEnabled}">
+      <p class="mail_status" [ngStyle]="{'color': isSendingMailEnabled ? 'green' : 'red'}" [(ngModel)]="isSendingMailEnabled">Sending Mail</p>
+    </div>
+
+    <div [ngClass]="{'rotating-element': !isMailReportEnabled}">
+      <p class="mail_status" [ngStyle]="{'color': isMailReportEnabled ? 'green' : 'red'}" [(ngModel)]="isMailReportEnabled">Mail Report</p>
+    </div>
+  </div>
 </div>
 
-<div>
-  <button [ngStyle]="{'color': isGetInspectorDataEnabled ? 'green' : 'gray'}" [(ngModel)]="isGetInspectorDataEnabled">Get Inspector Data</button>
-</div>
 
-<div>
-  <button [ngStyle]="{'color': isGetMailSetupEnabled ? 'green' : 'gray'}" [(ngModel)]="isGetMailSetupEnabled">Get Mail Setup</button>
-</div>
+  
 
-<div>
-  <button [ngStyle]="{'color': isSendingMailEnabled ? 'green' : 'gray'}" [(ngModel)]="isSendingMailEnabled">Sending Mail</button>
-</div>
-
-<div>
-  <button [ngStyle]="{'color': isMailReportEnabled ? 'green' : 'gray'}" [(ngModel)]="isMailReportEnabled">Mail Report</button>
-</div>
-
-</div>
 
 <div *ngIf="!scheduleBool" >
   <nav>
@@ -95,16 +99,3 @@
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -2,26 +2,43 @@ import { Component, OnInit } from '@angular/core';
 import { ApicallService } from 'src/app/apicall.service';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { ActivatedRoute,Router } from '@angular/router';
+// import { NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import { response } from 'express';
 import * as fs from 'fs';
+
+import { trigger, state, style, transition, animate } from '@angular/animations';
+
 
 @Component({
   selector: 'app-inspector-home',
   templateUrl: './inspector-home.component.html',
-  styleUrls: ['./inspector-home.component.scss']
+  styleUrls: ['./inspector-home.component.scss'],
+  animations: [
+    trigger('fadeInOut', [
+      state('void', style({
+        opacity: 0
+      })),
+      transition('void <=> *', animate(500)), // Adjust the duration as needed
+    ])
+  ]
 })
 export class InspectorHomeComponent implements OnInit {
+[x: string]: any;
   name: string = '';
   recordCount: number = 0;
   records:any[]=[];
   scheduleBool:boolean=false;
+  showSendMailPopup = false; // Track the state of the popup
+  // Your other variables and methods
+ 
 
-  open_pupUp=false
-  isGetInfDataEnabled: boolean = false;
-  isGetInspectorDataEnabled: boolean = false;
-  isGetMailSetupEnabled: boolean = false;
-  isSendingMailEnabled: boolean = false;
-  isMailReportEnabled: boolean = false;
+  open_popUp=false;
+  isGetInfDataEnabled = false;
+  isGetInspectorDataEnabled = false;
+  isGetMailSetupEnabled = false;
+  isSendingMailEnabled = false;
+  isMailReportEnabled = false;
+  request : any ;
 
 
   location:string='/assets/logo1.png'
@@ -52,6 +69,13 @@ export class InspectorHomeComponent implements OnInit {
     // this.router.navigate([{ outlets: { scheduleOutlet: ['schedule_page'] } }]);
    
   }
+  
+  
+
+ 
+
+ 
+
 
   getRecordCount(name: string) {
     const params = new HttpParams().set('name', name);
@@ -66,12 +90,15 @@ export class InspectorHomeComponent implements OnInit {
         }
       );
   }
-
+  closeDialog(){
+    this.open_popUp=!this.open_popUp;
+  }
 
   Send_Mail_Client(id:string){
 
+   
 
-    this.open_pupUp=true;
+    this.open_popUp=!this.open_popUp;
     // console.log(id);
     // const sender=sessionStorage.getItem("Email") as string
     if(id){
@@ -133,37 +160,39 @@ export class InspectorHomeComponent implements OnInit {
 
                     console.log("88", inspector_Data);
 
+                    this.isSendingMailEnabled=true;
+                      
+                    this. isMailReportEnabled = true;
                     
-                    this.apicallservice.send_mail_to_client(
-                      response[0].master_customer_name,
-                      response[0].total_units_schedule,
-                      response[0].project_name,
-                      response[0].location,
-                      response[0].contract_number,
-                      response[0].customer_workorder_name+","+response[0].customer_workorder_date,
-                      response[0].schedule_from,
-                      response[0].schedule_to,
-                      response[0].no_of_mandays_as_per_work_order,
-                      response[0].type_of_inspection,
-                      response[0].inspection_time_ins,
-                      response[0].customer_contact_mailid,
-                      emailArray,
-                      inspector_Data,
-                      sender_Details[0].App_password,
-                      sender_Details[0].Email,
-                      response[0].inspector_list
-                      ).subscribe((mailStatus:any)=>{
+                    // this.apicallservice.send_mail_to_client(
+                    //   response[0].master_customer_name,
+                    //   response[0].total_units_schedule,
+                    //   response[0].project_name,
+                    //   response[0].location,
+                    //   response[0].contract_number,
+                    //   response[0].customer_workorder_name+","+response[0].customer_workorder_date,
+                    //   response[0].schedule_from,
+                    //   response[0].schedule_to,
+                    //   response[0].no_of_mandays_as_per_work_order,
+                    //   response[0].type_of_inspection,
+                    //   response[0].inspection_time_ins,
+                    //   response[0].customer_contact_mailid,
+                    //   emailArray,
+                    //   inspector_Data,
+                    //   sender_Details[0].App_password,
+                    //   sender_Details[0].Email,
+                    //   response[0].inspector_list
+                    //   ).subscribe((mailStatus:any)=>{
 
-                      if(mailStatus){
-                        console.log("///",mailStatus)
+                    //   if(mailStatus){
+                    //     console.log("///",mailStatus)
 
-                        
-                       this. isMailReportEnabled = true;
-                      }
+                      
+                    //   }
                      
-                    },(error:any)=>{
+                    // },(error:any)=>{  
 
-                    })
+                    // })
                   }
             },(error:any)=>{
 
@@ -188,7 +217,7 @@ export class InspectorHomeComponent implements OnInit {
     }
 
   }
-
+ 
 
 
 
