@@ -104,6 +104,7 @@ import { ConfirmPageComponent } from './confirm-page/confirm-page.component';
 import { RejectionComponent } from './inspector_dashboard/rejection/rejection.component';
 import { RescheduleRequestComponent } from './INF/inspection-inf/reschedule-request/reschedule-request.component';
 import { ParseJsonPipe } from './parse-json.pipe';
+import { MailResponseComponent } from './mail-response/mail-response.component';
 // import { RejectionComponent } from './inspector_dashboard/rejection/rejection.component';
 
 
@@ -174,6 +175,7 @@ import { ParseJsonPipe } from './parse-json.pipe';
         RejectionComponent,
         RescheduleRequestComponent,
         ParseJsonPipe,
+        MailResponseComponent,
         // RejectionComponent,
         
 

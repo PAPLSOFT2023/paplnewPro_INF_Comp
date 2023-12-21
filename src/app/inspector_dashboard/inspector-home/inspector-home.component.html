@@ -7,75 +7,93 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-  
 </head>
-<body >
-  <div *ngIf="open_popUp" class="popup-container">
-  <div class="popup-content">
-    <span class="close-button" (click)="closeDialog()">X</span>
+<body>
 
-    <div [ngClass]="{'rotating-element': !isGetInfDataEnabled}">
-      <p class="mail_status" [ngStyle]="{'color': isGetInfDataEnabled ? 'green' : 'red'}" [(ngModel)]="isGetInfDataEnabled">Get INF Data</p>
-    </div>
-
-    <div [ngClass]="{'rotating-element': !isGetInspectorDataEnabled}">
-      <p class="mail_status" [ngStyle]="{'color': isGetInspectorDataEnabled ? 'green' : 'red'}" [(ngModel)]="isGetInspectorDataEnabled">Get Inspector Data</p>
-    </div>
-
-    <div [ngClass]="{'rotating-element': !isGetMailSetupEnabled}">
-      <p class="mail_status" [ngStyle]="{'color': isGetMailSetupEnabled ? 'green' : 'red'}" [(ngModel)]="isGetMailSetupEnabled">Get Mail Setup</p>
-    </div>
-
-    <div [ngClass]="{'rotating-element': !isSendingMailEnabled}">
-      <p class="mail_status" [ngStyle]="{'color': isSendingMailEnabled ? 'green' : 'red'}" [(ngModel)]="isSendingMailEnabled">Sending Mail</p>
-    </div>
-
-    <div [ngClass]="{'rotating-element': !isMailReportEnabled}">
-      <p class="mail_status" [ngStyle]="{'color': isMailReportEnabled ? 'green' : 'red'}" [(ngModel)]="isMailReportEnabled">Mail Report</p>
-    </div>
-  </div>
-</div>
-
-
-  
-
-
-<div *ngIf="!scheduleBool" >
+<div *ngIf="!scheduleBool">
   <nav>
     <div class="menu-icon">
       <i class="fas fa-bars"></i>
-         <!-- <span class="menu-text">Inspector Schedule</span> -->
-         <span class="menu-logo"><img class="one" [src]="location" alt="Logo"></span></div>
-         <span class="menu-text">SCHEDULED LIST</span>
-     <div></div>
-     <div></div>
-     <div class="profile-container">
-       <i class="fas fa-user-circle profile-icon"></i>
-       <span class="profile-text">{{name}}</span>
-     </div>
-   </nav>
+      <span class="menu-logo"><img class="one" [src]="location" alt="Logo"></span>
+    </div>
+    <span class="menu-text">SCHEDULED LIST</span>
+    <div></div>
+    <div></div>
+    <div class="profile-container">
+      <i class="fas fa-user-circle profile-icon"></i>
+      <span class="profile-text">{{name}}</span>
+    </div>
+  </nav>
   <br>
 
   <div style=" padding-left: 20px; ">
-    <button type="button" (click)="redirectSchedule()"  class="icon-button">
-    <span class="material-icons">notifications</span>
+    <button type="button" (click)="redirectSchedule()" class="icon-button">
+      <span class="material-icons">notifications</span>
       <span class="icon-button__badge">{{recordCount}}</span>
     </button>
+  </div>
+  <br>
 
+  <div *ngFor="let request of records">
+    <div class='job' style="padding-top: 20px;">
+      <h2>{{request.project_name}}</h2>
+      <div class="eye-icon"><i class="fas fa-eye" (click)="pdf(request.contract_number)"></i></div>
+      <p class='department'>No.of.units: {{request.total_units_schedule}}</p>
+      <p class='department'>Location: {{request.location}}</p>
+      <p class='department'>Types of inspection: {{request.type_of_inspection}}</p>
+      <button class='apply-button' (click)="Send_Mail_Client(request.id)"> Send Mail </button>
+      <div class='job-footer'>
+        <div class='job-dates'>
+          <div class='job-posted-date'>{{request.schedule_from | date: 'dd/MM/yyyy'}}</div>
+          <div class='job-expiry-date'>{{request.schedule_to | date: 'dd/MM/yyyy'}}</div>
+        </div>
       </div>
-      <br>
+    </div>
+  </div>
+  <p *ngIf="records.length === 0">No more requests</p>
 
-      <div *ngFor="let request of records">
+</div>
 
-      <div class='job' style="padding-top: 20px;">
-        <h2>{{request.project_name}}</h2><div class="eye-icon"><i class="fas fa-eye" (click)="pdf(request.contract_number)"></i></div>
-        <p class='department'>No.of.units: {{request.total_units_schedule}}</p>
-        <p class='department'>Location: {{request.location}}</p>
-        <p class='department'>Types of inspection: {{request.type_of_inspection}}</p>
-        <button class='apply-button' (click)="Send_Mail_Client(request.id)"> Send Mail </button>
-        <!-- <button><i class="apply-button">send Mail</i></button> -->
-        <!-- <button class="button">Send Mail <i class="material-icons">send</i></button> -->
-    
+<div *ngIf="scheduleBool">
+  <router-outlet></router-outlet>
+</div>
+
+<!-- Popup Template -->
+<ng-template #popupContent>
+  <div>
+    <button [ngStyle]="{'color': isGetInfDataEnabled ? 'green' : 'gray'}" [(ngModel)]="isGetInfDataEnabled">Get INF Data</button>
+  </div>
+
+  <div>
+    <button [ngStyle]="{'color': isGetInspectorDataEnabled ? 'green' : 'gray'}" [(ngModel)]="isGetInspectorDataEnabled">Get Inspector Data</button>
+  </div>
+
+  <div>
+    <button [ngStyle]="{'color': isGetMailSetupEnabled ? 'green'  : 'gray'}" [(ngModel)]="isGetMailSetupEnabled">Get Mail Setup</button>
+  </div>
+
+  <div>
+    <button [ngStyle]="{'color': isSendingMailEnabled ? 'green' : 'gray'}" [(ngModel)]="isSendingMailEnabled">Sending Mail</button>
+  </div>
+
+  <div>
+    <button [ngStyle]="{'color': isMailReportEnabled ? 'green' : 'gray'}" [(ngModel)]="isMailReportEnabled">Mail Report</button>
+  </div>
+</ng-template>
+
+<!-- Custom Popup -->
+<ngb-modal #popupRef>
+  <div class="modal-header">
+    <h4 class="modal-title">Send Mail Options</h4>
+    <button type="button" class="close" aria-label="Close" (click)="popupRef.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <ng-container *ngTemplateOutlet="popupContent"></ng-container>
+  </div>
+</ngb-modal>
+
         
         <div class='job-footer'>
           <div class='job-dates'>
@@ -83,14 +101,13 @@
             <div class='job-expiry-date'>{{request.schedule_to | date: 'dd/MM/yyyy'}}</div>
           </div>
         </div>
-      </div>
-      </div>
+      
       <p *ngIf="records.length === 0">No more requests</p>
 
 <!-- <div><router-outlet></router-outlet></div> -->
 <!-- <h1>{{records | json}}</h1> -->
 
-</div>
+
 <div *ngIf="scheduleBool">
   <!-- <div > -->
     <router-outlet ></router-outlet>
@@ -99,3 +116,16 @@
 
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+

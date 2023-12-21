@@ -29,7 +29,7 @@ import { MailAutomationInspComponent } from './inspector_dashboard/mail-automati
 import { ConfirmPageComponent } from './confirm-page/confirm-page.component';
 import { SchedulePageComponent } from './inspector_dashboard/schedule-page/schedule-page.component';
 import { RescheduleRequestComponent } from './INF/inspection-inf/reschedule-request/reschedule-request.component';
-
+import { MailResponseComponent } from './mail-response/mail-response.component';
 const routes: Routes = [
 
   {path:'app-home',component:AppHomeComponent,},
@@ -37,6 +37,7 @@ const routes: Routes = [
   {path:"",redirectTo:"app-home",pathMatch:'full'},
   {path: "services",component:ServicesComponent}, 
   {path:"login",component:LoginComponent},
+  {path:"Mail_Response",component:MailResponseComponent},
   {path:"neworganization", component:NeworganizationComponent},
   {path:"forgotpassword",component:ForgotpasswordComponent},
   // '/afterlogin/software_admin_dashboard_user_manage/organization_admin_login_details'
