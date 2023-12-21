@@ -31,7 +31,7 @@ export class InspectorHomeComponent implements OnInit {
   showSendMailPopup = false; // Track the state of the popup
   // Your other variables and methods
  
-
+  Error:any
   open_popUp=false;
   isGetInfDataEnabled = false;
   isGetInspectorDataEnabled = false;
@@ -108,6 +108,8 @@ export class InspectorHomeComponent implements OnInit {
 
          this. isGetInfDataEnabled = true;
   
+
+         
           console.log("INF====>",response,"\n")
          this.apicallservice.getInspectorData(response[0].inspector_list).subscribe((inspector_data:any)=>{
           if(inspector_data)
@@ -162,52 +164,68 @@ export class InspectorHomeComponent implements OnInit {
 
                     this.isSendingMailEnabled=true;
                       
-                    this. isMailReportEnabled = true;
+                   
                     
-                    // this.apicallservice.send_mail_to_client(
-                    //   response[0].master_customer_name,
-                    //   response[0].total_units_schedule,
-                    //   response[0].project_name,
-                    //   response[0].location,
-                    //   response[0].contract_number,
-                    //   response[0].customer_workorder_name+","+response[0].customer_workorder_date,
-                    //   response[0].schedule_from,
-                    //   response[0].schedule_to,
-                    //   response[0].no_of_mandays_as_per_work_order,
-                    //   response[0].type_of_inspection,
-                    //   response[0].inspection_time_ins,
-                    //   response[0].customer_contact_mailid,
-                    //   emailArray,
-                    //   inspector_Data,
-                    //   sender_Details[0].App_password,
-                    //   sender_Details[0].Email,
-                    //   response[0].inspector_list
-                    //   ).subscribe((mailStatus:any)=>{
+                    this.apicallservice.send_mail_to_client(
+                      response[0].id,
+                      response[0].master_customer_name,
+                      response[0].total_units_schedule,
+                      response[0].project_name,
+                      response[0].location,
+                      response[0].contract_number,
+                      response[0].customer_workorder_name+","+response[0].customer_workorder_date,
+                      response[0].schedule_from,
+                      response[0].schedule_to,
+                      response[0].no_of_mandays_as_per_work_order,
+                      response[0].type_of_inspection,
+                      response[0].inspection_time_ins,
+                      response[0].customer_contact_mailid,
+                      emailArray,
+                      inspector_Data,
+                      sender_Details[0].App_password,
+                      sender_Details[0].Email,
+                      response[0].inspector_list
+                      ).subscribe((mailStatus: any) => {
+                        if (mailStatus && mailStatus.success) {
+                          console.log("Email sent successfully:", mailStatus.success,response[0].id);
+                          this.isMailReportEnabled = true;
 
-                    //   if(mailStatus){
-                    //     console.log("///",mailStatus)
 
-                      
-                    //   }
-                     
-                    // },(error:any)=>{  
-
-                    // })
+                          setTimeout(() => {
+                            this.open_popUp=!this.open_popUp;
+                          }, 500);
+                          
+                        } else {
+                          console.log("Failed to send email:", mailStatus.error);
+                          // Handle the failure case as needed
+                          this.Error=mailStatus.error;
+                        }
+                      },
+                      (error: any) => {
+                        console.error("API call failed:", error);
+                        // Handle the error case as needed
+                        this.Error=error;
+                      }
+                    );
                   }
             },(error:any)=>{
+              this.Error=error;
 
             })
           }
 
          },(error:any)=>{
+          this.Error=error;
 
          })
         }
         else{
+          this.Error="Some PDF document are faild to load"
         }
 
        },
        (error:any)=>{
+       this.Error=error
 
        }
       );

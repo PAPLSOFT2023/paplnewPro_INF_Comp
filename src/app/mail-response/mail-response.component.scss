@@ -1,0 +1,178 @@
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+  
+  .row {
+    display: flex;
+    justify-content: space-between;
+    // width: 100%;
+  }
+  
+  .column {
+    flex: 0 0 48%;
+    text-align: center;
+    margin: 5px;
+  }
+  
+  .button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .popup-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+  }
+  
+  .popup textarea {
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+  }
+  /* Style for the container */
+
+
+/* Style for the button columns */
+
+/* Style for the Accept button */
+.button.accept {
+  background-color: #4caf50; /* Green background color */
+  color: white; /* White text color */
+  padding: 10px 20px; /* Add padding to the button */
+  border: none; /* Remove button border */
+  border-radius: 5px; /* Add border-radius for rounded corners */
+  cursor: pointer; /* Change cursor to pointer on hover */
+}
+
+/* Hover effect for the Accept button */
+.button.accept:hover {
+  background-color: #45a049; /* Darker green on hover */
+}
+
+/* Style for the Reject button */
+.button.reject {
+  background-color: #f44336; /* Red background color */
+  color: white; /* White text color */
+  padding: 10px 20px; /* Add padding to the button */
+  border: none; /* Remove button border */
+  border-radius: 5px; /* Add border-radius for rounded corners */
+  cursor: pointer; /* Change cursor to pointer on hover */
+}
+
+/* Hover effect for the Reject button */
+.button.reject:hover {
+  background-color: #d32f2f; /* Darker red on hover */
+}
+/* Style for the SUBMIT button */
+.button-submit {
+    background-color: #4caf50; /* Green background color */
+    color: white; /* White text color */
+    padding: 10px 20px; /* Add padding to the button */
+    border: none; /* Remove button border */
+    border-radius: 5px; /* Add border-radius for rounded corners */
+    cursor: pointer; /* Change cursor to pointer on hover */
+  }
+  
+  /* Hover effect for the SUBMIT button */
+  .button-submit:hover {
+    background-color: #45a049; /* Darker green on hover */
+  }
+  
+  /* Style for the CLOSE button */
+  .button-close {
+    background-color: #ba4239; /* Red background color */
+    color: white; /* White text color */
+    padding: 10px 20px; /* Add padding to the button */
+    border: none; /* Remove button border */
+    border-radius: 5px; /* Add border-radius for rounded corners */
+    cursor: pointer; /* Change cursor to pointer on hover */
+  }
+  
+  /* Hover effect for the CLOSE button */
+  .button-close:hover {
+    background-color: #d32f2f; /* Darker red on hover */
+  }
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+  }
+
+  * {
+    padding: 0;
+    margin: 0;
+  }
+  .wrapper {
+    background: #2d3238;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  svg.access-building {
+    border-bottom: 1px solid #ccc;
+  }
+  // Animation targetting
+  .alert--outer-circle-1, .alert--outer-circle-2, .alert--outer-circle-3, .alert--outer-circle-4, .alert--main-icon {
+    animation: fade-in-custom 1s infinite;
+    animation-direction: alternate;
+    animation-timing-function: ease-in-out;
+    opacity: 0;
+  }
+  .foreground {
+    animation: fade-in-custom 8s 1; 
+    animation-delay: 0;
+  }
+  .elevators {
+    animation: fade-in-custom 6s 1;
+    animation-delay: .15s;
+  }
+  
+  // Delays
+  .alert--main-icon {
+    animation-delay: 1.25s;
+  }
+  .alert--outer-circle-1 {
+    animation-delay: 1.25s;
+  }
+  .alert--outer-circle-2 {
+    animation-delay: 1.5s;
+  }
+  .alert--outer-circle-3 {
+    animation-delay: 1.75s;
+  }
+  .alert--outer-circle-4 {
+    animation-delay: 2s;
+  }
+  
+  // Animation keyframes
+  @keyframes fade-in-custom {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  

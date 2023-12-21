@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient,HttpHeaders, HttpParams } from '@angular/common/http';
 import{Observable}from 'rxjs';
+import { query } from 'express';
 @Injectable({
   providedIn: 'root'
 })
@@ -516,6 +517,7 @@ deleteLoginDetails(email: string): Observable<any> {
 
   
 send_mail_to_client(
+  id:string,
   customername: any,
   totalunit: any,
   projectname: any,
@@ -543,6 +545,7 @@ send_mail_to_client(
   });
 
   const body = {
+    id,
     customername,
     totalunit,
     projectname,
@@ -568,6 +571,13 @@ send_mail_to_client(
   };
 
   return this.httpClient.post(url, body, options);
+}
+
+
+// This is for client aporoval status
+Cilent_approval(id:string){
+ const body={id};
+   this.httpClient.post(this.apiURL+'Client_approval',body);
 }
   
 
