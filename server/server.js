@@ -455,11 +455,11 @@ const generatePersonnelRows = (personnelArray) => {
 
     return `
       <tr>
-      <td style="padding-left: 10px; color: black;">${slNo++}</td>
-        <td style="padding-left: 10px; color: black;">${person[1]}</td>
-        <td style="padding-left: 10px; color: black;">${person[3]}</td>
-        <td style="padding-left: 10px; color: black;">${person[5]}</td>
-        <td style="padding-left: 10px; color: black;">${person[7]}</td>
+      <td style="padding-left: 10px;">${slNo++}</td>
+        <td style="padding-left: 10px;">${person[1]}</td>
+        <td style="padding-left: 10px;">${person[3]}</td>
+        <td style="padding-left: 10px;">${person[5]}</td>
+        <td style="padding-left: 10px;">${person[7]}</td>
       </tr>
     `;
   }).join('');;
@@ -476,27 +476,27 @@ console.log("dfgadsgggggggggggggggggggggggggggggggggg",mail_reposonse+id)
     <div style="padding-left: 20px;">
     <table width="600" height="20" border="1" >
         <tr>
-            <td style="padding: 4px; color: black;" >PAPL Order Reference</td> <td style="padding: 4px; color: black; font-weight:bold" colspan="4">${contract_number}</td></tr>
+            <td style="padding: 4px;" >PAPL Order Reference</td> <td style="padding: 4px;  font-weight:bold" colspan="4">${contract_number}</td></tr>
             <tr>
-            <td style="padding: 4px; color: black;" >Customer Order Reference</td>
-            <td style="padding: 4px; color: black;" colspan="4">${customer_workorder_name}</td>
+            <td style="padding: 4px;" >Customer Order Reference</td>
+            <td style="padding: 4px;" colspan="4">${customer_workorder_name}</td>
         </tr>
         <tr>
-           <td style="padding: 4px; color: black;" rowspan="2"> Proposed Inspection Dates</td>  <td style="padding: 4px;  color: black; " rowspan="1" colspan="2">Inspection Start Date</td>
-          <td style="padding: 4px; color: black;">${from}</td></tr>
+           <td style="padding: 4px;" rowspan="2"> Proposed Inspection Dates</td>  <td style="padding: 4px;" rowspan="1" colspan="2">Inspection Start Date</td>
+          <td style="padding: 4px;">${from}</td></tr>
           <tr>
-          <td style="padding: 4px; color: black;">Inspection End Date</td><td style="padding: 4px; color: black;"  rowspan="1" colspan="2">${to}</td>
+          <td style="padding: 4px;">Inspection End Date</td><td style="padding: 4px;" rowspan="1" colspan="2">${to}</td>
         </tr>
         <tr>
-            <td style="padding: 4px; color: black;">Total Number of Days</td > <td style="padding: 4px;  color: black; " colspan="4">	${noOfDays} Days</td>
+            <td style="padding: 4px;">Total Number of Days</td > <td style="padding: 4px;" colspan="4">	${noOfDays} Days</td>
         </tr> 
         <tr>
-            <td style="padding: 4px; color: black;" >Inspection Type</td>
-            <td style="padding: 4px; color: black;" colspan="4">${inspectionType}</td>
+            <td style="padding: 4px;" >Inspection Type</td>
+            <td style="padding: 4px;" colspan="4">${inspectionType}</td>
         </tr>
         <tr>
-            <td style="padding: 4px; color: black;" >Calibrated instruments carried by us</td>
-            <td style="padding: 4px; color: black;" colspan="4">Metal Scale, Taper Scale, Measuring Tape</td>
+            <td style="padding: 4px;" >Calibrated instruments carried by us</td>
+            <td style="padding: 4px;" colspan="4">Metal Scale, Taper Scale, Measuring Tape</td>
         </tr>
     </table>
     </div>
@@ -506,11 +506,11 @@ console.log("dfgadsgggggggggggggggggggggggggggggggggg",mail_reposonse+id)
     <div style="padding-left: 20px;">
     <table border="1">
         <tr>
-            <th style="color: black;">SL. NO</th>
-            <th style="color: black;">NAME</th>
-            <th style="color: black;">DESIGNATION</th>
-            <th style="color: black;">MOBILE</th>
-            <th style="color: black;">E-MAIL ID</th>
+            <th>SL. NO</th>
+            <th>NAME</th>
+            <th>DESIGNATION</th>
+            <th>MOBILE</th>
+            <th>E-MAIL ID</th>
         </tr>
         
         
@@ -535,18 +535,18 @@ console.log("dfgadsgggggggggggggggggggggggggggggggggg",mail_reposonse+id)
     
        <p style="color: black;">The Following Tools and measuring instruments with <u>Valid Calibration Certificates from NABL Accredited laboratories, traceable to national/international references </u>should be made available by the OEM/Service Provider throughout the inspection.</p>
     <div style="padding-left: 20px;">
-       <table border="1" width="200"  >
+       <table border="1" width="200" >
         <tr >
-           <td style="text-align: center; font-weight:bold; color: black;" >TOOLS</td>
+           <td style="text-align: center; font-weight:bold" >TOOLS</td>
         </tr>
         <tr>
-            <td style="text-align: center; color: black;">HANDLAMP</td>
+            <td style="text-align: center;">HANDLAMP</td>
         </tr>
         <tr>
-            <td style="text-align: center; color: black;">HAND TOOLS</td>
+            <td style="text-align: center;">HAND TOOLS</td>
         </tr>
         <tr>
-            <td style="text-align: center; color: black;">DOOR OPEN KEYS</td>
+            <td style="text-align: center;">DOOR OPEN KEYS</td>
         </tr>
     </table>
     </div>
@@ -556,6 +556,7 @@ console.log("dfgadsgggggggggggggggggggggggggggggggggg",mail_reposonse+id)
     
     Please email your feedback/ concerns/ complaints if any on the constitution of the inspector/s or any other issue about our engagement to <a href="info@paplcorp.com">info@paplcorp.com</a> the same shall be addressed on priority. Please refer to our policy on complaints and appeals <a href="https://paplcorp.com/policy-04.html">(https://paplcorp.com/policy-04.html)</a></p>
     <div >
+<<<<<<< HEAD
     <p style="font-weight: bolder; color: black;">Note: This email is automatically generated by the system. Should you require any clarification, please do not hesitate to reach out to the PAPL team. Kindly confirm your availability by selecting the 'Response' button. </p>
     </div>
     
@@ -570,13 +571,15 @@ console.log("dfgadsgggggggggggggggggggggggggggggggggg",mail_reposonse+id)
     </div>
     <br>
     <br>
+=======
+    <p style="font-weight: bolder; color: black;">Note: This email is system-generated. For any clarifications, please feel free to contact the PAPL team. </p>
+    </div>
+>>>>>>> ba469f9507051790055097b526415e4e3f3b5653
     `;
     const attachments = resultsArray_CV.map((pdf, index) => {
       return {
         filename: `CV-attachment${index + 1}.pdf`,
-        content: pdf.pdf.toString('base64'),
-        encoding: 'base64', // Specify base64 encoding
-        contentType: 'application/pdf', // Specify PDF content type
+        content: pdf.pdf.toString('base64')
       };
     });
    
@@ -2729,20 +2732,110 @@ app.get('/api/inspector', (req, res) => {
   //   });
   // });
 
+  // app.put('/api/approveRecords', (req, res) => {
+  //   const { name } = req.query;
+  
+  //   // Update i_approved to 1 where 'name' matches
+  //   const updateQuery = `
+  //     UPDATE inf_26
+  //     SET inspector_array = JSON_SET(
+  //       inspector_array,
+  //       CONCAT('$[', JSON_UNQUOTE(JSON_SEARCH(inspector_array, 'one', ?, NULL, '$[*].name')), '].i_approved'),
+  //       1
+  //     )
+  //     WHERE JSON_SEARCH(inspector_array, 'one', ?, NULL, '$[*].name') IS NOT NULL
+  //   `;
+  
+  //   db1.query(updateQuery, [name, name], (error, results) => {
+  //     if (error) {
+  //       console.error('Error updating data:', error);
+  //       res.status(500).json({ error: 'Error updating data' });
+  //     } else {
+  //       if (results.affectedRows > 0) {
+  //         res.status(200).json({ message: 'i_approved updated successfully' });
+  //       } else {
+  //         res.status(404).json({ message: 'No matching data found for the given name' });
+  //       }
+  //     }
+  //   });
+  // });
+  
+
+  // app.put('/api/approveRecords', (req, res) => {
+  //   const { name } = req.query;
+  
+  //   // Fetch the JSON array for the specific record based on 'name'
+  //   const selectQuery = `SELECT inspector_array FROM inf_26 WHERE JSON_CONTAINS(inspector_array, '{"name": "${name}" }')`;
+  
+  //   db1.query(selectQuery, (error, results) => {
+  //     if (error) {
+  //       console.error('Error fetching data:', error);
+  //       res.status(500).json({ error: 'Error fetching data' });
+  //     } else {
+  //       if (results.length > 0) {
+  //         let inspectorArray = JSON.parse(results[0].inspector_array);
+  
+  //         // Update the 'i_approved' field to 1 where 'name' matches
+  //         inspectorArray = inspectorArray.map(inspector => {
+  //           if (inspector.name === name) {
+  //             inspector.i_approved = 1;
+  //           }
+  //           return inspector;
+  //         });
+  
+  //         // Update the modified JSON array back into the database
+  //         const updateQuery = `UPDATE inf_26 SET inspector_array = ? WHERE JSON_CONTAINS(inspector_array, '{"name": "${name}" }')`;
+  
+  //         db1.query(updateQuery, [JSON.stringify(inspectorArray)], (error, results) => {
+  //           if (error) {
+  //             console.error('Error updating data:', error);
+  //             res.status(500).json({ error: 'Error updating data' });
+  //           } else {
+  //             res.status(200).json({ message: 'i_approved updated successfully' });
+  //           }
+  //         });
+  //       } else {
+  //         res.status(404).json({ message: 'No matching data found for the given name' });
+  //       }
+  //     }
+  //   });
+  // });
+
   app.put('/api/approveRecords', (req, res) => {
-    const { id } = req.query;
-    console.log('id is ', id);
+    // const { id } = req.query;
+    // console.log('id is ', id);
   
-    // Construct the SQL query with parameter placeholders
-    let sqlQuery = 'UPDATE inf_26 SET i_approved = ? WHERE id = ?';
+    // // Construct the SQL query with parameter placeholders
+    // let sqlQuery = 'UPDATE inf_26 SET i_approved = ? WHERE id = ?';
   
-    // Use parameterized queries to prevent SQL injection
-    db1.query(sqlQuery, [1, id], (error, results) => {
+    // // Use parameterized queries to prevent SQL injection
+    // db1.query(sqlQuery, [1, id], (error, results) => {
+    //   if (error) {
+    //     console.error('Error updating record:', error);
+    //     res.status(500).json({ error: 'Error updating record' });
+    //   } else {
+    //     res.status(200).json({ message: 'Record approved successfully' });
+    //   }
+    // });
+    const { name } = req.query;
+
+    // Update i_approved to 1 where 'name' matches
+    // const sqlQuery = `UPDATE inf_26 SET inspector_array = JSON_SET(inspector_array, '$[?].i_approved', 1) WHERE JSON_EXTRACT(inspector_array, '$[*].name') LIKE '%${name}%'`;
+  
+    const sqlQuery = `UPDATE inf_26 SET inspector_array = JSON_SET(inspector_array, '$[?].i_approved', 1) WHERE JSON_UNQUOTE(JSON_EXTRACT(inspector_array, '$[?].name')) = ?`;
+
+    db1.query(sqlQuery,  [0, 0, name], (error, results) => {
       if (error) {
-        console.error('Error updating record:', error);
-        res.status(500).json({ error: 'Error updating record' });
+        console.error('Error updating data:', error);
+        res.status(500).json({ error: 'Error updating data' });
       } else {
-        res.status(200).json({ message: 'Record approved successfully' });
+        if (results.affectedRows > 0) {
+          console.log('approved successfull');
+          res.status(200).json({ message: 'i_approved updated successfully' });
+        } else {
+          console.log('no matches');
+          res.status(404).json({ message: 'No matching data found for the given name' });
+        }
       }
     });
   });

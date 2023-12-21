@@ -85,7 +85,7 @@ export class SchedulePageComponent {
 
   // }
   approveRequest(id: number) {
-    const params = new HttpParams().set('id', id.toString()); // Convert id to string
+    const params = new HttpParams().set('id', id.toString()).set('name',this.name.toString());
     console.log(id);
   
     this.http.put<any>('http://localhost:3000/api/approveRecords', {}, { params }) // Include empty object as body
