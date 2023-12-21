@@ -2777,44 +2777,80 @@ app.get('/api/inspector', (req, res) => {
   //   });
   // });
 
+  // app.put('/api/approveRecords', (req, res) => {
+  //   const { id} = req.query;
+  //   const { name } = req.query;
+  //   console.log('id is ', id);
+  
+  //   let sqlQuery = 'UPDATE inf_26 SET i_approved = ? WHERE id = ?';
+    
+  
+  //   // Use parameterized queries to prevent SQL injection
+  //   db1.query(sqlQuery, (error, results) => {
+  //     if (error) {
+  //       console.error('Error updating record:', error);
+  //       res.status(500).json({ error: 'Error updating record' });
+  //     } else {
+  //       res.status(200).json({ message: 'Record approved successfully' });
+  //     }
+  //   });
+   
+
+   
+  // });
+
+
   app.put('/api/approveRecords', (req, res) => {
-    // const { id } = req.query;
-    // console.log('id is ', id);
-  
-    // // Construct the SQL query with parameter placeholders
-    // let sqlQuery = 'UPDATE inf_26 SET i_approved = ? WHERE id = ?';
-  
-    // // Use parameterized queries to prevent SQL injection
-    // db1.query(sqlQuery, [1, id], (error, results) => {
-    //   if (error) {
-    //     console.error('Error updating record:', error);
-    //     res.status(500).json({ error: 'Error updating record' });
-    //   } else {
-    //     res.status(200).json({ message: 'Record approved successfully' });
-    //   }
-    // });
     const { name } = req.query;
-
-    // Update i_approved to 1 where 'name' matches
-    // const sqlQuery = `UPDATE inf_26 SET inspector_array = JSON_SET(inspector_array, '$[?].i_approved', 1) WHERE JSON_EXTRACT(inspector_array, '$[*].name') LIKE '%${name}%'`;
+    console.log('name is ', name);
   
-    const sqlQuery = `UPDATE inf_26 SET inspector_array = JSON_SET(inspector_array, '$[?].i_approved', 1) WHERE JSON_UNQUOTE(JSON_EXTRACT(inspector_array, '$[?].name')) = ?`;
-
-    db1.query(sqlQuery,  [0, 0, name], (error, results) => {
+    // Retrieve the existing inspector_array from the database for the given name
+    db1.query('SELECT inspector_array FROM inf_26 WHERE JSON_CONTAINS(inspector_array, ?)', [`{"name": "${name}"}`], (error, results) => {
       if (error) {
-        console.error('Error updating data:', error);
-        res.status(500).json({ error: 'Error updating data' });
+        console.error('Error retrieving data:', error);
+        res.status(500).json({ error: 'Error retrieving data' });
       } else {
-        if (results.affectedRows > 0) {
-          console.log('approved successfull');
-          res.status(200).json({ message: 'i_approved updated successfully' });
-        } else {
-          console.log('no matches');
-          res.status(404).json({ message: 'No matching data found for the given name' });
+        try {
+          if (results.length > 0) {
+            const inspectorArray = JSON.parse(results[0].inspector_array);
+  
+            // Find the element in the array that matches the provided name
+            const foundIndex = inspectorArray.findIndex(item => item.name === name);
+  
+            if (foundIndex !== -1) {
+              // Update the i_approved field to 1 for the found inspector
+              inspectorArray[foundIndex].i_approved = 1;
+  
+              // Convert the modified array back to JSON
+              const updatedInspectorArray = JSON.stringify(inspectorArray);
+  
+              // Update the table with the modified inspector_array
+              db1.query(
+                'UPDATE inf_26 SET inspector_array = ? WHERE JSON_CONTAINS(inspector_array, ?)',
+                [updatedInspectorArray, `{"name": "${name}"}`],
+                (updateError, updateResults) => {
+                  if (updateError) {
+                    console.error('Error updating record:', updateError);
+                    res.status(500).json({ error: 'Error updating record' });
+                  } else {
+                    res.status(200).json({ message: 'Record approved successfully' });
+                  }
+                }
+              );
+            } else {
+              res.status(404).json({ message: 'Record not found' });
+            }
+          } else {
+            res.status(404).json({ message: 'Record not found' });
+          }
+        } catch (parseError) {
+          console.error('Error parsing JSON:', parseError);
+          res.status(500).json({ error: 'Error parsing JSON' });
         }
       }
     });
   });
+  
   
 
   // app.put('/api/approveRecords3', (req, res) => {
@@ -2839,43 +2875,103 @@ app.get('/api/inspector', (req, res) => {
   // });
 
 
+  // app.put('/api/approveRecords3', (req, res) => {
+  //   const { id, reason, name } = req.query;
+  
+  //   // Construct the SQL query to retrieve the existing JSON data
+  //   let selectQuery = 'SELECT name_reason FROM inf_26 WHERE id = ?';
+  
+  //   db1.query(selectQuery, [id], (selectError, selectResults) => {
+  //     if (selectError) {
+  //       console.error('Error retrieving record:', selectError);
+  //       res.status(500).json({ error: 'Error retrieving record' });
+  //     } else {
+  //       let existingData = selectResults[0].name_reason || '{}'; // Get existing data or initialize an empty object if none
+  
+  //       // Parse the existing JSON string
+  //       let existingObject = JSON.parse(existingData);
+  
+  //       // Add a new key-value pair to the existing object
+  //       existingObject[name] = reason;
+  
+  //       // Convert the updated object back to a JSON string
+  //       let updatedData = JSON.stringify(existingObject);
+  
+  //       // Construct the SQL query to update the record with the modified JSON string
+  //       let updateQuery = 'UPDATE inf_26 SET i_rejected = ?, reason = ?, name_reason = ? WHERE id = ?';
+  
+  //       // Use parameterized queries to prevent SQL injection
+  //       db1.query(updateQuery, [1, reason, updatedData, id], (updateError, updateResults) => {
+  //         if (updateError) {
+  //           console.error('Error updating record:', updateError);
+  //           res.status(500).json({ error: 'Error updating record' });
+  //         } else {
+  //           res.status(200).json({ message: 'Record approved successfully' });
+  //         }
+  //       });
+  //     }
+  //   });
+  // });
+
+  //rejection reason
   app.put('/api/approveRecords3', (req, res) => {
     const { id, reason, name } = req.query;
   
     // Construct the SQL query to retrieve the existing JSON data
-    let selectQuery = 'SELECT name_reason FROM inf_26 WHERE id = ?';
+    let selectQuery = 'SELECT name_reason, inspector_array FROM inf_26 WHERE id = ?';
   
     db1.query(selectQuery, [id], (selectError, selectResults) => {
       if (selectError) {
         console.error('Error retrieving record:', selectError);
         res.status(500).json({ error: 'Error retrieving record' });
       } else {
-        let existingData = selectResults[0].name_reason || '{}'; // Get existing data or initialize an empty object if none
+        let existingNameReason = selectResults[0].name_reason || '{}'; // Get existing name_reason data or initialize an empty object if none
+        let existingInspectorArray = selectResults[0].inspector_array || '[]'; // Get existing inspector_array data or initialize an empty array if none
   
-        // Parse the existing JSON string
-        let existingObject = JSON.parse(existingData);
+        try {
+          // Parse the existing JSON strings
+          let existingNameReasonObject = JSON.parse(existingNameReason);
+          let inspectorArray = JSON.parse(existingInspectorArray);
   
-        // Add a new key-value pair to the existing object
-        existingObject[name] = reason;
+          // Add a new key-value pair to the existing name_reason object
+          existingNameReasonObject[name] = reason;
   
-        // Convert the updated object back to a JSON string
-        let updatedData = JSON.stringify(existingObject);
+          // Convert the updated object back to a JSON string
+          let updatedNameReason = JSON.stringify(existingNameReasonObject);
   
-        // Construct the SQL query to update the record with the modified JSON string
-        let updateQuery = 'UPDATE inf_26 SET i_rejected = ?, reason = ?, name_reason = ? WHERE id = ?';
+          // Find the element in the inspector_array that matches the provided name
+          const foundIndex = inspectorArray.findIndex(item => item.name === name);
   
-        // Use parameterized queries to prevent SQL injection
-        db1.query(updateQuery, [1, reason, updatedData, id], (updateError, updateResults) => {
-          if (updateError) {
-            console.error('Error updating record:', updateError);
-            res.status(500).json({ error: 'Error updating record' });
+          if (foundIndex !== -1) {
+            // Update the i_approved field to 1 for the found inspector
+            inspectorArray[foundIndex].i_rejected = 1;
+  
+            // Convert the modified array back to JSON
+            const updatedInspectorArray = JSON.stringify(inspectorArray);
+  
+            // Construct the SQL query to update the record with the modified JSON strings
+            let updateQuery = 'UPDATE inf_26 SET reason = ?, name_reason = ?, inspector_array = ? WHERE id = ?';
+  
+            // Use parameterized queries to prevent SQL injection
+            db1.query(updateQuery, [ reason, updatedNameReason, updatedInspectorArray, id], (updateError, updateResults) => {
+              if (updateError) {
+                console.error('Error updating record:', updateError);
+                res.status(500).json({ error: 'Error updating record' });
+              } else {
+                res.status(200).json({ message: 'Record approved successfully' });
+              }
+            });
           } else {
-            res.status(200).json({ message: 'Record approved successfully' });
+            res.status(404).json({ message: 'Record not found in inspector_array' });
           }
-        });
+        } catch (parseError) {
+          console.error('Error parsing JSON:', parseError);
+          res.status(500).json({ error: 'Error parsing JSON' });
+        }
       }
     });
   });
+  
   
   
   
