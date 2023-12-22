@@ -409,6 +409,7 @@ openDialog3(){
  
 
   onSubmit() {
+    const insp_array = {"name":this.inspector_name,"headChecked":true,"fromDate":new Date(),"toDate":new Date(),"i_approved":0,"i_rejected":0}
     //elevators
     const elevator_names=this.dataService.elevator_names;
     const elevator_type=this.dataService.elevator_type;
@@ -451,7 +452,7 @@ openDialog3(){
 
     const inspector_list = this.dataService.inspector_list;
 
-    const inspector_array = this.dataService.inspector_array;
+    const inspector_array = [...this.dataService.inspector_array,insp_array];
 
     inspector_list.push(this.inspector_name);
     console.log('items',checked_items_values);
