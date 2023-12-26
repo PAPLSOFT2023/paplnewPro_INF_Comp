@@ -94,6 +94,11 @@ export class InspectorHomeComponent implements OnInit {
     this.open_popUp=!this.open_popUp;
   }
 
+ 
+  
+  
+  
+
   Send_Mail_Client(id:string){
 
    
@@ -238,7 +243,66 @@ export class InspectorHomeComponent implements OnInit {
  
 
 
-
+  // public isSendMailEnabled(inspectorArrayString: string): boolean {
+  //   try {
+  //     const inspectorArray: any[] = JSON.parse(inspectorArrayString);
+  
+  //     console.log('Parsed inspectorArray:', inspectorArray);
+  
+  //     if (Array.isArray(inspectorArray) && inspectorArray.length > 0) {
+  //       const result = inspectorArray.every((inspector: any) => inspector.i_approved === 1);
+  //       console.log('All i_approved values are 1:', result);
+  //       return result; // Return true if all i_approved values are 1
+  //     } else {
+  //       console.log('Array is not valid or empty');
+  //       return false; // If inspectorArray is not an array or empty, disable the button
+  //     }
+  //   } catch (error) {
+  //     console.error('Error processing inspectorArray:', error);
+  //     return false; // Return false in case of any errors
+  //   }
+  // }
+  public isSendMailEnabled(inspectorArrayString: string): boolean {
+    try {
+      const inspectorArray: any[] = JSON.parse(inspectorArrayString);
+      
+      console.log('Parsed inspectorArray:', inspectorArray);
+      
+      if (Array.isArray(inspectorArray) && inspectorArray.length > 0) {
+        const result = inspectorArray.every((inspector: any) => inspector.i_approved === 1);
+        console.log('All i_approved values are 1:', result);
+        
+        // Check for name and headChecked condition
+        const nameMatchesAndHeadChecked = inspectorArray.some((inspector: any) => {
+          return inspector.name === this.name && inspector.headChecked === true;
+        });
+  
+        console.log('Name matches and headChecked is true:', nameMatchesAndHeadChecked);
+        
+        return result && nameMatchesAndHeadChecked;
+      } else {
+        console.log('Array is not valid or empty');
+        return false; // If inspectorArray is not an array or empty, disable the button
+      }
+    } catch (error) {
+      console.error('Error processing inspectorArray:', error);
+      return false; // Return false in case of any errors
+    }
+  }
+  
+  
+  
+  
+  // Example usage:
+  // const inspectorArrayString = '[{"name":"N.KRISHNAN - 13001","headChecked":false,"fromDate":"2023-12-21T09:54:13.472Z","toDate":"2023-12-21T09:54:13.472Z","i_approved":0,"i_rejected":0},{"name":"S. SASIKUMAR - 13002","headChecked":true,"fromDate":"2023-12-21T09:54:13.472Z","toDate":"2023-12-21T09:54:13.472Z","i_approved":1,"i_rejected":0},{"name":"A ABDUL KAFAAR - 13005","headChecked":false,"fromDate":"2023-12-21T09:54:13.472Z","toDate":"2023-12-21T09:54:13.472Z","i_approved":1,"i_rejected":0}]';
+  
+  
+  
+  
+  
+  
+  
+  
 
 
 

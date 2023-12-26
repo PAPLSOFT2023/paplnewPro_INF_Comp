@@ -48,7 +48,7 @@ export class SchedulePageComponent {
 
   redirectSchedule(){
     this.scheduleBool=true;
-    this.router.navigate(['/afterlogin/inspectorHome/schedule_page']);
+    this.router.navigate(['/afterlogin/inspectorHome']);
    
   }
 
@@ -93,6 +93,8 @@ export class SchedulePageComponent {
         count => {
           // this.records = count;
           console.log('successful');
+          this.router.navigate(['/afterlogin/inspectorHome']);
+
           alert('Successful...!');
         },
         error => {
